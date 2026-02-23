@@ -6,15 +6,12 @@ part of 'history_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$historyControllerHash() => r'82791d5cfe442f0437f64ca73b9211039a5681cb';
+String _$historyControllerHash() => r'931da6b34d72ba69ed0642c2deacbcfb9e7be37b';
 
 /// See also [HistoryController].
 @ProviderFor(HistoryController)
 final historyControllerProvider =
-    AutoDisposeAsyncNotifierProvider<
-      HistoryController,
-      List<SessionRecord>
-    >.internal(
+    AsyncNotifierProvider<HistoryController, List<SessionRecord>>.internal(
       HistoryController.new,
       name: r'historyControllerProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -24,6 +21,6 @@ final historyControllerProvider =
       allTransitiveDependencies: null,
     );
 
-typedef _$HistoryController = AutoDisposeAsyncNotifier<List<SessionRecord>>;
+typedef _$HistoryController = AsyncNotifier<List<SessionRecord>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

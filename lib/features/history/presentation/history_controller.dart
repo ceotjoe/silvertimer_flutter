@@ -4,7 +4,7 @@ import 'package:silvertimer_flutter/features/history/domain/models/session_recor
 
 part 'history_controller.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class HistoryController extends _$HistoryController {
   @override
   Future<List<SessionRecord>> build() async {
