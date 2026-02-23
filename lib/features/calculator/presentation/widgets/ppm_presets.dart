@@ -7,7 +7,7 @@ class PpmPresets extends ConsumerWidget {
 
   final void Function(double ppm) onSelected;
 
-  static const _presets = [5.0, 10.0, 15.0, 20.0];
+  static const _presets = [25.0, 50.0, 100.0];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,6 +17,7 @@ class PpmPresets extends ConsumerWidget {
 
     return Wrap(
       spacing: 8,
+      alignment: WrapAlignment.center,
       children: _presets.map((ppm) {
         return FilterChip(
           label: Text('${ppm.toInt()} PPM'),

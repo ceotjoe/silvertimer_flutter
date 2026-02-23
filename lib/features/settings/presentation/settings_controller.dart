@@ -33,6 +33,21 @@ class SettingsController extends _$SettingsController {
     await ref.read(settingsRepositoryProvider).saveDefaultPpm(ppm);
     state = state.copyWith(defaultPpm: ppm);
   }
+
+  Future<void> setDefaultCurrentMa(double mA) async {
+    await ref.read(settingsRepositoryProvider).saveDefaultCurrentMa(mA);
+    state = state.copyWith(defaultCurrentMa: mA);
+  }
+
+  Future<void> setCleaningAlarmsEnabled(bool enabled) async {
+    await ref.read(settingsRepositoryProvider).saveCleaningAlarmsEnabled(enabled);
+    state = state.copyWith(cleaningAlarmsEnabled: enabled);
+  }
+
+  Future<void> setCleaningIntervalMinutes(int minutes) async {
+    await ref.read(settingsRepositoryProvider).saveCleaningIntervalMinutes(minutes);
+    state = state.copyWith(cleaningIntervalMinutes: minutes);
+  }
 }
 
 /// Derived provider — consumed directly by MaterialApp for live theme switching.

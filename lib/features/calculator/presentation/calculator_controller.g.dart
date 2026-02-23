@@ -7,12 +7,12 @@ part of 'calculator_controller.dart';
 // **************************************************************************
 
 String _$calculatorControllerHash() =>
-    r'191cce2ae092179c27d085a688b163d6a50923a4';
+    r'818461cd7b0b4544f122357c4c7ca604ecd7585e';
 
 /// See also [CalculatorController].
 @ProviderFor(CalculatorController)
 final calculatorControllerProvider =
-    AutoDisposeNotifierProvider<CalculatorController, CalculatorState>.internal(
+    NotifierProvider<CalculatorController, CalculatorState>.internal(
       CalculatorController.new,
       name: r'calculatorControllerProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final calculatorControllerProvider =
       allTransitiveDependencies: null,
     );
 
-typedef _$CalculatorController = AutoDisposeNotifier<CalculatorState>;
+typedef _$CalculatorController = Notifier<CalculatorState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

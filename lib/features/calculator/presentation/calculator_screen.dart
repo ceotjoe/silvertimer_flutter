@@ -16,13 +16,23 @@ class CalculatorScreen extends ConsumerStatefulWidget {
 }
 
 class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
-  final _currentController = TextEditingController();
   final _ppmController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    // Seed the PPM text field with the last-used (or default) value.
+    final ppm = ref.read(calculatorControllerProvider).input.targetPpm;
+    if (ppm > 0) {
+      _ppmController.text = ppm == ppm.truncateToDouble()
+          ? ppm.truncate().toString()
+          : ppm.toString();
+    }
+  }
+
+  @override
   void dispose() {
-    _currentController.dispose();
     _ppmController.dispose();
     super.dispose();
   }
@@ -51,25 +61,6 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
             children: [
               // Volume input with unit toggle
               const VolumeInput(),
-              const SizedBox(height: 20),
-
-              // Current input
-              Text('Electrolysis Current', style: Theme.of(context).textTheme.titleSmall),
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _currentController,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-                decoration: const InputDecoration(
-                  hintText: '1.0',
-                  suffixText: 'mA',
-                  helperText: 'Typical range: 0.5–3 mA',
-                ),
-                onChanged: (v) {
-                  final parsed = double.tryParse(v) ?? 0.0;
-                  notifier.updateCurrent(parsed);
-                },
-              ),
               const SizedBox(height: 20),
 
               // Target PPM input

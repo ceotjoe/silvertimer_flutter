@@ -116,6 +116,70 @@ class NotificationService {
     );
   }
 
+  /// Shows an immediate cleaning alarm notification.
+  /// [alarmNumber] is 1-based and used in the notification body.
+  Future<void> showCleaningAlarmNotification(int alarmNumber) async {
+    if (UniversalPlatform.isWeb || !_initialized) return;
+
+    const androidDetails = AndroidNotificationDetails(
+      AppConstants.notificationChannelId,
+      AppConstants.notificationChannelName,
+      channelDescription: 'SilverTimer electrolysis completion notifications',
+      importance: Importance.high,
+      priority: Priority.high,
+      playSound: true,
+    );
+    const iosDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: false,
+      presentSound: true,
+    );
+
+    await _plugin.show(
+      AppConstants.cleaningAlarmBaseNotificationId + alarmNumber,
+      'Clean Electrodes',
+      'Time to clean your electrodes (alarm #$alarmNumber).',
+      const NotificationDetails(android: androidDetails, iOS: iosDetails),
+    );
+  }
+
+  /// Schedules a cleaning alarm notification at [fireAt].
+  /// [alarmNumber] is 1-based and determines the unique notification ID.
+  Future<void> scheduleCleaningNotification(
+    DateTime fireAt,
+    int alarmNumber,
+  ) async {
+    if (UniversalPlatform.isWeb || !_initialized) return;
+
+    final tzFireAt = tz.TZDateTime.from(fireAt, tz.local);
+    final notifId = AppConstants.cleaningAlarmBaseNotificationId + alarmNumber;
+
+    const androidDetails = AndroidNotificationDetails(
+      AppConstants.notificationChannelId,
+      AppConstants.notificationChannelName,
+      channelDescription: 'SilverTimer electrolysis completion notifications',
+      importance: Importance.high,
+      priority: Priority.high,
+      playSound: true,
+    );
+    const iosDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: false,
+      presentSound: true,
+    );
+
+    await _plugin.zonedSchedule(
+      notifId,
+      'Clean Electrodes',
+      'Time to clean your electrodes (alarm #$alarmNumber).',
+      tzFireAt,
+      const NotificationDetails(android: androidDetails, iOS: iosDetails),
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+    );
+  }
+
   /// Cancels all pending/delivered notifications.
   Future<void> cancelAll() async {
     if (UniversalPlatform.isWeb || !_initialized) return;

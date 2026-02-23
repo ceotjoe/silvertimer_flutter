@@ -78,6 +78,49 @@ class SettingsScreen extends ConsumerWidget {
               ),
             ),
           ),
+          ListTile(
+            title: const Text('Default Current'),
+            subtitle: const Text('Typical range: 0.5–3 mA'),
+            trailing: SizedBox(
+              width: 100,
+              child: _CurrentMaField(
+                value: settings.defaultCurrentMa,
+                onChanged: notifier.setDefaultCurrentMa,
+              ),
+            ),
+          ),
+
+          const Divider(indent: 16, endIndent: 16),
+
+          // Electrode cleaning alarm section
+          _SectionHeader('Electrode Cleaning Alarm'),
+          SwitchListTile(
+            title: const Text('Enable Cleaning Alarm'),
+            subtitle: const Text('Remind you to clean electrodes during a session'),
+            value: settings.cleaningAlarmsEnabled,
+            onChanged: notifier.setCleaningAlarmsEnabled,
+          ),
+          ListTile(
+            title: const Text('Cleaning Interval'),
+            subtitle: const Text('How often to be reminded'),
+            enabled: settings.cleaningAlarmsEnabled,
+            trailing: DropdownButton<int>(
+              value: settings.cleaningIntervalMinutes,
+              underline: const SizedBox.shrink(),
+              onChanged: settings.cleaningAlarmsEnabled
+                  ? (v) {
+                      if (v != null) notifier.setCleaningIntervalMinutes(v);
+                    }
+                  : null,
+              items: const [
+                DropdownMenuItem(value: 5, child: Text('5 min')),
+                DropdownMenuItem(value: 10, child: Text('10 min')),
+                DropdownMenuItem(value: 15, child: Text('15 min')),
+                DropdownMenuItem(value: 20, child: Text('20 min')),
+                DropdownMenuItem(value: 30, child: Text('30 min')),
+              ],
+            ),
+          ),
 
           const Divider(),
 
@@ -173,6 +216,45 @@ class _PpmFieldState extends State<_PpmField> {
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       decoration: const InputDecoration(suffixText: 'PPM', isDense: true),
+      onSubmitted: (v) {
+        final parsed = double.tryParse(v);
+        if (parsed != null && parsed > 0) widget.onChanged(parsed);
+      },
+    );
+  }
+}
+
+class _CurrentMaField extends StatefulWidget {
+  const _CurrentMaField({required this.value, required this.onChanged});
+  final double value;
+  final void Function(double) onChanged;
+
+  @override
+  State<_CurrentMaField> createState() => _CurrentMaFieldState();
+}
+
+class _CurrentMaFieldState extends State<_CurrentMaField> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.value.toString());
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: _controller,
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
+      decoration: const InputDecoration(suffixText: 'mA', isDense: true),
       onSubmitted: (v) {
         final parsed = double.tryParse(v);
         if (parsed != null && parsed > 0) widget.onChanged(parsed);

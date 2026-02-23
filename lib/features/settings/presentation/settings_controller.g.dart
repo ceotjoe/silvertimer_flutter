@@ -26,7 +26,7 @@ final themeModeProvider = AutoDisposeProvider<ThemeMode>.internal(
 // ignore: unused_element
 typedef ThemeModeRef = AutoDisposeProviderRef<ThemeMode>;
 String _$settingsControllerHash() =>
-    r'13a6e5e7eb7d379ef17535cb9dafe5ca6433e477';
+    r'bf585e8c77a75da6de07df79b471f20496e50e54';
 
 /// See also [SettingsController].
 @ProviderFor(SettingsController)

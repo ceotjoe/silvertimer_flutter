@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:silvertimer_flutter/core/extensions/duration_extensions.dart';
+import 'package:silvertimer_flutter/features/calculator/domain/models/calculator_input.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/calculator_controller.dart';
 import 'package:silvertimer_flutter/features/timer/domain/models/timer_state.dart';
 import 'package:silvertimer_flutter/features/timer/presentation/timer_controller.dart';
@@ -21,6 +22,15 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    // Auto-load calculation when navigating to the timer screen.
+    // If the timer is idle but a calculation result exists, load it.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final timerState = ref.read(timerControllerProvider);
+      final calcResult = ref.read(calculatorControllerProvider).lastResult;
+      if (timerState is TimerIdle && calcResult != null) {
+        ref.read(timerControllerProvider.notifier).loadCalculation(calcResult);
+      }
+    });
   }
 
   @override
@@ -51,6 +61,37 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
       }
     });
 
+    // Show cleaning alarm SnackBar when the alarm count increases
+    ref.listen<int>(cleaningAlarmCountProvider, (prev, next) {
+      if (next > (prev ?? 0) && mounted) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(Icons.cleaning_services, color: Colors.white),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      'Time to clean electrodes! (Alarm #$next)',
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ],
+              ),
+              duration: const Duration(seconds: 8),
+              behavior: SnackBarBehavior.floating,
+              action: SnackBarAction(
+                label: 'Dismiss',
+                onPressed: () =>
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+              ),
+            ),
+          );
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Timer'),
@@ -66,7 +107,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
           children: [
             // Session summary
             if (calcState.lastResult != null)
-              _SessionSummary(result: calcState.lastResult!.input),
+              _SessionSummary(input: calcState.lastResult!.input),
 
             const SizedBox(height: 40),
 
@@ -235,14 +276,13 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
 }
 
 class _SessionSummary extends StatelessWidget {
-  const _SessionSummary({required this.result});
+  const _SessionSummary({required this.input});
 
-  final dynamic result;
+  final CalculatorInput input;
 
   @override
   Widget build(BuildContext context) {
-    final input = result;
-    final volumeText = input.volumeUnit.name == 'ml'
+    final volumeText = input.volumeUnit == VolumeUnit.ml
         ? '${input.volumeValue.toStringAsFixed(0)} mL'
         : '${input.volumeValue.toStringAsFixed(2)} L';
 

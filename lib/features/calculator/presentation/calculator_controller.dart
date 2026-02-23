@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:silvertimer_flutter/core/utils/silver_calculator.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculation_result.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculator_input.dart';
+import 'package:silvertimer_flutter/features/settings/data/settings_repository.dart';
 import 'package:silvertimer_flutter/features/settings/presentation/settings_controller.dart';
 
 part 'calculator_controller.g.dart';
@@ -32,15 +33,20 @@ class CalculatorState {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class CalculatorController extends _$CalculatorController {
   @override
   CalculatorState build() {
     final settings = ref.watch(settingsControllerProvider);
+    final repo = ref.read(settingsRepositoryProvider);
+    final last = repo.loadLastCalculatorInput();
+
     return CalculatorState(
       input: CalculatorInput(
-        volumeUnit: settings.defaultVolumeUnit,
-        targetPpm: settings.defaultPpm,
+        volumeValue: last.volumeValue ?? 0.0,
+        volumeUnit: last.volumeUnit ?? settings.defaultVolumeUnit,
+        targetPpm: last.targetPpm ?? settings.defaultPpm,
+        currentMilliamps: settings.defaultCurrentMa,
       ),
     );
   }
@@ -51,6 +57,7 @@ class CalculatorController extends _$CalculatorController {
       clearResult: true,
       clearError: true,
     );
+    ref.read(settingsRepositoryProvider).saveLastVolumeValue(value);
   }
 
   void toggleVolumeUnit() {
@@ -70,6 +77,9 @@ class CalculatorController extends _$CalculatorController {
       clearResult: true,
       clearError: true,
     );
+    final repo = ref.read(settingsRepositoryProvider);
+    repo.saveLastVolumeValue(newValue);
+    repo.saveLastVolumeUnit(newUnit);
   }
 
   void setVolumeUnit(VolumeUnit unit) {
@@ -91,6 +101,7 @@ class CalculatorController extends _$CalculatorController {
       clearResult: true,
       clearError: true,
     );
+    ref.read(settingsRepositoryProvider).saveLastTargetPpm(ppm);
   }
 
   /// Validates inputs and calculates the result.

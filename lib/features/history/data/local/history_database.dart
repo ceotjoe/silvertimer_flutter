@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 part 'history_database.g.dart';
 
@@ -24,6 +25,20 @@ class HistoryDatabase extends _$HistoryDatabase {
   int get schemaVersion => 1;
 
   static QueryExecutor _openConnection() {
+    if (UniversalPlatform.isWeb) {
+      return driftDatabase(
+        name: 'silvertimer_history',
+        web: DriftWebOptions(
+          sqlite3Wasm: Uri.parse('sqlite3.wasm'),
+          driftWorker: Uri.parse('drift_worker.dart.js'),
+          onResult: (result) {
+            if (result.missingFeatures.isNotEmpty) {
+              // Silently fall back to in-memory storage when WASM isn't available.
+            }
+          },
+        ),
+      );
+    }
     return driftDatabase(name: 'silvertimer_history');
   }
 }

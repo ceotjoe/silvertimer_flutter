@@ -15,6 +15,16 @@ class _VolumeInputState extends ConsumerState<VolumeInput> {
   final _controller = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    // Seed the volume text field with the last-used value.
+    final value = ref.read(calculatorControllerProvider).input.volumeValue;
+    if (value > 0) {
+      _controller.text = _formatValue(value);
+    }
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     super.dispose();

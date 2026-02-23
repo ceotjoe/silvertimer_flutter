@@ -21,6 +21,9 @@ mixin _$AppSettings {
   VolumeUnit get defaultVolumeUnit => throw _privateConstructorUsedError;
   bool get notificationsEnabled => throw _privateConstructorUsedError;
   double get defaultPpm => throw _privateConstructorUsedError;
+  double get defaultCurrentMa => throw _privateConstructorUsedError;
+  bool get cleaningAlarmsEnabled => throw _privateConstructorUsedError;
+  int get cleaningIntervalMinutes => throw _privateConstructorUsedError;
 
   /// Create a copy of AppSettings
   /// with the given fields replaced by the non-null parameter values.
@@ -41,6 +44,9 @@ abstract class $AppSettingsCopyWith<$Res> {
     VolumeUnit defaultVolumeUnit,
     bool notificationsEnabled,
     double defaultPpm,
+    double defaultCurrentMa,
+    bool cleaningAlarmsEnabled,
+    int cleaningIntervalMinutes,
   });
 }
 
@@ -63,6 +69,9 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
     Object? defaultVolumeUnit = null,
     Object? notificationsEnabled = null,
     Object? defaultPpm = null,
+    Object? defaultCurrentMa = null,
+    Object? cleaningAlarmsEnabled = null,
+    Object? cleaningIntervalMinutes = null,
   }) {
     return _then(
       _value.copyWith(
@@ -82,6 +91,18 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
                 ? _value.defaultPpm
                 : defaultPpm // ignore: cast_nullable_to_non_nullable
                       as double,
+            defaultCurrentMa: null == defaultCurrentMa
+                ? _value.defaultCurrentMa
+                : defaultCurrentMa // ignore: cast_nullable_to_non_nullable
+                      as double,
+            cleaningAlarmsEnabled: null == cleaningAlarmsEnabled
+                ? _value.cleaningAlarmsEnabled
+                : cleaningAlarmsEnabled // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            cleaningIntervalMinutes: null == cleaningIntervalMinutes
+                ? _value.cleaningIntervalMinutes
+                : cleaningIntervalMinutes // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -102,6 +123,9 @@ abstract class _$$AppSettingsImplCopyWith<$Res>
     VolumeUnit defaultVolumeUnit,
     bool notificationsEnabled,
     double defaultPpm,
+    double defaultCurrentMa,
+    bool cleaningAlarmsEnabled,
+    int cleaningIntervalMinutes,
   });
 }
 
@@ -123,6 +147,9 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
     Object? defaultVolumeUnit = null,
     Object? notificationsEnabled = null,
     Object? defaultPpm = null,
+    Object? defaultCurrentMa = null,
+    Object? cleaningAlarmsEnabled = null,
+    Object? cleaningIntervalMinutes = null,
   }) {
     return _then(
       _$AppSettingsImpl(
@@ -142,6 +169,18 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
             ? _value.defaultPpm
             : defaultPpm // ignore: cast_nullable_to_non_nullable
                   as double,
+        defaultCurrentMa: null == defaultCurrentMa
+            ? _value.defaultCurrentMa
+            : defaultCurrentMa // ignore: cast_nullable_to_non_nullable
+                  as double,
+        cleaningAlarmsEnabled: null == cleaningAlarmsEnabled
+            ? _value.cleaningAlarmsEnabled
+            : cleaningAlarmsEnabled // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        cleaningIntervalMinutes: null == cleaningIntervalMinutes
+            ? _value.cleaningIntervalMinutes
+            : cleaningIntervalMinutes // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -155,6 +194,9 @@ class _$AppSettingsImpl implements _AppSettings {
     this.defaultVolumeUnit = VolumeUnit.ml,
     this.notificationsEnabled = true,
     this.defaultPpm = 10.0,
+    this.defaultCurrentMa = 10.0,
+    this.cleaningAlarmsEnabled = true,
+    this.cleaningIntervalMinutes = 10,
   });
 
   @override
@@ -169,10 +211,19 @@ class _$AppSettingsImpl implements _AppSettings {
   @override
   @JsonKey()
   final double defaultPpm;
+  @override
+  @JsonKey()
+  final double defaultCurrentMa;
+  @override
+  @JsonKey()
+  final bool cleaningAlarmsEnabled;
+  @override
+  @JsonKey()
+  final int cleaningIntervalMinutes;
 
   @override
   String toString() {
-    return 'AppSettings(themeMode: $themeMode, defaultVolumeUnit: $defaultVolumeUnit, notificationsEnabled: $notificationsEnabled, defaultPpm: $defaultPpm)';
+    return 'AppSettings(themeMode: $themeMode, defaultVolumeUnit: $defaultVolumeUnit, notificationsEnabled: $notificationsEnabled, defaultPpm: $defaultPpm, defaultCurrentMa: $defaultCurrentMa, cleaningAlarmsEnabled: $cleaningAlarmsEnabled, cleaningIntervalMinutes: $cleaningIntervalMinutes)';
   }
 
   @override
@@ -187,7 +238,16 @@ class _$AppSettingsImpl implements _AppSettings {
             (identical(other.notificationsEnabled, notificationsEnabled) ||
                 other.notificationsEnabled == notificationsEnabled) &&
             (identical(other.defaultPpm, defaultPpm) ||
-                other.defaultPpm == defaultPpm));
+                other.defaultPpm == defaultPpm) &&
+            (identical(other.defaultCurrentMa, defaultCurrentMa) ||
+                other.defaultCurrentMa == defaultCurrentMa) &&
+            (identical(other.cleaningAlarmsEnabled, cleaningAlarmsEnabled) ||
+                other.cleaningAlarmsEnabled == cleaningAlarmsEnabled) &&
+            (identical(
+                  other.cleaningIntervalMinutes,
+                  cleaningIntervalMinutes,
+                ) ||
+                other.cleaningIntervalMinutes == cleaningIntervalMinutes));
   }
 
   @override
@@ -197,6 +257,9 @@ class _$AppSettingsImpl implements _AppSettings {
     defaultVolumeUnit,
     notificationsEnabled,
     defaultPpm,
+    defaultCurrentMa,
+    cleaningAlarmsEnabled,
+    cleaningIntervalMinutes,
   );
 
   /// Create a copy of AppSettings
@@ -214,6 +277,9 @@ abstract class _AppSettings implements AppSettings {
     final VolumeUnit defaultVolumeUnit,
     final bool notificationsEnabled,
     final double defaultPpm,
+    final double defaultCurrentMa,
+    final bool cleaningAlarmsEnabled,
+    final int cleaningIntervalMinutes,
   }) = _$AppSettingsImpl;
 
   @override
@@ -224,6 +290,12 @@ abstract class _AppSettings implements AppSettings {
   bool get notificationsEnabled;
   @override
   double get defaultPpm;
+  @override
+  double get defaultCurrentMa;
+  @override
+  bool get cleaningAlarmsEnabled;
+  @override
+  int get cleaningIntervalMinutes;
 
   /// Create a copy of AppSettings
   /// with the given fields replaced by the non-null parameter values.
