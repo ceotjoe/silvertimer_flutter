@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:silvertimer_flutter/core/extensions/duration_extensions.dart';
+import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculation_result.dart';
 
 class ResultCard extends StatelessWidget {
@@ -12,6 +13,7 @@ class ResultCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = context.l10n;
 
     return Card(
       color: colorScheme.primaryContainer,
@@ -21,7 +23,7 @@ class ResultCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Calculated Duration',
+              l10n.calculatedDuration,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: colorScheme.onPrimaryContainer,
                   ),
@@ -49,7 +51,7 @@ class ResultCard extends StatelessWidget {
             FilledButton.icon(
               onPressed: onStartTimer,
               icon: const Icon(Icons.timer),
-              label: const Text('Start Timer'),
+              label: Text(l10n.startTimer),
               style: FilledButton.styleFrom(
                 backgroundColor: colorScheme.primary,
                 foregroundColor: colorScheme.onPrimary,

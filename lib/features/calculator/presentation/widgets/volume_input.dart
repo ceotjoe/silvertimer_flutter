@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculator_input.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/calculator_controller.dart';
 
@@ -35,6 +36,7 @@ class _VolumeInputState extends ConsumerState<VolumeInput> {
     final state = ref.watch(calculatorControllerProvider);
     final notifier = ref.read(calculatorControllerProvider.notifier);
     final unit = state.input.volumeUnit;
+    final l10n = context.l10n;
 
     // Sync controller text when unit changes (value is converted)
     final value = state.input.volumeValue;
@@ -46,7 +48,7 @@ class _VolumeInputState extends ConsumerState<VolumeInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Water Volume', style: Theme.of(context).textTheme.titleSmall),
+        Text(l10n.waterVolume, style: Theme.of(context).textTheme.titleSmall),
         const SizedBox(height: 8),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +62,7 @@ class _VolumeInputState extends ConsumerState<VolumeInput> {
                 ],
                 decoration: InputDecoration(
                   hintText: '0',
-                  suffixText: unit == VolumeUnit.ml ? 'mL' : 'L',
+                  suffixText: unit == VolumeUnit.ml ? l10n.unitMl : l10n.unitL,
                 ),
                 onChanged: (v) {
                   final parsed = double.tryParse(v) ?? 0.0;
@@ -70,9 +72,9 @@ class _VolumeInputState extends ConsumerState<VolumeInput> {
             ),
             const SizedBox(width: 12),
             SegmentedButton<VolumeUnit>(
-              segments: const [
-                ButtonSegment(value: VolumeUnit.ml, label: Text('mL')),
-                ButtonSegment(value: VolumeUnit.liters, label: Text('L')),
+              segments: [
+                ButtonSegment(value: VolumeUnit.ml, label: Text(l10n.unitMl)),
+                ButtonSegment(value: VolumeUnit.liters, label: Text(l10n.unitL)),
               ],
               selected: {unit},
               onSelectionChanged: (s) {

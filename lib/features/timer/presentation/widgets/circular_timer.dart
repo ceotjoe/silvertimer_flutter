@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:silvertimer_flutter/core/extensions/duration_extensions.dart';
+import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/core/theme/app_colors.dart';
 import 'package:silvertimer_flutter/features/timer/presentation/timer_controller.dart';
 
@@ -108,7 +109,7 @@ class _CircularTimerState extends ConsumerState<CircularTimer>
                       ),
                 ),
                 Text(
-                  'remaining',
+                  context.l10n.remaining,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 // ── Next cleaning countdown ─────────────────────────────
@@ -123,7 +124,7 @@ class _CircularTimerState extends ConsumerState<CircularTimer>
                         ),
                   ),
                   Text(
-                    'next clean',
+                    context.l10n.nextClean,
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
                           color: cleanGreen,
                         ),

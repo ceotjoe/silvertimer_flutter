@@ -7,6 +7,7 @@ import 'package:silvertimer_flutter/features/history/domain/models/session_recor
 import 'package:silvertimer_flutter/features/history/presentation/history_controller.dart';
 import 'package:silvertimer_flutter/features/settings/presentation/settings_controller.dart';
 import 'package:silvertimer_flutter/features/timer/data/notification_service.dart';
+import 'package:silvertimer_flutter/features/timer/data/notification_strings.dart';
 import 'package:silvertimer_flutter/features/timer/domain/models/timer_state.dart';
 
 part 'timer_controller.g.dart';
@@ -15,6 +16,7 @@ part 'timer_controller.g.dart';
 class TimerController extends _$TimerController {
   StreamSubscription<int>? _tickerSub;
   CalculationResult? _lastResult;
+  NotificationStrings? _notificationStrings;
 
   // --- Electrode cleaning alarm state ---
   /// Sorted list of elapsed Durations at which cleaning alarms fire.
@@ -50,9 +52,11 @@ class TimerController extends _$TimerController {
   }
 
   /// Start or resume the timer.
-  void start() {
+  void start({required NotificationStrings strings}) {
     final current = state;
     if (current is! TimerPaused) return;
+
+    _notificationStrings = strings;
 
     final total = current.totalDuration;
     final alreadyElapsed = current.elapsed;
@@ -66,7 +70,11 @@ class TimerController extends _$TimerController {
 
     // Schedule the OS-level completion fallback notification
     final completesAt = startedAt.add(total);
-    ref.read(notificationServiceProvider).scheduleCompletionNotification(completesAt);
+    ref.read(notificationServiceProvider).scheduleCompletionNotification(
+          completesAt,
+          strings.completeTitle,
+          strings.completeBody,
+        );
 
     // Build cleaning alarm schedule and pre-schedule all OS notifications
     _buildCleaningSchedule(
@@ -103,6 +111,7 @@ class TimerController extends _$TimerController {
     _cancelTicker();
     ref.read(notificationServiceProvider).cancelAll();
     _lastResult = null;
+    _notificationStrings = null;
     _cleaningAlarmSchedule.clear();
     _cleaningAlarmsFiredAt.clear();
     _nextCleaningIndex = 0;
@@ -164,8 +173,15 @@ class TimerController extends _$TimerController {
   void _complete(Duration total) {
     _cancelTicker();
 
-    // Fire immediate in-app completion notification
-    ref.read(notificationServiceProvider).showCompletionNotification();
+    // Fire immediate in-app completion notification (guarded: strings may be
+    // null if the app was killed and restarted mid-session).
+    final strings = _notificationStrings;
+    if (strings != null) {
+      ref.read(notificationServiceProvider).showCompletionNotification(
+            strings.completeTitle,
+            strings.completeBody,
+          );
+    }
 
     // Save session to history
     final result = _lastResult;
@@ -209,6 +225,7 @@ class TimerController extends _$TimerController {
 
     final interval = Duration(minutes: settings.cleaningIntervalMinutes);
     final notificationService = ref.read(notificationServiceProvider);
+    final strings = _notificationStrings;
 
     // Build schedule: alarm at every multiple of interval strictly within total
     var alarmAt = interval;
@@ -217,9 +234,14 @@ class TimerController extends _$TimerController {
       _cleaningAlarmSchedule.add(alarmAt);
 
       // Only pre-schedule OS notification for alarms that haven't fired yet
-      if (alarmAt > alreadyElapsed) {
+      if (alarmAt > alreadyElapsed && strings != null) {
         final fireAt = startedAt.add(alarmAt);
-        notificationService.scheduleCleaningNotification(fireAt, alarmNumber);
+        notificationService.scheduleCleaningNotification(
+          fireAt,
+          alarmNumber,
+          strings.cleanTitle,
+          strings.cleanBodyForAlarm(alarmNumber),
+        );
       }
 
       alarmAt += interval;
@@ -242,7 +264,14 @@ class TimerController extends _$TimerController {
     _nextCleaningIndex++;
 
     // Fire immediate in-app notification (plays sound even when app is in foreground)
-    ref.read(notificationServiceProvider).showCleaningAlarmNotification(alarmNumber);
+    final strings = _notificationStrings;
+    if (strings != null) {
+      ref.read(notificationServiceProvider).showCleaningAlarmNotification(
+            alarmNumber,
+            strings.cleanTitle,
+            strings.cleanBodyForAlarm(alarmNumber),
+          );
+    }
 
     // Signal the TimerScreen SnackBar by setting the current alarm number
     ref.read(_cleaningAlarmCountProvider.notifier).state = alarmNumber;

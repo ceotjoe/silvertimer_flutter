@@ -1,0 +1,413 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "SilverTimer",
+  "@appTitle": {
+    "description": "The name of the application shown in titles and notifications."
+  },
+
+  "calculatorTitle": "SilverTimer",
+  "@calculatorTitle": {
+    "description": "AppBar title on the Calculator screen."
+  },
+
+  "targetConcentration": "Target Concentration",
+  "@targetConcentration": {
+    "description": "Label above the PPM text field on the calculator."
+  },
+
+  "ppmSuffix": "PPM",
+  "@ppmSuffix": {
+    "description": "Unit suffix shown inside the PPM input field."
+  },
+
+  "calculateButton": "Calculate Time",
+  "@calculateButton": {
+    "description": "Label on the primary action button that computes the electrolysis duration."
+  },
+
+  "waterVolume": "Water Volume",
+  "@waterVolume": {
+    "description": "Label above the volume input field."
+  },
+
+  "unitMl": "mL",
+  "@unitMl": {
+    "description": "Abbreviation for millilitres, used as field suffix and segment label."
+  },
+
+  "unitL": "L",
+  "@unitL": {
+    "description": "Abbreviation for litres, used as field suffix and segment label."
+  },
+
+  "calculatedDuration": "Calculated Duration",
+  "@calculatedDuration": {
+    "description": "Title inside the result card showing the computed run time."
+  },
+
+  "startTimer": "Start Timer",
+  "@startTimer": {
+    "description": "Button inside the result card that navigates to the timer screen."
+  },
+
+  "ppmPresetLabel": "{ppm} PPM",
+  "@ppmPresetLabel": {
+    "description": "Label on a PPM preset chip. ppm is an integer.",
+    "placeholders": {
+      "ppm": {
+        "type": "int",
+        "example": "25"
+      }
+    }
+  },
+
+  "timerTitle": "Timer",
+  "@timerTitle": {
+    "description": "AppBar title on the Timer screen."
+  },
+
+  "cleanElectrodesSnackbar": "Time to clean electrodes! (Alarm #{alarmNumber})",
+  "@cleanElectrodesSnackbar": {
+    "description": "SnackBar message shown when an electrode cleaning alarm fires in-app.",
+    "placeholders": {
+      "alarmNumber": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+
+  "dismiss": "Dismiss",
+  "@dismiss": {
+    "description": "Label for the SnackBar dismiss action."
+  },
+
+  "elapsed": "Elapsed",
+  "@elapsed": {
+    "description": "Label for the elapsed-time stat below the circular timer."
+  },
+
+  "total": "Total",
+  "@total": {
+    "description": "Label for the total-duration stat below the circular timer."
+  },
+
+  "noTimerLoaded": "No Timer Loaded",
+  "@noTimerLoaded": {
+    "description": "Placeholder button label when the timer is in idle state and no calculation has been loaded."
+  },
+
+  "startButton": "Start",
+  "@startButton": {
+    "description": "Button label to start or resume a paused timer."
+  },
+
+  "resetButton": "Reset",
+  "@resetButton": {
+    "description": "Button label to reset the current timer back to idle."
+  },
+
+  "pauseButton": "Pause",
+  "@pauseButton": {
+    "description": "Button label to pause a running timer."
+  },
+
+  "doneButton": "Done",
+  "@doneButton": {
+    "description": "Button label shown when the timer has completed, to return to the calculator."
+  },
+
+  "resetTimerTitle": "Reset Timer?",
+  "@resetTimerTitle": {
+    "description": "Title of the confirmation dialog shown before resetting a running timer."
+  },
+
+  "resetTimerBody": "This will stop and reset the current timer.",
+  "@resetTimerBody": {
+    "description": "Body text of the reset confirmation dialog."
+  },
+
+  "cancelButton": "Cancel",
+  "@cancelButton": {
+    "description": "Generic cancel button label used in dialogs."
+  },
+
+  "electrolysisCompleteTitle": "Electrolysis Complete!",
+  "@electrolysisCompleteTitle": {
+    "description": "Title of the dialog shown when the timer finishes."
+  },
+
+  "electrolysisCompleteBody": "Your colloidal silver process is finished.\nTotal time: {totalTime}",
+  "@electrolysisCompleteBody": {
+    "description": "Body text of the completion dialog. totalTime is a pre-formatted duration string like '1h 23min 45sec'.",
+    "placeholders": {
+      "totalTime": {
+        "type": "String",
+        "example": "1h 23min 45sec"
+      }
+    }
+  },
+
+  "remaining": "remaining",
+  "@remaining": {
+    "description": "Label shown below the countdown inside the circular timer."
+  },
+
+  "nextClean": "next clean",
+  "@nextClean": {
+    "description": "Label shown below the next-cleaning countdown inside the circular timer."
+  },
+
+  "historyTitle": "History",
+  "@historyTitle": {
+    "description": "AppBar title on the History screen."
+  },
+
+  "clearAll": "Clear all",
+  "@clearAll": {
+    "description": "Tooltip on the delete icon button in the History AppBar."
+  },
+
+  "historyLoadError": "Failed to load history: {error}",
+  "@historyLoadError": {
+    "description": "Error message shown when history fails to load.",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database not found"
+      }
+    }
+  },
+
+  "retryButton": "Retry",
+  "@retryButton": {
+    "description": "Button label to retry a failed operation."
+  },
+
+  "clearAllHistoryTitle": "Clear All History?",
+  "@clearAllHistoryTitle": {
+    "description": "Title of the confirmation dialog for clearing all history."
+  },
+
+  "clearAllHistoryBody": "This will permanently delete all session records.",
+  "@clearAllHistoryBody": {
+    "description": "Body text of the clear-all-history confirmation dialog."
+  },
+
+  "clearAllButton": "Clear All",
+  "@clearAllButton": {
+    "description": "Destructive action button in the clear history dialog."
+  },
+
+  "noSessionsYet": "No sessions yet",
+  "@noSessionsYet": {
+    "description": "Heading in the empty state of the History screen."
+  },
+
+  "noSessionsSubtitle": "Completed electrolysis runs will appear here",
+  "@noSessionsSubtitle": {
+    "description": "Subtitle in the empty state of the History screen."
+  },
+
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "AppBar title on the Settings screen."
+  },
+
+  "appearanceSection": "Appearance",
+  "@appearanceSection": {
+    "description": "Section header for the Appearance group in Settings."
+  },
+
+  "themeLabel": "Theme",
+  "@themeLabel": {
+    "description": "Label for the theme selector in Settings."
+  },
+
+  "themeSystem": "System",
+  "@themeSystem": {
+    "description": "Theme option that follows the system preference."
+  },
+
+  "themeLight": "Light",
+  "@themeLight": {
+    "description": "Light theme option."
+  },
+
+  "themeDark": "Dark",
+  "@themeDark": {
+    "description": "Dark theme option."
+  },
+
+  "defaultsSection": "Defaults",
+  "@defaultsSection": {
+    "description": "Section header for the Defaults group in Settings."
+  },
+
+  "volumeUnitLabel": "Volume Unit",
+  "@volumeUnitLabel": {
+    "description": "Label for the volume unit selector in Settings."
+  },
+
+  "volumeUnitMl": "mL",
+  "@volumeUnitMl": {
+    "description": "Millilitres option in the volume unit dropdown."
+  },
+
+  "volumeUnitLiters": "Liters",
+  "@volumeUnitLiters": {
+    "description": "Litres option in the volume unit dropdown."
+  },
+
+  "defaultPpmLabel": "Default PPM",
+  "@defaultPpmLabel": {
+    "description": "Label for the default PPM input in Settings."
+  },
+
+  "defaultCurrentLabel": "Default Current",
+  "@defaultCurrentLabel": {
+    "description": "Label for the default current (mA) input in Settings."
+  },
+
+  "typicalCurrentRange": "Typical range: 0.5–3 mA",
+  "@typicalCurrentRange": {
+    "description": "Subtitle hint below the default current input."
+  },
+
+  "electrodeCleaningSection": "Electrode Cleaning Alarm",
+  "@electrodeCleaningSection": {
+    "description": "Section header for the Electrode Cleaning Alarm group in Settings."
+  },
+
+  "enableCleaningAlarmLabel": "Enable Cleaning Alarm",
+  "@enableCleaningAlarmLabel": {
+    "description": "Switch title for enabling the electrode cleaning alarm."
+  },
+
+  "enableCleaningAlarmSubtitle": "Remind you to clean electrodes during a session",
+  "@enableCleaningAlarmSubtitle": {
+    "description": "Subtitle explaining the cleaning alarm switch."
+  },
+
+  "cleaningIntervalLabel": "Cleaning Interval",
+  "@cleaningIntervalLabel": {
+    "description": "Label for the cleaning interval dropdown in Settings."
+  },
+
+  "cleaningIntervalSubtitle": "How often to be reminded",
+  "@cleaningIntervalSubtitle": {
+    "description": "Subtitle under the cleaning interval dropdown."
+  },
+
+  "interval5min": "5 min",
+  "@interval5min": {
+    "description": "5-minute cleaning interval option."
+  },
+
+  "interval10min": "10 min",
+  "@interval10min": {
+    "description": "10-minute cleaning interval option."
+  },
+
+  "interval15min": "15 min",
+  "@interval15min": {
+    "description": "15-minute cleaning interval option."
+  },
+
+  "interval20min": "20 min",
+  "@interval20min": {
+    "description": "20-minute cleaning interval option."
+  },
+
+  "interval30min": "30 min",
+  "@interval30min": {
+    "description": "30-minute cleaning interval option."
+  },
+
+  "notificationsSection": "Notifications",
+  "@notificationsSection": {
+    "description": "Section header for the Notifications group in Settings."
+  },
+
+  "enableNotificationsLabel": "Enable Notifications",
+  "@enableNotificationsLabel": {
+    "description": "Switch title for enabling OS notifications."
+  },
+
+  "enableNotificationsSubtitle": "Alert when electrolysis is complete",
+  "@enableNotificationsSubtitle": {
+    "description": "Subtitle explaining the notifications switch."
+  },
+
+  "aboutSection": "About",
+  "@aboutSection": {
+    "description": "Section header for the About group in Settings."
+  },
+
+  "calculationFormulaTitle": "Calculation Formula",
+  "@calculationFormulaTitle": {
+    "description": "Title of the expandable Faraday formula section."
+  },
+
+  "calculationFormulaBody": "Based on Faraday''s Law of Electrolysis:\n\ntime (s) = (PPM × Volume (L) × F) / (M_ag × I (A) × 1000)\n\nwhere:\n  F = 96,485 C/mol (Faraday constant)\n  M_ag = 107.87 g/mol (molar mass of silver)\n  I = current in amperes\n  PPM = target concentration in mg/L",
+  "@calculationFormulaBody": {
+    "description": "Multi-line description of the Faraday electrolysis formula. The apostrophe in Faraday's is escaped as '' per ICU rules."
+  },
+
+  "versionLabel": "Version",
+  "@versionLabel": {
+    "description": "Label for the version list tile in Settings."
+  },
+
+  "maSuffix": "mA",
+  "@maSuffix": {
+    "description": "Milliamps unit suffix used in text fields."
+  },
+
+  "navCalculator": "Calculator",
+  "@navCalculator": {
+    "description": "Bottom navigation bar label for the Calculator tab."
+  },
+
+  "navTimer": "Timer",
+  "@navTimer": {
+    "description": "Bottom navigation bar label for the Timer tab."
+  },
+
+  "navHistory": "History",
+  "@navHistory": {
+    "description": "Bottom navigation bar label for the History tab."
+  },
+
+  "notifCompleteTitle": "SilverTimer Complete!",
+  "@notifCompleteTitle": {
+    "description": "OS notification title when the electrolysis timer completes."
+  },
+
+  "notifCompleteBody": "Your colloidal silver electrolysis is finished.",
+  "@notifCompleteBody": {
+    "description": "OS notification body when the electrolysis timer completes."
+  },
+
+  "notifCleanTitle": "Clean Electrodes",
+  "@notifCleanTitle": {
+    "description": "OS notification title for electrode cleaning alarms."
+  },
+
+  "notifCleanBody": "Time to clean your electrodes (alarm #{alarmNumber}).",
+  "@notifCleanBody": {
+    "description": "OS notification body for electrode cleaning alarms.",
+    "placeholders": {
+      "alarmNumber": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+
+  "notifChannelDescription": "SilverTimer electrolysis completion notifications",
+  "@notifChannelDescription": {
+    "description": "Android notification channel description string (registered once by the OS on first install)."
+  }
+}

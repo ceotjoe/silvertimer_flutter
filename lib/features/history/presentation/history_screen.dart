@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:silvertimer_flutter/core/extensions/duration_extensions.dart';
+import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/features/history/domain/models/session_record.dart';
 import 'package:silvertimer_flutter/features/history/presentation/history_controller.dart';
 
@@ -11,10 +12,11 @@ class HistoryScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final historyAsync = ref.watch(historyControllerProvider);
+    final l10n = context.l10n;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('History'),
+        title: Text(l10n.historyTitle),
         actions: [
           historyAsync.whenOrNull(
             data: (sessions) => sessions.isEmpty
@@ -22,7 +24,7 @@ class HistoryScreen extends ConsumerWidget {
                 : IconButton(
                     icon: const Icon(Icons.delete_sweep_outlined),
                     onPressed: () => _confirmClearAll(context, ref),
-                    tooltip: 'Clear all',
+                    tooltip: l10n.clearAll,
                   ),
           ) ??
               const SizedBox.shrink(),
@@ -36,11 +38,11 @@ class HistoryScreen extends ConsumerWidget {
             children: [
               const Icon(Icons.error_outline, size: 48),
               const SizedBox(height: 16),
-              Text('Failed to load history: $e'),
+              Text(l10n.historyLoadError(e.toString())),
               const SizedBox(height: 16),
               FilledButton(
                 onPressed: () => ref.invalidate(historyControllerProvider),
-                child: const Text('Retry'),
+                child: Text(l10n.retryButton),
               ),
             ],
           ),
@@ -61,17 +63,21 @@ class HistoryScreen extends ConsumerWidget {
   }
 
   void _confirmClearAll(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
     showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Clear All History?'),
-        content: const Text('This will permanently delete all session records.'),
+        title: Text(l10n.clearAllHistoryTitle),
+        content: Text(l10n.clearAllHistoryBody),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(l10n.cancelButton),
+          ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: FilledButton.styleFrom(backgroundColor: Theme.of(ctx).colorScheme.error),
-            child: const Text('Clear All'),
+            child: Text(l10n.clearAllButton),
           ),
         ],
       ),
@@ -134,6 +140,7 @@ class _SessionTile extends StatelessWidget {
 class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -141,12 +148,12 @@ class _EmptyState extends StatelessWidget {
           Icon(Icons.history, size: 80, color: Theme.of(context).colorScheme.outline),
           const SizedBox(height: 16),
           Text(
-            'No sessions yet',
+            l10n.noSessionsYet,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
           Text(
-            'Completed electrolysis runs will appear here',
+            l10n.noSessionsSubtitle,
             style: Theme.of(context).textTheme.bodySmall,
             textAlign: TextAlign.center,
           ),

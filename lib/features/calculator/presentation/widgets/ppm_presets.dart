@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/calculator_controller.dart';
 
 class PpmPresets extends ConsumerWidget {
@@ -14,13 +15,14 @@ class PpmPresets extends ConsumerWidget {
     final currentPpm = ref.watch(
       calculatorControllerProvider.select((s) => s.input.targetPpm),
     );
+    final l10n = context.l10n;
 
     return Wrap(
       spacing: 8,
       alignment: WrapAlignment.center,
       children: _presets.map((ppm) {
         return FilterChip(
-          label: Text('${ppm.toInt()} PPM'),
+          label: Text(l10n.ppmPresetLabel(ppm.toInt())),
           selected: currentPpm == ppm,
           onSelected: (_) => onSelected(ppm),
         );

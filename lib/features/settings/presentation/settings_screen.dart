@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculator_input.dart';
 import 'package:silvertimer_flutter/features/settings/presentation/settings_controller.dart';
 
@@ -11,36 +12,37 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsControllerProvider);
     final notifier = ref.read(settingsControllerProvider.notifier);
+    final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: ListView(
         children: [
           // Appearance section
-          _SectionHeader('Appearance'),
+          _SectionHeader(l10n.appearanceSection),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Theme', style: Theme.of(context).textTheme.bodyMedium),
+                Text(l10n.themeLabel, style: Theme.of(context).textTheme.bodyMedium),
                 const SizedBox(height: 8),
                 SegmentedButton<ThemeMode>(
-                  segments: const [
+                  segments: [
                     ButtonSegment(
                       value: ThemeMode.system,
-                      label: Text('System'),
-                      icon: Icon(Icons.brightness_auto),
+                      label: Text(l10n.themeSystem),
+                      icon: const Icon(Icons.brightness_auto),
                     ),
                     ButtonSegment(
                       value: ThemeMode.light,
-                      label: Text('Light'),
-                      icon: Icon(Icons.light_mode),
+                      label: Text(l10n.themeLight),
+                      icon: const Icon(Icons.light_mode),
                     ),
                     ButtonSegment(
                       value: ThemeMode.dark,
-                      label: Text('Dark'),
-                      icon: Icon(Icons.dark_mode),
+                      label: Text(l10n.themeDark),
+                      icon: const Icon(Icons.dark_mode),
                     ),
                   ],
                   selected: {settings.themeMode},
@@ -53,15 +55,15 @@ class SettingsScreen extends ConsumerWidget {
           const Divider(),
 
           // Defaults section
-          _SectionHeader('Defaults'),
+          _SectionHeader(l10n.defaultsSection),
           ListTile(
-            title: const Text('Volume Unit'),
+            title: Text(l10n.volumeUnitLabel),
             trailing: DropdownButton<VolumeUnit>(
               value: settings.defaultVolumeUnit,
               underline: const SizedBox.shrink(),
-              items: const [
-                DropdownMenuItem(value: VolumeUnit.ml, child: Text('mL')),
-                DropdownMenuItem(value: VolumeUnit.liters, child: Text('Liters')),
+              items: [
+                DropdownMenuItem(value: VolumeUnit.ml, child: Text(l10n.volumeUnitMl)),
+                DropdownMenuItem(value: VolumeUnit.liters, child: Text(l10n.volumeUnitLiters)),
               ],
               onChanged: (v) {
                 if (v != null) notifier.setDefaultVolumeUnit(v);
@@ -69,7 +71,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           ListTile(
-            title: const Text('Default PPM'),
+            title: Text(l10n.defaultPpmLabel),
             trailing: SizedBox(
               width: 80,
               child: _PpmField(
@@ -79,8 +81,8 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           ListTile(
-            title: const Text('Default Current'),
-            subtitle: const Text('Typical range: 0.5–3 mA'),
+            title: Text(l10n.defaultCurrentLabel),
+            subtitle: Text(l10n.typicalCurrentRange),
             trailing: SizedBox(
               width: 100,
               child: _CurrentMaField(
@@ -93,16 +95,16 @@ class SettingsScreen extends ConsumerWidget {
           const Divider(indent: 16, endIndent: 16),
 
           // Electrode cleaning alarm section
-          _SectionHeader('Electrode Cleaning Alarm'),
+          _SectionHeader(l10n.electrodeCleaningSection),
           SwitchListTile(
-            title: const Text('Enable Cleaning Alarm'),
-            subtitle: const Text('Remind you to clean electrodes during a session'),
+            title: Text(l10n.enableCleaningAlarmLabel),
+            subtitle: Text(l10n.enableCleaningAlarmSubtitle),
             value: settings.cleaningAlarmsEnabled,
             onChanged: notifier.setCleaningAlarmsEnabled,
           ),
           ListTile(
-            title: const Text('Cleaning Interval'),
-            subtitle: const Text('How often to be reminded'),
+            title: Text(l10n.cleaningIntervalLabel),
+            subtitle: Text(l10n.cleaningIntervalSubtitle),
             enabled: settings.cleaningAlarmsEnabled,
             trailing: DropdownButton<int>(
               value: settings.cleaningIntervalMinutes,
@@ -112,12 +114,12 @@ class SettingsScreen extends ConsumerWidget {
                       if (v != null) notifier.setCleaningIntervalMinutes(v);
                     }
                   : null,
-              items: const [
-                DropdownMenuItem(value: 5, child: Text('5 min')),
-                DropdownMenuItem(value: 10, child: Text('10 min')),
-                DropdownMenuItem(value: 15, child: Text('15 min')),
-                DropdownMenuItem(value: 20, child: Text('20 min')),
-                DropdownMenuItem(value: 30, child: Text('30 min')),
+              items: [
+                DropdownMenuItem(value: 5, child: Text(l10n.interval5min)),
+                DropdownMenuItem(value: 10, child: Text(l10n.interval10min)),
+                DropdownMenuItem(value: 15, child: Text(l10n.interval15min)),
+                DropdownMenuItem(value: 20, child: Text(l10n.interval20min)),
+                DropdownMenuItem(value: 30, child: Text(l10n.interval30min)),
               ],
             ),
           ),
@@ -125,10 +127,10 @@ class SettingsScreen extends ConsumerWidget {
           const Divider(),
 
           // Notifications section
-          _SectionHeader('Notifications'),
+          _SectionHeader(l10n.notificationsSection),
           SwitchListTile(
-            title: const Text('Enable Notifications'),
-            subtitle: const Text('Alert when electrolysis is complete'),
+            title: Text(l10n.enableNotificationsLabel),
+            subtitle: Text(l10n.enableNotificationsSubtitle),
             value: settings.notificationsEnabled,
             onChanged: notifier.setNotificationsEnabled,
           ),
@@ -136,21 +138,15 @@ class SettingsScreen extends ConsumerWidget {
           const Divider(),
 
           // About section
-          _SectionHeader('About'),
+          _SectionHeader(l10n.aboutSection),
           ExpansionTile(
             leading: const Icon(Icons.science_outlined),
-            title: const Text('Calculation Formula'),
+            title: Text(l10n.calculationFormulaTitle),
             children: [
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  'Based on Faraday\'s Law of Electrolysis:\n\n'
-                  'time (s) = (PPM × Volume (L) × F) / (M_ag × I (A) × 1000)\n\n'
-                  'where:\n'
-                  '  F = 96,485 C/mol (Faraday constant)\n'
-                  '  M_ag = 107.87 g/mol (molar mass of silver)\n'
-                  '  I = current in amperes\n'
-                  '  PPM = target concentration in mg/L',
+                  l10n.calculationFormulaBody,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
@@ -158,7 +154,7 @@ class SettingsScreen extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.info_outline),
-            title: const Text('Version'),
+            title: Text(l10n.versionLabel),
             trailing: const Text('1.0.0'),
           ),
         ],
@@ -215,7 +211,7 @@ class _PpmFieldState extends State<_PpmField> {
       controller: _controller,
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-      decoration: const InputDecoration(suffixText: 'PPM', isDense: true),
+      decoration: InputDecoration(suffixText: context.l10n.ppmSuffix, isDense: true),
       onSubmitted: (v) {
         final parsed = double.tryParse(v);
         if (parsed != null && parsed > 0) widget.onChanged(parsed);
@@ -254,7 +250,7 @@ class _CurrentMaFieldState extends State<_CurrentMaField> {
       controller: _controller,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-      decoration: const InputDecoration(suffixText: 'mA', isDense: true),
+      decoration: InputDecoration(suffixText: context.l10n.maSuffix, isDense: true),
       onSubmitted: (v) {
         final parsed = double.tryParse(v);
         if (parsed != null && parsed > 0) widget.onChanged(parsed);

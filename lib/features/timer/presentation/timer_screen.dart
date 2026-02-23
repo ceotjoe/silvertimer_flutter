@@ -3,8 +3,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:silvertimer_flutter/core/extensions/duration_extensions.dart';
+import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculator_input.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/calculator_controller.dart';
+import 'package:silvertimer_flutter/features/timer/data/notification_strings.dart';
 import 'package:silvertimer_flutter/features/timer/domain/models/timer_state.dart';
 import 'package:silvertimer_flutter/features/timer/presentation/timer_controller.dart';
 import 'package:silvertimer_flutter/features/timer/presentation/widgets/circular_timer.dart';
@@ -53,6 +55,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
   Widget build(BuildContext context) {
     final timerState = ref.watch(timerControllerProvider);
     final calcState = ref.watch(calculatorControllerProvider);
+    final l10n = context.l10n;
 
     // Show completion dialog reactively
     ref.listen<TimerState>(timerControllerProvider, (prev, next) {
@@ -74,7 +77,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Time to clean electrodes! (Alarm #$next)',
+                      l10n.cleanElectrodesSnackbar(next),
                       style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -83,7 +86,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
               duration: const Duration(seconds: 8),
               behavior: SnackBarBehavior.floating,
               action: SnackBarAction(
-                label: 'Dismiss',
+                label: l10n.dismiss,
                 onPressed: () =>
                     ScaffoldMessenger.of(context).hideCurrentSnackBar(),
               ),
@@ -94,7 +97,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Timer'),
+        title: Text(l10n.timerTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.go('/calculator'),
@@ -152,6 +155,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
   }
 
   Widget _buildElapsedRow(BuildContext context, TimerState state) {
+    final l10n = context.l10n;
     final (elapsed, total) = switch (state) {
       TimerIdle() => (Duration.zero, Duration.zero),
       TimerRunning(:final totalDuration, :final elapsed) => (elapsed, totalDuration),
@@ -162,29 +166,40 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _StatItem(label: 'Elapsed', value: elapsed.toHhMmSs()),
+        _StatItem(label: l10n.elapsed, value: elapsed.toHhMmSs()),
         Container(width: 1, height: 40, color: Theme.of(context).dividerColor),
-        _StatItem(label: 'Total', value: total.toHhMmSs()),
+        _StatItem(label: l10n.total, value: total.toHhMmSs()),
       ],
     );
   }
 
   Widget _buildControls(BuildContext context, TimerState state) {
     final notifier = ref.read(timerControllerProvider.notifier);
+    final l10n = context.l10n;
 
     return switch (state) {
       TimerIdle() => FilledButton.icon(
           onPressed: null,
           icon: const Icon(Icons.play_arrow),
-          label: const Text('No Timer Loaded'),
+          label: Text(l10n.noTimerLoaded),
         ),
       TimerPaused() => Row(
           children: [
             Expanded(
               child: FilledButton.icon(
-                onPressed: () => notifier.start(),
+                onPressed: () {
+                  notifier.start(
+                    strings: NotificationStrings(
+                      completeTitle: l10n.notifCompleteTitle,
+                      completeBody: l10n.notifCompleteBody,
+                      cleanTitle: l10n.notifCleanTitle,
+                      cleanBodyForAlarm: (n) => l10n.notifCleanBody(n),
+                      channelDescription: l10n.notifChannelDescription,
+                    ),
+                  );
+                },
                 icon: const Icon(Icons.play_arrow),
-                label: const Text('Start'),
+                label: Text(l10n.startButton),
               ),
             ),
             const SizedBox(width: 12),
@@ -194,7 +209,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
                 context.go('/calculator');
               },
               icon: const Icon(Icons.restart_alt),
-              label: const Text('Reset'),
+              label: Text(l10n.resetButton),
             ),
           ],
         ),
@@ -204,14 +219,14 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
               child: FilledButton.icon(
                 onPressed: () => notifier.pause(),
                 icon: const Icon(Icons.pause),
-                label: const Text('Pause'),
+                label: Text(l10n.pauseButton),
               ),
             ),
             const SizedBox(width: 12),
             OutlinedButton.icon(
               onPressed: () => _confirmReset(context, notifier),
               icon: const Icon(Icons.restart_alt),
-              label: const Text('Reset'),
+              label: Text(l10n.resetButton),
             ),
           ],
         ),
@@ -221,23 +236,27 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
             context.go('/calculator');
           },
           icon: const Icon(Icons.check),
-          label: const Text('Done'),
+          label: Text(l10n.doneButton),
         ),
     };
   }
 
   void _confirmReset(BuildContext context, TimerController notifier) {
+    final l10n = context.l10n;
     final router = GoRouter.of(context);
     showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Reset Timer?'),
-        content: const Text('This will stop and reset the current timer.'),
+        title: Text(l10n.resetTimerTitle),
+        content: Text(l10n.resetTimerBody),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(l10n.cancelButton),
+          ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Reset'),
+            child: Text(l10n.resetButton),
           ),
         ],
       ),
@@ -250,14 +269,15 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
   }
 
   void _showCompletionDialog(BuildContext context, Duration duration) {
+    final l10n = context.l10n;
     showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
         icon: const Icon(Icons.check_circle, size: 64, color: Colors.green),
-        title: const Text('Electrolysis Complete!'),
+        title: Text(l10n.electrolysisCompleteTitle),
         content: Text(
-          'Your colloidal silver process is finished.\nTotal time: ${duration.toReadable()}',
+          l10n.electrolysisCompleteBody(duration.toReadable()),
           textAlign: TextAlign.center,
         ),
         actions: [
@@ -267,7 +287,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
               ref.read(timerControllerProvider.notifier).reset();
               context.go('/calculator');
             },
-            child: const Text('Done'),
+            child: Text(l10n.doneButton),
           ),
         ],
       ),

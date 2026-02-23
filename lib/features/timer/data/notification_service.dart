@@ -57,18 +57,20 @@ class NotificationService {
     return false;
   }
 
+  AndroidNotificationDetails _androidDetails(String channelDescription) =>
+      AndroidNotificationDetails(
+        AppConstants.notificationChannelId,
+        AppConstants.notificationChannelName,
+        channelDescription: channelDescription,
+        importance: Importance.high,
+        priority: Priority.high,
+        playSound: true,
+      );
+
   /// Shows an immediate completion notification.
-  Future<void> showCompletionNotification() async {
+  Future<void> showCompletionNotification(String title, String body) async {
     if (UniversalPlatform.isWeb || !_initialized) return;
 
-    const androidDetails = AndroidNotificationDetails(
-      AppConstants.notificationChannelId,
-      AppConstants.notificationChannelName,
-      channelDescription: 'SilverTimer electrolysis completion notifications',
-      importance: Importance.high,
-      priority: Priority.high,
-      playSound: true,
-    );
     const iosDetails = DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: true,
@@ -77,27 +79,26 @@ class NotificationService {
 
     await _plugin.show(
       AppConstants.timerCompleteNotificationId,
-      'SilverTimer Complete!',
-      'Your colloidal silver electrolysis is finished.',
-      const NotificationDetails(android: androidDetails, iOS: iosDetails),
+      title,
+      body,
+      NotificationDetails(
+        android: _androidDetails(''),
+        iOS: iosDetails,
+      ),
     );
   }
 
   /// Schedules a notification to fire at [fireAt] as a reliable OS-level fallback.
   /// This fires even if the app is killed by the OS.
-  Future<void> scheduleCompletionNotification(DateTime fireAt) async {
+  Future<void> scheduleCompletionNotification(
+    DateTime fireAt,
+    String title,
+    String body,
+  ) async {
     if (UniversalPlatform.isWeb || !_initialized) return;
 
     final tzFireAt = tz.TZDateTime.from(fireAt, tz.local);
 
-    const androidDetails = AndroidNotificationDetails(
-      AppConstants.notificationChannelId,
-      AppConstants.notificationChannelName,
-      channelDescription: 'SilverTimer electrolysis completion notifications',
-      importance: Importance.high,
-      priority: Priority.high,
-      playSound: true,
-    );
     const iosDetails = DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: true,
@@ -106,10 +107,13 @@ class NotificationService {
 
     await _plugin.zonedSchedule(
       AppConstants.timerScheduledNotificationId,
-      'SilverTimer Complete!',
-      'Your colloidal silver electrolysis is finished.',
+      title,
+      body,
       tzFireAt,
-      const NotificationDetails(android: androidDetails, iOS: iosDetails),
+      NotificationDetails(
+        android: _androidDetails(''),
+        iOS: iosDetails,
+      ),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
@@ -117,18 +121,14 @@ class NotificationService {
   }
 
   /// Shows an immediate cleaning alarm notification.
-  /// [alarmNumber] is 1-based and used in the notification body.
-  Future<void> showCleaningAlarmNotification(int alarmNumber) async {
+  /// [alarmNumber] is 1-based and used to generate a unique notification ID.
+  Future<void> showCleaningAlarmNotification(
+    int alarmNumber,
+    String title,
+    String body,
+  ) async {
     if (UniversalPlatform.isWeb || !_initialized) return;
 
-    const androidDetails = AndroidNotificationDetails(
-      AppConstants.notificationChannelId,
-      AppConstants.notificationChannelName,
-      channelDescription: 'SilverTimer electrolysis completion notifications',
-      importance: Importance.high,
-      priority: Priority.high,
-      playSound: true,
-    );
     const iosDetails = DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: false,
@@ -137,9 +137,12 @@ class NotificationService {
 
     await _plugin.show(
       AppConstants.cleaningAlarmBaseNotificationId + alarmNumber,
-      'Clean Electrodes',
-      'Time to clean your electrodes (alarm #$alarmNumber).',
-      const NotificationDetails(android: androidDetails, iOS: iosDetails),
+      title,
+      body,
+      NotificationDetails(
+        android: _androidDetails(''),
+        iOS: iosDetails,
+      ),
     );
   }
 
@@ -148,20 +151,14 @@ class NotificationService {
   Future<void> scheduleCleaningNotification(
     DateTime fireAt,
     int alarmNumber,
+    String title,
+    String body,
   ) async {
     if (UniversalPlatform.isWeb || !_initialized) return;
 
     final tzFireAt = tz.TZDateTime.from(fireAt, tz.local);
     final notifId = AppConstants.cleaningAlarmBaseNotificationId + alarmNumber;
 
-    const androidDetails = AndroidNotificationDetails(
-      AppConstants.notificationChannelId,
-      AppConstants.notificationChannelName,
-      channelDescription: 'SilverTimer electrolysis completion notifications',
-      importance: Importance.high,
-      priority: Priority.high,
-      playSound: true,
-    );
     const iosDetails = DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: false,
@@ -170,10 +167,13 @@ class NotificationService {
 
     await _plugin.zonedSchedule(
       notifId,
-      'Clean Electrodes',
-      'Time to clean your electrodes (alarm #$alarmNumber).',
+      title,
+      body,
       tzFireAt,
-      const NotificationDetails(android: androidDetails, iOS: iosDetails),
+      NotificationDetails(
+        android: _androidDetails(''),
+        iOS: iosDetails,
+      ),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,

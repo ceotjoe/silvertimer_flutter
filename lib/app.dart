@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/core/routing/app_router.dart';
 import 'package:silvertimer_flutter/core/theme/app_theme.dart';
 import 'package:silvertimer_flutter/features/settings/presentation/settings_controller.dart';
+import 'package:silvertimer_flutter/l10n/generated/app_localizations.dart';
 
 class SilverTimerApp extends ConsumerWidget {
   const SilverTimerApp({super.key});
@@ -13,12 +16,19 @@ class SilverTimerApp extends ConsumerWidget {
     final themeMode = ref.watch(themeModeProvider);
 
     return MaterialApp.router(
-      title: 'SilverTimer',
+      onGenerateTitle: (context) => context.l10n.appTitle,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: themeMode,
       routerConfig: router,
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/calculator_controller.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/widgets/ppm_presets.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/widgets/result_card.dart';
@@ -41,10 +42,11 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(calculatorControllerProvider);
     final notifier = ref.read(calculatorControllerProvider.notifier);
+    final l10n = context.l10n;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SilverTimer'),
+        title: Text(l10n.calculatorTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings_outlined),
@@ -64,15 +66,15 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
               const SizedBox(height: 20),
 
               // Target PPM input
-              Text('Target Concentration', style: Theme.of(context).textTheme.titleSmall),
+              Text(l10n.targetConcentration, style: Theme.of(context).textTheme.titleSmall),
               const SizedBox(height: 8),
               TextFormField(
                 controller: _ppmController,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: '10',
-                  suffixText: 'PPM',
+                  suffixText: l10n.ppmSuffix,
                 ),
                 onChanged: (v) {
                   final parsed = double.tryParse(v) ?? 0.0;
@@ -113,7 +115,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                   }
                 },
                 icon: const Icon(Icons.calculate),
-                label: const Text('Calculate Time'),
+                label: Text(l10n.calculateButton),
               ),
 
               // Result card (shown after successful calculation)
