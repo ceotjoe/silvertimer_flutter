@@ -11,7 +11,7 @@ void main() async {
   // Initialize SharedPreferences
   final prefs = await SharedPreferences.getInstance();
 
-  // Initialize notification service
+  // Initialize notification service (sets up plugin + checks exact-alarm capability).
   final notificationService = NotificationService();
   await notificationService.initialize();
 
@@ -28,4 +28,13 @@ void main() async {
       child: const SilverTimerApp(),
     ),
   );
+
+  // Request notification + exact-alarm permissions after the first frame so the
+  // system dialogs appear on top of the fully rendered UI.
+  // On Android 13+ this shows the POST_NOTIFICATIONS dialog.
+  // On Android 12+ this opens "Alarms & Reminders" settings if not yet granted.
+  // On iOS this shows the standard notification permission prompt.
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    notificationService.requestPermission();
+  });
 }

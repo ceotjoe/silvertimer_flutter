@@ -68,12 +68,13 @@ class TimerController extends _$TimerController {
       startedAt: startedAt,
     );
 
-    // Schedule the OS-level completion fallback notification
+    // Schedule the OS-level completion notification (fires even when backgrounded/killed).
     final completesAt = startedAt.add(total);
     ref.read(notificationServiceProvider).scheduleCompletionNotification(
           completesAt,
           strings.completeTitle,
           strings.completeBody,
+          channelDescription: strings.channelDescription,
         );
 
     // Build cleaning alarm schedule and pre-schedule all OS notifications
@@ -180,6 +181,7 @@ class TimerController extends _$TimerController {
       ref.read(notificationServiceProvider).showCompletionNotification(
             strings.completeTitle,
             strings.completeBody,
+            channelDescription: strings.channelDescription,
           );
     }
 
@@ -241,6 +243,7 @@ class TimerController extends _$TimerController {
           alarmNumber,
           strings.cleanTitle,
           strings.cleanBodyForAlarm(alarmNumber),
+          channelDescription: strings.channelDescription,
         );
       }
 
@@ -270,6 +273,7 @@ class TimerController extends _$TimerController {
             alarmNumber,
             strings.cleanTitle,
             strings.cleanBodyForAlarm(alarmNumber),
+            channelDescription: strings.channelDescription,
           );
     }
 
