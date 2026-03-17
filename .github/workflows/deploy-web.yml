@@ -33,6 +33,11 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Compile Drift web worker
+        # web/drift_worker.dart is committed source; the compiled JS is gitignored
+        # and must be generated here so flutter build web picks it up from web/.
+        run: dart compile js web/drift_worker.dart -o web/drift_worker.dart.js
+
       - name: Build web
         run: |
           flutter build web --release \

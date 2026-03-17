@@ -61,4 +61,7 @@ ios/Flutter/Flutter.podspec
 # Flutter DevTools
 devtools_options.yaml
 
+# Drift web worker — compiled from web/drift_worker.dart by CI (dart compile js)
+web/drift_worker.dart.js
+
 .claude/
