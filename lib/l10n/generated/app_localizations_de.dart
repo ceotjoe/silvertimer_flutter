@@ -79,8 +79,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get resetTimerTitle => 'Timer zurücksetzen?';
 
   @override
-  String get resetTimerBody =>
-      'Damit wird der aktuelle Timer gestoppt und zurückgesetzt.';
+  String get resetTimerBody => 'Damit wird der aktuelle Timer gestoppt und zurückgesetzt.';
 
   @override
   String get cancelButton => 'Abbrechen';
@@ -117,8 +116,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get clearAllHistoryTitle => 'Gesamten Verlauf löschen?';
 
   @override
-  String get clearAllHistoryBody =>
-      'Alle Sitzungseinträge werden dauerhaft gelöscht.';
+  String get clearAllHistoryBody => 'Alle Sitzungseinträge werden dauerhaft gelöscht.';
 
   @override
   String get clearAllButton => 'Alle löschen';
@@ -127,8 +125,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noSessionsYet => 'Noch keine Sitzungen';
 
   @override
-  String get noSessionsSubtitle =>
-      'Abgeschlossene Elektrolysedurchläufe erscheinen hier';
+  String get noSessionsSubtitle => 'Abgeschlossene Elektrolysedurchläufe erscheinen hier';
 
   @override
   String get settingsTitle => 'Einstellungen';
@@ -207,8 +204,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get enableNotificationsLabel => 'Benachrichtigungen aktivieren';
 
   @override
-  String get enableNotificationsSubtitle =>
-      'Alarm bei Abschluss der Elektrolyse';
+  String get enableNotificationsSubtitle => 'Alarm bei Abschluss der Elektrolyse';
 
   @override
   String get aboutSection => 'Über';
@@ -239,8 +235,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get notifCompleteTitle => 'SilverTimer abgeschlossen!';
 
   @override
-  String get notifCompleteBody =>
-      'Ihre kolloidale Silberelektrolyse ist beendet.';
+  String get notifCompleteBody => 'Ihre kolloidale Silberelektrolyse ist beendet.';
 
   @override
   String get notifCleanTitle => 'Elektroden reinigen';
@@ -251,6 +246,5 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get notifChannelDescription =>
-      'SilverTimer Elektrolyse-Abschlussbenachrichtigungen';
+  String get notifChannelDescription => 'SilverTimer Elektrolyse-Abschlussbenachrichtigungen';
 }

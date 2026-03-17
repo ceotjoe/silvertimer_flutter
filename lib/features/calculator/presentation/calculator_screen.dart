@@ -7,6 +7,7 @@ import 'package:silvertimer_flutter/features/calculator/presentation/calculator_
 import 'package:silvertimer_flutter/features/calculator/presentation/widgets/ppm_presets.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/widgets/result_card.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/widgets/volume_input.dart';
+import 'package:silvertimer_flutter/features/timer/data/notification_strings.dart';
 import 'package:silvertimer_flutter/features/timer/presentation/timer_controller.dart';
 
 class CalculatorScreen extends ConsumerStatefulWidget {
@@ -124,9 +125,18 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 ResultCard(
                   result: state.lastResult!,
                   onStartTimer: () {
-                    ref
-                        .read(timerControllerProvider.notifier)
-                        .loadCalculation(state.lastResult!);
+                    final timerNotifier =
+                        ref.read(timerControllerProvider.notifier);
+                    timerNotifier.loadCalculation(state.lastResult!);
+                    timerNotifier.start(
+                      strings: NotificationStrings(
+                        completeTitle: l10n.notifCompleteTitle,
+                        completeBody: l10n.notifCompleteBody,
+                        cleanTitle: l10n.notifCleanTitle,
+                        cleanBodyForAlarm: (n) => l10n.notifCleanBody(n),
+                        channelDescription: l10n.notifChannelDescription,
+                      ),
+                    );
                     context.go('/timer');
                   },
                 ),

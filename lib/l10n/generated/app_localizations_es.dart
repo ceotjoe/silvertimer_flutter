@@ -79,8 +79,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get resetTimerTitle => '¿Reiniciar temporizador?';
 
   @override
-  String get resetTimerBody =>
-      'Esto detendrá y reiniciará el temporizador actual.';
+  String get resetTimerBody => 'Esto detendrá y reiniciará el temporizador actual.';
 
   @override
   String get cancelButton => 'Cancelar';
@@ -117,8 +116,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get clearAllHistoryTitle => '¿Borrar todo el historial?';
 
   @override
-  String get clearAllHistoryBody =>
-      'Se eliminarán permanentemente todos los registros de sesión.';
+  String get clearAllHistoryBody => 'Se eliminarán permanentemente todos los registros de sesión.';
 
   @override
   String get clearAllButton => 'Borrar todo';
@@ -127,8 +125,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noSessionsYet => 'Todavía no hay sesiones';
 
   @override
-  String get noSessionsSubtitle =>
-      'Las ejecuciones de electrólisis completadas aparecerán aquí';
+  String get noSessionsSubtitle => 'Las ejecuciones de electrólisis completadas aparecerán aquí';
 
   @override
   String get settingsTitle => 'Configuración';
@@ -176,15 +173,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get enableCleaningAlarmLabel => 'Activar alarma de limpieza';
 
   @override
-  String get enableCleaningAlarmSubtitle =>
-      'Le recuerda limpiar los electrodos durante una sesión';
+  String get enableCleaningAlarmSubtitle => 'Le recuerda limpiar los electrodos durante una sesión';
 
   @override
   String get cleaningIntervalLabel => 'Intervalo de limpieza';
 
   @override
-  String get cleaningIntervalSubtitle =>
-      'Con qué frecuencia recibir recordatorios';
+  String get cleaningIntervalSubtitle => 'Con qué frecuencia recibir recordatorios';
 
   @override
   String get interval5min => '5 min';
@@ -208,8 +203,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get enableNotificationsLabel => 'Activar notificaciones';
 
   @override
-  String get enableNotificationsSubtitle =>
-      'Alerta cuando la electrólisis esté completa';
+  String get enableNotificationsSubtitle => 'Alerta cuando la electrólisis esté completa';
 
   @override
   String get aboutSection => 'Acerca de';
@@ -240,8 +234,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get notifCompleteTitle => '¡SilverTimer completado!';
 
   @override
-  String get notifCompleteBody =>
-      'Su electrólisis de plata coloidal ha finalizado.';
+  String get notifCompleteBody => 'Su electrólisis de plata coloidal ha finalizado.';
 
   @override
   String get notifCleanTitle => 'Limpiar electrodos';

@@ -4,6 +4,9 @@
 *.pyc
 *.swp
 .DS_Store
+**/.DS_Store
+._*
+Thumbs.db
 .atom/
 .build/
 .buildlog/
@@ -18,15 +21,14 @@ migrate_working_dir/
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# VS Code
+.vscode/
 
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+.flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
@@ -43,4 +45,20 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-.claude/CLAUDE.local.md
+
+# Android local config (contains machine-specific SDK paths and signing secrets)
+android/.gradle/
+android/captures/
+android/local.properties
+android/key.properties
+
+# iOS CocoaPods
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+
+# Flutter DevTools
+devtools_options.yaml
+
+.claude/

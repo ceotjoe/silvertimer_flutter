@@ -24,14 +24,18 @@ class NotificationService {
     tz.initializeTimeZones();
 
     const androidSettings = AndroidInitializationSettings('@drawable/ic_notification');
-    const iosSettings = DarwinInitializationSettings(
+    const darwinSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
     );
 
     await _plugin.initialize(
-      const InitializationSettings(android: androidSettings, iOS: iosSettings),
+      const InitializationSettings(
+        android: androidSettings,
+        iOS: darwinSettings,
+        macOS: darwinSettings,
+      ),
     );
 
     // On Android 12+, check whether exact alarms are already permitted.
@@ -73,6 +77,17 @@ class NotificationService {
           false;
     }
 
+    if (UniversalPlatform.isMacOS) {
+      final macPlugin =
+          _plugin.resolvePlatformSpecificImplementation<MacOSFlutterLocalNotificationsPlugin>();
+      return await macPlugin?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+          ) ??
+          false;
+    }
+
     return false;
   }
 
@@ -99,7 +114,7 @@ class NotificationService {
   }) async {
     if (UniversalPlatform.isWeb || !_initialized) return;
 
-    const iosDetails = DarwinNotificationDetails(
+    const darwinDetails = DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: true,
       presentSound: true,
@@ -111,7 +126,8 @@ class NotificationService {
       body,
       NotificationDetails(
         android: _androidDetails(channelDescription),
-        iOS: iosDetails,
+        iOS: darwinDetails,
+        macOS: darwinDetails,
       ),
     );
   }
@@ -129,7 +145,7 @@ class NotificationService {
 
     final tzFireAt = tz.TZDateTime.from(fireAt, tz.local);
 
-    const iosDetails = DarwinNotificationDetails(
+    const darwinDetails = DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: true,
       presentSound: true,
@@ -142,7 +158,8 @@ class NotificationService {
       tzFireAt,
       NotificationDetails(
         android: _androidDetails(channelDescription),
-        iOS: iosDetails,
+        iOS: darwinDetails,
+        macOS: darwinDetails,
       ),
       androidScheduleMode: _scheduleMode,
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
@@ -158,7 +175,7 @@ class NotificationService {
   }) async {
     if (UniversalPlatform.isWeb || !_initialized) return;
 
-    const iosDetails = DarwinNotificationDetails(
+    const darwinDetails = DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: false,
       presentSound: true,
@@ -170,7 +187,8 @@ class NotificationService {
       body,
       NotificationDetails(
         android: _androidDetails(channelDescription),
-        iOS: iosDetails,
+        iOS: darwinDetails,
+        macOS: darwinDetails,
       ),
     );
   }
@@ -189,7 +207,7 @@ class NotificationService {
     final tzFireAt = tz.TZDateTime.from(fireAt, tz.local);
     final notifId = AppConstants.cleaningAlarmBaseNotificationId + alarmNumber;
 
-    const iosDetails = DarwinNotificationDetails(
+    const darwinDetails = DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: false,
       presentSound: true,
@@ -202,7 +220,8 @@ class NotificationService {
       tzFireAt,
       NotificationDetails(
         android: _androidDetails(channelDescription),
-        iOS: iosDetails,
+        iOS: darwinDetails,
+        macOS: darwinDetails,
       ),
       androidScheduleMode: _scheduleMode,
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,

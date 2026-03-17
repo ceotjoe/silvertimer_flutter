@@ -79,8 +79,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get resetTimerTitle => 'Réinitialiser le minuteur ?';
 
   @override
-  String get resetTimerBody =>
-      'Cela arrêtera et réinitialisera le minuteur actuel.';
+  String get resetTimerBody => 'Cela arrêtera et réinitialisera le minuteur actuel.';
 
   @override
   String get cancelButton => 'Annuler';
@@ -127,8 +126,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get noSessionsYet => 'Aucune session pour l\'\'instant';
 
   @override
-  String get noSessionsSubtitle =>
-      'Les cycles d\'\'électrolyse terminés apparaîtront ici';
+  String get noSessionsSubtitle => 'Les cycles d\'\'électrolyse terminés apparaîtront ici';
 
   @override
   String get settingsTitle => 'Paramètres';
@@ -207,8 +205,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get enableNotificationsLabel => 'Activer les notifications';
 
   @override
-  String get enableNotificationsSubtitle =>
-      'Alerte à la fin de l\'\'électrolyse';
+  String get enableNotificationsSubtitle => 'Alerte à la fin de l\'\'électrolyse';
 
   @override
   String get aboutSection => 'À propos';
@@ -239,8 +236,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifCompleteTitle => 'SilverTimer terminé !';
 
   @override
-  String get notifCompleteBody =>
-      'Votre électrolyse d\'\'argent colloïdal est terminée.';
+  String get notifCompleteBody => 'Votre électrolyse d\'\'argent colloïdal est terminée.';
 
   @override
   String get notifCleanTitle => 'Nettoyer les électrodes';
@@ -251,6 +247,5 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get notifChannelDescription =>
-      'Notifications de fin d\'\'électrolyse SilverTimer';
+  String get notifChannelDescription => 'Notifications de fin d\'\'électrolyse SilverTimer';
 }
