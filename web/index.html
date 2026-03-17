@@ -2,6 +2,15 @@
 <html>
 <head>
   <!--
+    coi-serviceworker: injects Cross-Origin-Opener-Policy and
+    Cross-Origin-Embedder-Policy headers via a service worker so that
+    SharedArrayBuffer (required by the Drift SQLite WASM worker) is available
+    on hosts like GitHub Pages that cannot set custom HTTP headers.
+    Must be the very first script to run.
+  -->
+  <script src="coi-serviceworker.js"></script>
+
+  <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
 
