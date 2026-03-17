@@ -1,11 +1,12 @@
 {
-    "name": "silvertimer_flutter",
-    "short_name": "silvertimer_flutter",
-    "start_url": ".",
+    "name": "SilverTimer",
+    "short_name": "SilverTimer",
+    "start_url": "/silvertimer_flutter/",
+    "scope": "/silvertimer_flutter/",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Colloidal silver electrolysis timer and calculator.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
