@@ -247,4 +247,16 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get notifChannelDescription =>
       'Notificaciones de finalización de electrólisis SilverTimer';
+
+  @override
+  String get navInfo => 'Info';
+
+  @override
+  String get infoTitle => 'Información';
+
+  @override
+  String get infoAuthor => 'por Jörg Holzapfel';
+
+  @override
+  String get infoHowToUse => 'Cómo usar SilverTimer';
 }

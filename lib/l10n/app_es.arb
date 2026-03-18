@@ -76,5 +76,10 @@
   "notifCompleteBody": "Su electrólisis de plata coloidal ha finalizado.",
   "notifCleanTitle": "Limpiar electrodos",
   "notifCleanBody": "Es hora de limpiar sus electrodos (alarma #{alarmNumber}).",
-  "notifChannelDescription": "Notificaciones de finalización de electrólisis SilverTimer"
+  "notifChannelDescription": "Notificaciones de finalización de electrólisis SilverTimer",
+
+  "navInfo": "Info",
+  "infoTitle": "Información",
+  "infoAuthor": "por Jörg Holzapfel",
+  "infoHowToUse": "Cómo usar SilverTimer"
 }
