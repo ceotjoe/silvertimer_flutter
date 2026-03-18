@@ -32,9 +32,10 @@ platform :ios do
     File.binwrite(profile_path, Base64.strict_decode64(ENV.fetch("IOS_PROVISIONING_PROFILE_BASE64")))
     install_provisioning_profile(path: profile_path)
 
+    # PlistBuddy cannot read from stdin reliably — decode to a temp file first
+    sh("security cms -D -i #{profile_path} > /tmp/decoded_profile.plist", log: false)
     profile_uuid = sh(
-      "security cms -D -i #{profile_path} 2>/dev/null | " \
-      "/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin",
+      "/usr/libexec/PlistBuddy -c 'Print :UUID' /tmp/decoded_profile.plist",
       log: false
     ).strip
     UI.message("Using provisioning profile: #{profile_uuid}")
