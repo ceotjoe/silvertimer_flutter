@@ -2,11 +2,24 @@
 class AppConstants {
   AppConstants._();
 
-  /// Notification channel ID for Android
+  /// Notification channel ID for Android — general (cleaning reminders).
   static const String notificationChannelId = 'silvertimer_channel';
 
-  /// Notification channel name for Android
+  /// Notification channel name for Android — general.
   static const String notificationChannelName = 'SilverTimer';
+
+  /// Notification channel ID for Android — high-priority alarm (timer done).
+  /// Separate channel so it can use AudioAttributesUsage.alarm and Importance.max.
+  static const String alarmChannelId = 'silvertimer_alarm';
+
+  /// Notification channel name for Android — alarm.
+  static const String alarmChannelName = 'SilverTimer Alarm';
+
+  /// Flutter asset path for the alarm sound used for foreground playback.
+  static const String alarmSoundAsset = 'assets/sounds/alarm.mp3';
+
+  /// Android res/raw filename (without extension) for the alarm notification sound.
+  static const String alarmSoundRaw = 'alarm';
 
   /// Notification ID used for the timer completion notification
   static const int timerCompleteNotificationId = 1;

@@ -71,7 +71,7 @@ final cleaningMarkersProvider =
 // ignore: unused_element
 typedef CleaningMarkersRef =
     AutoDisposeProviderRef<({List<double> pending, List<double> passed})>;
-String _$timerControllerHash() => r'f6ffc39dfa6264639d1c469e4689ae94eaa79589';
+String _$timerControllerHash() => r'4ffc5e8aea995aba73f2e623d0519d18d35698e6';
 
 /// See also [TimerController].
 @ProviderFor(TimerController)

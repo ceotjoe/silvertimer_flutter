@@ -6,6 +6,10 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
     <!-- Reschedule exact alarms after device reboot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- Wake the screen when the alarm fires (full-screen intent) -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <!-- Show full-screen notification on lock screen (Android 14+: user must grant) -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
 
     <application
         android:label="silvertimer_flutter"
