@@ -28,12 +28,6 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Flutter pub get
-        run: flutter pub get
-
-      - name: Install CocoaPods dependencies
-        run: cd ios && pod install
-
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
