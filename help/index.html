@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Use SilverTimer</title>
+  <style>
+    :root {
+      --primary: #6750a4;
+      --primary-light: #eaddff;
+      --surface: #fffbfe;
+      --on-surface: #1c1b1f;
+      --on-surface-variant: #49454f;
+      --outline: #79747e;
+      --surface-variant: #e7e0ec;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --primary: #d0bcff;
+        --primary-light: #381e72;
+        --surface: #1c1b1f;
+        --on-surface: #e6e1e5;
+        --on-surface-variant: #cac4d0;
+        --outline: #938f99;
+        --surface-variant: #49454f;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                   Helvetica, Arial, sans-serif;
+      background: var(--surface);
+      color: var(--on-surface);
+      line-height: 1.65;
+      padding: 0 16px 64px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      padding: 40px 0 32px;
+      border-bottom: 1px solid var(--outline);
+      margin-bottom: 32px;
+    }
+
+    header img {
+      width: 96px;
+      height: 96px;
+      border-radius: 22px;
+      display: block;
+      margin: 0 auto 16px;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: var(--on-surface-variant);
+      font-size: 1rem;
+    }
+
+    /* ── Section headings ── */
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 36px 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--primary-light);
+    }
+
+    /* ── Body text ── */
+    p { margin-bottom: 10px; }
+
+    ul, ol {
+      padding-left: 22px;
+      margin-bottom: 10px;
+    }
+
+    li { margin-bottom: 6px; }
+
+    strong { font-weight: 600; }
+
+    /* ── Call-out / note boxes ── */
+    .note {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      margin: 16px 0;
+      color: var(--on-surface);
+    }
+
+    .note p { margin: 0; }
+
+    /* ── Inline code ── */
+    code {
+      font-family: "SF Mono", "Fira Code", Consolas, monospace;
+      font-size: 0.88em;
+      background: var(--surface-variant);
+      color: var(--on-surface);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* ── Formula block ── */
+    .formula {
+      background: var(--surface-variant);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 12px 0;
+      font-family: "SF Mono", "Fira Code", Consolas, monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* ── Settings table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 0.95rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 8px 10px;
+      background: var(--surface-variant);
+      color: var(--on-surface);
+      font-weight: 600;
+    }
+
+    td {
+      padding: 8px 10px;
+      border-top: 1px solid var(--outline);
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: 1px solid var(--outline); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--outline);
+      color: var(--on-surface-variant);
+      font-size: 0.85rem;
+    }
+
+    /* ── App store link button ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="../icons/Icon-192.png" alt="SilverTimer icon" />
+    <h1>SilverTimer</h1>
+    <p>Instructions &amp; User Guide</p>
+  </header>
+
+  <main>
+
+    <!-- ─────────────────────────────────────────── What is it? -->
+    <h2>What is SilverTimer?</h2>
+    <p>
+      SilverTimer is a colloidal silver electrolysis calculator and timer for iOS,
+      Android, and the web. It uses <strong>Faraday's Law of Electrolysis</strong>
+      to compute the precise running time needed to reach a target silver concentration
+      (in PPM) for a given volume of distilled water and a known electrode current.
+    </p>
+    <p>
+      The app has four tabs: <strong>Calculator</strong>, <strong>Timer</strong>,
+      <strong>History</strong>, and <strong>Info</strong>.
+    </p>
+
+    <!-- ─────────────────────────────────────────── What you need -->
+    <h2>What You Need</h2>
+    <ul>
+      <li><strong>Distilled water</strong> — never use tap water or mineral water; dissolved minerals interfere with the process and produce impure silver</li>
+      <li><strong>Two pure silver electrodes</strong> — 99.9% fine silver; wires, strips, or rods all work</li>
+      <li><strong>A stable DC power source</strong> — typically delivering 0.5–3 mA for home use</li>
+      <li><strong>A milliammeter</strong> — to measure the actual current flowing through the circuit</li>
+      <li><strong>A clean glass container</strong> — sized to your batch volume</li>
+    </ul>
+
+    <!-- ─────────────────────────────────────────── Step 1 -->
+    <h2>Step 1 — Configure Default Settings</h2>
+    <p>
+      Before your first batch, open the <strong>Settings</strong> tab (gear icon,
+      top-right of any screen) and set:
+    </p>
+    <ul>
+      <li>
+        <strong>Default Current (mA)</strong> — measure the actual current with
+        your milliammeter and enter that value. This is the most important setting
+        for accuracy. Re-measure before every batch if your power source varies.
+      </li>
+      <li>
+        <strong>Default PPM</strong> — your typical target concentration (e.g. 10 PPM).
+        This pre-fills the Calculator so you don't have to re-enter it each time.
+      </li>
+      <li>
+        <strong>Default Volume Unit</strong> — choose mL or L depending on your
+        usual container size.
+      </li>
+      <li>
+        <strong>Enable Notifications</strong> — turn this on so the app can alert you
+        when the timer finishes.
+      </li>
+    </ul>
+
+    <!-- ─────────────────────────────────────────── Step 2 -->
+    <h2>Step 2 — Enter Your Parameters</h2>
+    <p>
+      Open the <strong>Calculator</strong> tab and fill in the two fields:
+    </p>
+    <ol>
+      <li>
+        <strong>Water Volume</strong> — the amount of distilled water in your
+        container. Tap the <code>mL / L</code> toggle next to the field to switch
+        units. You can also use the quick-select chips (e.g. 250 mL, 500 mL, 1 L).
+      </li>
+      <li>
+        <strong>Target Concentration</strong> — the PPM level you want to reach.
+        Common values are 10, 15, 20, or 25 PPM. Tap a preset chip for quick
+        entry.
+      </li>
+    </ol>
+    <div class="note">
+      <p>
+        The current used in the calculation comes from
+        <strong>Settings → Default Current</strong>. If today's current differs
+        from your default, update Settings before calculating.
+      </p>
+    </div>
+
+    <!-- ─────────────────────────────────────────── Step 3 -->
+    <h2>Step 3 — Calculate</h2>
+    <p>
+      Tap <strong>Calculate Time</strong>. The result card shows the required
+      electrolysis duration broken down into hours, minutes, and seconds.
+    </p>
+    <p>The formula used is Faraday's Law of Electrolysis:</p>
+    <div class="formula">time (s) = (PPM × Volume_L × F) / (M_Ag × I_A × 1000)
+
+where:
+  F    = 96,485 C/mol  — Faraday constant
+  M_Ag = 107.87 g/mol  — molar mass of silver
+  I_A  = current in amperes  (mA ÷ 1000)
+  PPM  = target concentration in mg/L</div>
+    <p>
+      Tap the <strong>ƒ</strong> (formula) icon on the result card to see this
+      breakdown inside the app at any time.
+    </p>
+
+    <!-- ─────────────────────────────────────────── Step 4 -->
+    <h2>Step 4 — Start the Timer</h2>
+    <p>
+      Tap <strong>Start Timer</strong> on the result card. The app switches to
+      the <strong>Timer</strong> tab and begins counting down using a circular
+      progress ring.
+    </p>
+    <ol>
+      <li>Place your silver electrodes in the water.</li>
+      <li>Connect the power source and verify the current with your milliammeter.</li>
+      <li>Leave the app — it continues timing correctly even in the background.</li>
+    </ol>
+    <div class="note">
+      <p>
+        The timer anchors to the device wall clock, not a software tick counter.
+        It stays accurate even if the app is suspended, the screen locked, or
+        the device restarted.
+      </p>
+    </div>
+    <p>Timer controls:</p>
+    <ul>
+      <li><strong>Pause</strong> — suspends the countdown (also cancels pending notifications; they are rescheduled on Resume).</li>
+      <li><strong>Resume</strong> — continues from where it was paused.</li>
+      <li><strong>Reset</strong> — cancels the run and returns to idle. The session is <em>not</em> saved to History if reset before completion.</li>
+    </ul>
+
+    <!-- ─────────────────────────────────────────── Completion alarm -->
+    <h2>Completion Alarm</h2>
+    <p>
+      When the timer reaches zero, SilverTimer fires an alarm-level notification
+      that works similarly to your device's alarm clock:
+    </p>
+    <ul>
+      <li><strong>Foreground</strong> — the alarm sound plays directly through the app and a notification is shown.</li>
+      <li><strong>Background / screen locked</strong> — an OS-scheduled notification fires regardless of Do Not Disturb or battery optimisation settings.</li>
+      <li><strong>Android</strong> — uses <code>AlarmManager.setAlarmClock()</code>, which bypasses Doze mode entirely.</li>
+      <li><strong>iOS</strong> — uses <code>InterruptionLevel.timeSensitive</code>, which breaks through Focus modes.</li>
+    </ul>
+    <p>
+      Tap <strong>Reset</strong> on the completed timer screen to silence the alarm
+      and return to idle.
+    </p>
+
+    <!-- ─────────────────────────────────────────── Cleaning alarms -->
+    <h2>Electrode Cleaning Alarms</h2>
+    <p>
+      Silver oxide builds up on the positive electrode during electrolysis. Periodic
+      cleaning (reversing polarity) keeps particle size uniform and improves purity.
+      SilverTimer can remind you automatically at a regular interval.
+    </p>
+    <p>To set up cleaning alarms:</p>
+    <ol>
+      <li>Open <strong>Settings → Electrode Cleaning Alarm</strong>.</li>
+      <li>Toggle <strong>Enable Cleaning Alarm</strong> on.</li>
+      <li>Set the <strong>Interval</strong> (5–30 minutes or a custom value).</li>
+    </ol>
+    <p>
+      During a run, each cleaning alarm fires an OS notification (even when
+      backgrounded) and shows an in-app banner. The circular progress ring also
+      displays small markers at each alarm position.
+    </p>
+    <p>When a cleaning alarm fires:</p>
+    <ol>
+      <li>Briefly lift both electrodes out of the water.</li>
+      <li>Swap which wire connects to the positive and negative terminals (reverse polarity).</li>
+      <li>Return the electrodes to the water and continue.</li>
+    </ol>
+
+    <!-- ─────────────────────────────────────────── Settings overview -->
+    <h2>Settings Overview</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Setting</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Theme</strong></td>
+          <td>System (follows OS), Light, or Dark.</td>
+        </tr>
+        <tr>
+          <td><strong>Volume Unit</strong></td>
+          <td>mL or L — sets the default unit in the Calculator volume field.</td>
+        </tr>
+        <tr>
+          <td><strong>Default PPM</strong></td>
+          <td>Pre-fills the Target Concentration field on the Calculator tab.</td>
+        </tr>
+        <tr>
+          <td><strong>Default Current (mA)</strong></td>
+          <td>The electrode current used in all calculations. Measure with a milliammeter and update whenever your setup changes.</td>
+        </tr>
+        <tr>
+          <td><strong>Enable Notifications</strong></td>
+          <td>Master switch for all OS notifications (completion + cleaning).</td>
+        </tr>
+        <tr>
+          <td><strong>Enable Cleaning Alarm</strong></td>
+          <td>Enables periodic electrode cleaning reminders during a run.</td>
+        </tr>
+        <tr>
+          <td><strong>Cleaning Interval</strong></td>
+          <td>How often (in minutes) the cleaning alarm fires.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ─────────────────────────────────────────── History -->
+    <h2>Session History</h2>
+    <p>
+      Every run that completes normally is automatically saved to the
+      <strong>History</strong> tab. Each entry shows:
+    </p>
+    <ul>
+      <li>Date and time of completion</li>
+      <li>Water volume and target PPM</li>
+      <li>Current used (mA)</li>
+      <li>Total duration</li>
+    </ul>
+    <p>
+      To delete a single entry, swipe it left and tap the delete button.
+      To clear all history, tap the trash icon in the top-right corner.
+    </p>
+
+    <!-- ─────────────────────────────────────────── Tips -->
+    <h2>Tips for Best Results</h2>
+    <ul>
+      <li>
+        <strong>Always use distilled water.</strong> Tap water contains chloride
+        ions that react with silver to form silver chloride — a white precipitate
+        that is not colloidal silver.
+      </li>
+      <li>
+        <strong>Verify your current before every batch.</strong> Even small
+        deviations from the stored Default Current affect the final PPM. Update
+        Settings if your measurement differs by more than ±0.1 mA.
+      </li>
+      <li>
+        <strong>Use a magnetic stirrer</strong> or gently stir every few minutes
+        to keep ion concentration uniform throughout the water.
+      </li>
+      <li>
+        <strong>Keep electrodes parallel and fully submerged</strong> at a
+        consistent distance apart throughout the run.
+      </li>
+      <li>
+        <strong>Store colloidal silver</strong> in dark glass (amber or cobalt
+        blue) away from direct light, heat, and strong electromagnetic fields.
+        Do not use plastic containers.
+      </li>
+      <li>
+        <strong>Clean electrodes between batches</strong> with fine steel wool
+        or a soft cloth to remove any silver oxide buildup.
+      </li>
+    </ul>
+
+    <!-- ─────────────────────────────────────────── Disclaimer -->
+    <h2>Disclaimer</h2>
+    <p>
+      SilverTimer is a calculation and timing tool. The accuracy of the result
+      depends entirely on the accuracy of the current measurement and the purity
+      of the water and electrodes used. The author makes no medical claims
+      regarding colloidal silver.
+    </p>
+
+  </main>
+
+  <footer>
+    <p>SilverTimer &copy; Jörg Holzapfel</p>
+    <a class="back-link" href="../">← Back to SilverTimer web app</a>
+  </footer>
+
+</body>
+</html>
