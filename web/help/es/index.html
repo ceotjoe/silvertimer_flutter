@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cómo usar SilverTimer</title>
+  <link rel="stylesheet" href="../help.css" />
+</head>
+<body>
+
+  <nav class="lang-switcher">
+    <a href="../en/" class="lang-btn" hreflang="en">EN</a>
+    <a href="../de/" class="lang-btn" hreflang="de">DE</a>
+    <a href="../fr/" class="lang-btn" hreflang="fr">FR</a>
+    <a href="../es/" class="lang-btn active" hreflang="es">ES</a>
+  </nav>
+
+  <header>
+    <img src="../../icons/Icon-192.png" alt="Icono de SilverTimer" />
+    <h1>SilverTimer</h1>
+    <p>Instrucciones y Guía de uso</p>
+  </header>
+
+  <main>
+
+    <h2>¿Qué es SilverTimer?</h2>
+    <p>
+      SilverTimer es una calculadora y temporizador de electrólisis para plata
+      coloidal disponible en iOS, Android y la web. Utiliza la
+      <strong>ley de Faraday de la electrólisis</strong> para calcular con
+      precisión el tiempo de funcionamiento necesario para alcanzar una
+      concentración objetivo de plata (en PPM) para un volumen dado de agua
+      destilada y una corriente de electrodo conocida.
+    </p>
+    <p>
+      La aplicación tiene cuatro pestañas: <strong>Calculadora</strong>,
+      <strong>Temporizador</strong>, <strong>Historial</strong> e
+      <strong>Información</strong>.
+    </p>
+
+    <h2>Lo que necesitas</h2>
+    <ul>
+      <li><strong>Agua destilada</strong> — nunca uses agua del grifo ni agua mineral; los minerales disueltos interfieren con el proceso y producen plata impura</li>
+      <li><strong>Dos electrodos de plata pura</strong> — plata fina al 99,9 %; funcionan hilos, láminas o varillas</li>
+      <li><strong>Una fuente de alimentación CC estable</strong> — normalmente de 0,5 a 3 mA para uso doméstico</li>
+      <li><strong>Un miliamperímetro</strong> — para medir la corriente real que fluye por el circuito</li>
+      <li><strong>Un recipiente de vidrio limpio</strong> — del tamaño adecuado para tu volumen de producción</li>
+    </ul>
+
+    <h2>Paso 1 — Configurar los ajustes predeterminados</h2>
+    <p>
+      Antes de tu primer lote, abre la pestaña <strong>Configuración</strong>
+      (icono de engranaje en la esquina superior derecha de cualquier pantalla)
+      y establece:
+    </p>
+    <ul>
+      <li><strong>Corriente predeterminada (mA)</strong> — mide la corriente real con tu miliamperímetro e introduce ese valor. Este es el ajuste más importante para la precisión. Vuelve a medir antes de cada lote si tu fuente de alimentación varía.</li>
+      <li><strong>PPM predeterminado</strong> — tu concentración objetivo habitual (p. ej., 10 PPM). Esto rellena previamente la calculadora para que no tengas que introducirlo cada vez.</li>
+      <li><strong>Unidad de volumen predeterminada</strong> — elige mL o L según el tamaño habitual de tu recipiente.</li>
+      <li><strong>Activar notificaciones</strong> — activa esto para que la aplicación pueda avisarte cuando el temporizador termine.</li>
+    </ul>
+
+    <h2>Paso 2 — Introducir los parámetros</h2>
+    <p>Abre la pestaña <strong>Calculadora</strong> e introduce los dos campos:</p>
+    <ol>
+      <li><strong>Volumen de agua</strong> — la cantidad de agua destilada en tu recipiente. Toca el selector <code>mL / L</code> junto al campo para cambiar de unidad. También puedes usar los chips de selección rápida (p. ej., 250 mL, 500 mL, 1 L).</li>
+      <li><strong>Concentración objetivo</strong> — el nivel de PPM que quieres alcanzar. Los valores habituales son 10, 15, 20 o 25 PPM. Toca un chip preestablecido para una entrada rápida.</li>
+    </ol>
+    <div class="note">
+      <p>La corriente utilizada en el cálculo proviene de <strong>Configuración → Corriente predeterminada</strong>. Si la corriente de hoy difiere de tu valor predeterminado, actualiza la configuración antes de calcular.</p>
+    </div>
+
+    <h2>Paso 3 — Calcular</h2>
+    <p>Toca <strong>Calcular tiempo</strong>. La tarjeta de resultado muestra la duración de electrólisis requerida desglosada en horas, minutos y segundos.</p>
+    <p>La fórmula utilizada es la ley de Faraday de la electrólisis:</p>
+    <div class="formula">tiempo (s) = (PPM × Volumen_L × F) / (M_Ag × I_A × 1000)
+
+donde:
+  F    = 96.485 C/mol  — constante de Faraday
+  M_Ag = 107,87 g/mol  — masa molar de la plata
+  I_A  = corriente en amperios  (mA ÷ 1000)
+  PPM  = concentración objetivo en mg/L</div>
+    <p>Toca el icono <strong>ƒ</strong> (fórmula) en la tarjeta de resultado para ver este desglose dentro de la aplicación en cualquier momento.</p>
+
+    <h2>Paso 4 — Iniciar el temporizador</h2>
+    <p>Toca <strong>Iniciar temporizador</strong> en la tarjeta de resultado. La aplicación cambia a la pestaña <strong>Temporizador</strong> y comienza la cuenta atrás con un anillo de progreso circular.</p>
+    <ol>
+      <li>Coloca los electrodos de plata en el agua.</li>
+      <li>Conecta la fuente de alimentación y verifica la corriente con tu miliamperímetro.</li>
+      <li>Sal de la aplicación — continúa midiendo correctamente incluso en segundo plano.</li>
+    </ol>
+    <div class="note">
+      <p>El temporizador está anclado al reloj del dispositivo, no a un contador de ticks de software. Permanece preciso incluso si la aplicación se suspende, la pantalla se bloquea o el dispositivo se reinicia.</p>
+    </div>
+    <p>Controles del temporizador:</p>
+    <ul>
+      <li><strong>Pausar</strong> — suspende la cuenta atrás (también cancela las notificaciones pendientes; se reprograman al reanudar).</li>
+      <li><strong>Reanudar</strong> — continúa desde donde se pausó.</li>
+      <li><strong>Restablecer</strong> — cancela la sesión y vuelve al estado inactivo. La sesión <em>no</em> se guarda en el historial si se restablece antes de completarse.</li>
+    </ul>
+
+    <h2>Alarma de finalización</h2>
+    <p>Cuando el temporizador llega a cero, SilverTimer activa una notificación de nivel de alarma que funciona de manera similar al despertador de tu dispositivo:</p>
+    <ul>
+      <li><strong>En primer plano</strong> — el sonido de alarma se reproduce directamente a través de la aplicación y se muestra una notificación.</li>
+      <li><strong>En segundo plano / pantalla bloqueada</strong> — una notificación programada por el sistema operativo se activa independientemente de los ajustes de «No molestar» u optimización de batería.</li>
+      <li><strong>Android</strong> — usa <code>AlarmManager.setAlarmClock()</code>, que omite completamente el modo Doze.</li>
+      <li><strong>iOS</strong> — usa <code>InterruptionLevel.timeSensitive</code>, que atraviesa los modos de enfoque.</li>
+    </ul>
+    <p>Toca <strong>Restablecer</strong> en la pantalla del temporizador completado para silenciar la alarma y volver al estado inactivo.</p>
+
+    <h2>Alarmas de limpieza de electrodos</h2>
+    <p>El óxido de plata se acumula en el electrodo positivo durante la electrólisis. La limpieza periódica (inversión de polaridad) mantiene un tamaño de partícula uniforme y mejora la pureza. SilverTimer puede recordártelo automáticamente a intervalos regulares.</p>
+    <p>Para configurar las alarmas de limpieza:</p>
+    <ol>
+      <li>Abre <strong>Configuración → Alarma de limpieza de electrodos</strong>.</li>
+      <li>Activa <strong>Activar alarma de limpieza</strong>.</li>
+      <li>Establece el <strong>Intervalo</strong> (5 a 30 minutos o un valor personalizado).</li>
+    </ol>
+    <p>Durante una sesión, cada alarma de limpieza activa una notificación del sistema operativo (incluso en segundo plano) y muestra un banner dentro de la aplicación. El anillo de progreso circular también muestra pequeñas marcas en cada posición de alarma.</p>
+    <p>Cuando se activa una alarma de limpieza:</p>
+    <ol>
+      <li>Levanta brevemente ambos electrodos del agua.</li>
+      <li>Intercambia los cables (invierte las conexiones positivo y negativo — inversión de polaridad).</li>
+      <li>Vuelve a introducir los electrodos en el agua y continúa.</li>
+    </ol>
+
+    <h2>Resumen de ajustes</h2>
+    <table>
+      <thead><tr><th>Ajuste</th><th>Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Tema</strong></td><td>Sistema (sigue el SO), Claro u Oscuro.</td></tr>
+        <tr><td><strong>Unidad de volumen</strong></td><td>mL o L — establece la unidad predeterminada en el campo de volumen de la calculadora.</td></tr>
+        <tr><td><strong>PPM predeterminado</strong></td><td>Rellena previamente el campo Concentración objetivo en la pestaña Calculadora.</td></tr>
+        <tr><td><strong>Corriente predeterminada (mA)</strong></td><td>La corriente del electrodo utilizada en todos los cálculos. Mide con un miliamperímetro y actualiza cuando tu configuración cambie.</td></tr>
+        <tr><td><strong>Activar notificaciones</strong></td><td>Interruptor principal para todas las notificaciones del sistema operativo (finalización + limpieza).</td></tr>
+        <tr><td><strong>Activar alarma de limpieza</strong></td><td>Activa recordatorios periódicos de limpieza de electrodos durante una sesión.</td></tr>
+        <tr><td><strong>Intervalo de limpieza</strong></td><td>Con qué frecuencia (en minutos) se activa la alarma de limpieza.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Historial de sesiones</h2>
+    <p>Cada sesión que se completa normalmente se guarda automáticamente en la pestaña <strong>Historial</strong>. Cada entrada muestra:</p>
+    <ul>
+      <li>Fecha y hora de finalización</li>
+      <li>Volumen de agua y PPM objetivo</li>
+      <li>Corriente utilizada (mA)</li>
+      <li>Duración total</li>
+    </ul>
+    <p>Para eliminar una entrada, deslízala hacia la izquierda y toca el botón de eliminar. Para borrar todo el historial, toca el icono de papelera en la esquina superior derecha.</p>
+
+    <h2>Consejos para mejores resultados</h2>
+    <ul>
+      <li><strong>Usa siempre agua destilada.</strong> El agua del grifo contiene iones de cloruro que reaccionan con la plata para formar cloruro de plata — un precipitado blanco que no es plata coloidal.</li>
+      <li><strong>Verifica tu corriente antes de cada lote.</strong> Incluso pequeñas desviaciones de la corriente predeterminada almacenada afectan el PPM final. Actualiza la configuración si tu medición difiere en más de ±0,1 mA.</li>
+      <li><strong>Usa un agitador magnético</strong> o agita suavemente cada pocos minutos para mantener una concentración iónica uniforme en el agua.</li>
+      <li><strong>Mantén los electrodos paralelos y completamente sumergidos</strong> a una distancia constante durante toda la sesión.</li>
+      <li><strong>Almacena la plata coloidal</strong> en vidrio oscuro (ámbar o azul cobalto) lejos de la luz directa, el calor y los campos electromagnéticos fuertes. No uses recipientes de plástico.</li>
+      <li><strong>Limpia los electrodos entre lotes</strong> con lana de acero fina o un paño suave para eliminar la acumulación de óxido de plata.</li>
+    </ul>
+
+    <h2>Aviso legal</h2>
+    <p>SilverTimer es una herramienta de cálculo y temporización. La precisión del resultado depende completamente de la precisión de la medición de la corriente y de la pureza del agua y los electrodos utilizados. El autor no realiza ninguna afirmación médica sobre la plata coloidal.</p>
+
+  </main>
+
+  <footer>
+    <p>SilverTimer &copy; Jörg Holzapfel</p>
+    <a class="back-link" href="../../">← Volver a la aplicación web SilverTimer</a>
+  </footer>
+
+</body>
+</html>

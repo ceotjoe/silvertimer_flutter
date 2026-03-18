@@ -173,3 +173,93 @@ lib/
 |------------|--------|
 | `POST_NOTIFICATIONS` | Timer completion and cleaning alarm notifications (Android 13+) |
 | `SCHEDULE_EXACT_ALARM` / `USE_EXACT_ALARM` | Precise notification scheduling |
+| `RECEIVE_BOOT_COMPLETED` | Reschedule exact alarms after device reboot |
+| `WAKE_LOCK` | Wake screen when the completion alarm fires |
+| `USE_FULL_SCREEN_INTENT` | Show alarm on the lock screen (Android 14+) |
+
+---
+
+## Releasing a New Version
+
+Version is defined in one place: `version: X.Y.Z+N` in **`pubspec.yaml`**.
+All platforms (Android `versionCode`/`versionName`, iOS/macOS `CFBundleVersion`/`CFBundleShortVersionString`) inherit it automatically at build time. The Info screen reads it at runtime via `package_info_plus`.
+
+### Version format
+
+```
+version: MAJOR.MINOR.PATCH+BUILD
+         └─────────────┘ └─────┘
+            semver          build number (monotonically increasing,
+                            never reset — required by App Store / Play Store)
+```
+
+| Bump | When to use |
+|------|-------------|
+| `patch` | Bug fixes, copy changes, dependency updates — nothing new for the user |
+| `minor` | New user-visible feature, backward compatible |
+| `major` | Breaking data change (e.g. incompatible DB migration) or major milestone |
+
+### Day-to-day release workflow
+
+```
+  dev branch                          main branch
+  ──────────────────────────────────  ────────────────────────────────
+  1. Write features / fixes
+  2. Update CHANGELOG.md
+     (move [Unreleased] → [X.Y.Z])
+  3. Bump version (choose one):
+     a) Local script:
+        ./scripts/bump_version.sh minor
+        git push origin dev
+     b) GitHub Actions:
+        Actions → "Bump Version"
+        → Run workflow (on dev)
+  4. Open PR: dev → main ──────────► 5. Merge PR
+                                       6. deploy-web.yml triggers:
+                                          • builds Flutter web
+                                          • deploys to GitHub Pages
+                                          • creates annotated tag vX.Y.Z
+```
+
+### Option A — Local script
+
+```bash
+git checkout dev && git pull origin dev
+
+# Choose bump type: patch | minor | major | 1.2.3
+./scripts/bump_version.sh minor
+
+# Script pauses — update CHANGELOG.md, then press Enter
+# Script commits pubspec.yaml + CHANGELOG.md together
+
+git push origin dev
+# Open PR: dev → main
+```
+
+### Option B — GitHub Actions (no local checkout needed)
+
+1. Go to **Actions → Bump Version → Run workflow**
+2. Select branch `dev`, choose `patch / minor / major` (or enter a custom version)
+3. The workflow commits the version bump to `dev` automatically
+4. Update `CHANGELOG.md` on `dev` manually (edit on GitHub or via a local push)
+5. Open PR: **dev → main**
+
+### After merge
+
+The `deploy-web.yml` workflow fires automatically (because `pubspec.yaml` is in the path filter). It:
+
+1. Builds the Flutter web app
+2. Deploys to GitHub Pages
+3. Creates and pushes annotated tag `vX.Y.Z` on `main`
+
+The tag is idempotent — if it already exists the step skips silently.
+
+### Creating a GitHub Release (optional)
+
+```bash
+gh release create vX.Y.Z --title "SilverTimer X.Y.Z" --notes-file CHANGELOG.md
+```
+
+Or use the GitHub UI: **Releases → Draft a new release → select the tag**.
+
+---
