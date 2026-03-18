@@ -1,0 +1,5 @@
+app_identifier("com.ITWebService.SilverTimer")
+
+for_platform :android do
+  package_name("com.it_web_service.silvertimer")
+end

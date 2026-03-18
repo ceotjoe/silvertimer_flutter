@@ -9,6 +9,7 @@ on:
       - 'android/**'
       - 'pubspec.yaml'
       - 'pubspec.lock'
+      - 'fastlane/**'
       - '.github/workflows/deploy-android.yml'
   workflow_dispatch:
 
@@ -27,61 +28,16 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Generate code
-        run: dart run build_runner build --delete-conflicting-outputs
-
-      - name: Decode keystore
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/upload-keystore.jks
-
-      - name: Create key.properties
-        run: |
-          cat > android/key.properties <<EOF
-          storePassword=${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword=${{ secrets.KEY_PASSWORD }}
-          keyAlias=${{ secrets.KEY_ALIAS }}
-          storeFile=../upload-keystore.jks
-          EOF
-
-      - name: Build app bundle
-        run: flutter build appbundle --release
-
-      - name: Debug - Verify Play API access
-        env:
-          PLAY_KEY: ${{ secrets.PLAY_STORE_JSON_KEY }}
-        run: |
-          echo "$PLAY_KEY" > /tmp/play-key.json
-          pip3 install google-auth requests --quiet
-          python3 - <<'PYEOF'
-          import json, sys, requests
-          from google.oauth2 import service_account
-          import google.auth.transport.requests
-
-          SCOPES = ['https://www.googleapis.com/auth/androidpublisher']
-          PACKAGE = 'com.it_web_service.silvertimer'
-
-          key_data = json.loads(open('/tmp/play-key.json').read())
-          print(f"Service account: {key_data.get('client_email', 'MISSING')}")
-
-          creds = service_account.Credentials.from_service_account_info(key_data, scopes=SCOPES)
-          creds.refresh(google.auth.transport.requests.Request())
-          print("Token obtained OK")
-
-          r = requests.post(
-              f'https://androidpublisher.googleapis.com/androidpublisher/v3/applications/{PACKAGE}/edits',
-              headers={'Authorization': f'Bearer {creds.token}'},
-              json={})
-          print(f'HTTP {r.status_code}: {r.text}')
-          sys.exit(0 if r.status_code == 200 else 1)
-          PYEOF
-
-      - name: Upload to Play Store
-        uses: r0adkll/upload-google-play@v1
+      - uses: ruby/setup-ruby@v1
         with:
-          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_JSON_KEY }}
-          packageName: com.it_web_service.silvertimer
-          releaseFiles: build/app/outputs/bundle/release/*.aab
-          track: internal
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Deploy to Play Store
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          PLAY_STORE_JSON_KEY: ${{ secrets.PLAY_STORE_JSON_KEY }}
+        run: bundle exec fastlane android deploy
