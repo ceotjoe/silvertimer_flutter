@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SilverTimer – Anleitung</title>
+  <link rel="stylesheet" href="../help.css" />
+</head>
+<body>
+
+  <nav class="lang-switcher">
+    <a href="../en/" class="lang-btn" hreflang="en">EN</a>
+    <a href="../de/" class="lang-btn active" hreflang="de">DE</a>
+    <a href="../fr/" class="lang-btn" hreflang="fr">FR</a>
+    <a href="../es/" class="lang-btn" hreflang="es">ES</a>
+  </nav>
+
+  <header>
+    <img src="../../icons/Icon-192.png" alt="SilverTimer Icon" />
+    <h1>SilverTimer</h1>
+    <p>Anleitung &amp; Benutzerhandbuch</p>
+  </header>
+
+  <main>
+
+    <h2>Was ist SilverTimer?</h2>
+    <p>
+      SilverTimer ist ein Rechner und Timer für die kolloidale Silber-Elektrolyse für iOS,
+      Android und das Web. Er nutzt das <strong>Faradaysche Gesetz der Elektrolyse</strong>,
+      um die exakte Laufzeit zu berechnen, die benötigt wird, um eine gewünschte
+      Silberkonzentration (in PPM) für ein gegebenes Volumen destilliertem Wasser und
+      einen bekannten Elektrodenstrom zu erreichen.
+    </p>
+    <p>
+      Die App hat vier Reiter: <strong>Rechner</strong>, <strong>Timer</strong>,
+      <strong>Verlauf</strong> und <strong>Info</strong>.
+    </p>
+
+    <h2>Was Sie benötigen</h2>
+    <ul>
+      <li><strong>Destilliertes Wasser</strong> — verwenden Sie niemals Leitungswasser oder Mineralwasser; gelöste Mineralien stören den Prozess und erzeugen verunreinigtes Silber</li>
+      <li><strong>Zwei reine Silberelektroden</strong> — 99,9 % Feinsilber; Drähte, Streifen oder Stäbe sind alle geeignet</li>
+      <li><strong>Eine stabile Gleichstromquelle</strong> — typischerweise 0,5–3 mA für den Heimgebrauch</li>
+      <li><strong>Ein Milliamperemeter</strong> — um den tatsächlich fließenden Strom zu messen</li>
+      <li><strong>Einen sauberen Glasbehälter</strong> — entsprechend Ihrem Chargenvolumen</li>
+    </ul>
+
+    <h2>Schritt 1 — Standardeinstellungen konfigurieren</h2>
+    <p>
+      Bevor Sie Ihre erste Charge herstellen, öffnen Sie den Reiter <strong>Einstellungen</strong>
+      (Zahnrad-Symbol oben rechts in jedem Bildschirm) und legen Sie Folgendes fest:
+    </p>
+    <ul>
+      <li><strong>Standard-Strom (mA)</strong> — messen Sie den tatsächlichen Strom mit Ihrem Milliamperemeter und geben Sie diesen Wert ein. Dies ist die wichtigste Einstellung für genaue Ergebnisse. Messen Sie vor jeder Charge neu, wenn Ihre Stromquelle schwankt.</li>
+      <li><strong>Standard-PPM</strong> — Ihre übliche Zielkonzentration (z. B. 10 PPM). Dies füllt den Rechner vorab aus, sodass Sie ihn nicht jedes Mal neu eingeben müssen.</li>
+      <li><strong>Standard-Volumeneinheit</strong> — wählen Sie mL oder L je nach Ihrer üblichen Behältergröße.</li>
+      <li><strong>Benachrichtigungen aktivieren</strong> — schalten Sie dies ein, damit die App Sie benachrichtigen kann, wenn der Timer abläuft.</li>
+    </ul>
+
+    <h2>Schritt 2 — Parameter eingeben</h2>
+    <p>Öffnen Sie den Reiter <strong>Rechner</strong> und füllen Sie die beiden Felder aus:</p>
+    <ol>
+      <li><strong>Wasservolumen</strong> — die Menge destillierten Wassers in Ihrem Behälter. Tippen Sie auf den Schalter <code>mL / L</code> neben dem Feld, um die Einheit zu wechseln. Sie können auch die Schnellauswahl-Chips verwenden (z. B. 250 mL, 500 mL, 1 L).</li>
+      <li><strong>Zielkonzentration</strong> — der gewünschte PPM-Wert. Übliche Werte sind 10, 15, 20 oder 25 PPM. Tippen Sie auf einen Voreinstellungs-Chip für die schnelle Eingabe.</li>
+    </ol>
+    <div class="note">
+      <p>Der für die Berechnung verwendete Strom stammt aus <strong>Einstellungen → Standard-Strom</strong>. Wenn der heutige Strom von Ihrem Standardwert abweicht, aktualisieren Sie die Einstellungen vor der Berechnung.</p>
+    </div>
+
+    <h2>Schritt 3 — Berechnen</h2>
+    <p>Tippen Sie auf <strong>Zeit berechnen</strong>. Die Ergebniskarte zeigt die erforderliche Elektrolysedauer aufgeteilt in Stunden, Minuten und Sekunden.</p>
+    <p>Die verwendete Formel ist das Faradaysche Gesetz der Elektrolyse:</p>
+    <div class="formula">Zeit (s) = (PPM × Volumen_L × F) / (M_Ag × I_A × 1000)
+
+wobei:
+  F    = 96.485 C/mol  — Faraday-Konstante
+  M_Ag = 107,87 g/mol  — Molmasse von Silber
+  I_A  = Strom in Ampere  (mA ÷ 1000)
+  PPM  = Zielkonzentration in mg/L</div>
+    <p>Tippen Sie auf das <strong>ƒ</strong> (Formel)-Symbol auf der Ergebniskarte, um diese Aufschlüsselung jederzeit in der App zu sehen.</p>
+
+    <h2>Schritt 4 — Timer starten</h2>
+    <p>Tippen Sie auf <strong>Timer starten</strong> auf der Ergebniskarte. Die App wechselt zum Reiter <strong>Timer</strong> und beginnt den Countdown mit einem kreisförmigen Fortschrittsring.</p>
+    <ol>
+      <li>Legen Sie Ihre Silberelektroden ins Wasser.</li>
+      <li>Schließen Sie die Stromquelle an und überprüfen Sie den Strom mit Ihrem Milliamperemeter.</li>
+      <li>Verlassen Sie die App — sie zählt auch im Hintergrund korrekt weiter.</li>
+    </ol>
+    <div class="note">
+      <p>Der Timer ist an die Geräteuhr verankert, nicht an einen Software-Tick-Zähler. Er bleibt genau, auch wenn die App pausiert, der Bildschirm gesperrt oder das Gerät neu gestartet wird.</p>
+    </div>
+    <p>Timer-Steuerung:</p>
+    <ul>
+      <li><strong>Pause</strong> — hält den Countdown an (storniert auch ausstehende Benachrichtigungen; diese werden bei Fortsetzen neu geplant).</li>
+      <li><strong>Fortsetzen</strong> — setzt an der Pausenstelle fort.</li>
+      <li><strong>Zurücksetzen</strong> — bricht die Sitzung ab und kehrt zum Leerlauf zurück. Die Sitzung wird <em>nicht</em> im Verlauf gespeichert, wenn sie vor dem Abschluss zurückgesetzt wird.</li>
+    </ul>
+
+    <h2>Abschlussalarm</h2>
+    <p>Wenn der Timer auf null läuft, gibt SilverTimer eine Alarm-Benachrichtigung aus, die ähnlich wie der Wecker Ihres Geräts funktioniert:</p>
+    <ul>
+      <li><strong>Im Vordergrund</strong> — der Alarmton wird direkt über die App abgespielt und eine Benachrichtigung wird angezeigt.</li>
+      <li><strong>Im Hintergrund / Bildschirm gesperrt</strong> — eine vom Betriebssystem geplante Benachrichtigung wird unabhängig von den Einstellungen für „Nicht stören" oder Batterieoptimierung ausgelöst.</li>
+      <li><strong>Android</strong> — verwendet <code>AlarmManager.setAlarmClock()</code>, der den Doze-Modus vollständig umgeht.</li>
+      <li><strong>iOS</strong> — verwendet <code>InterruptionLevel.timeSensitive</code>, der den Fokusmodus durchbricht.</li>
+    </ul>
+    <p>Tippen Sie auf der abgeschlossenen Timer-Anzeige auf <strong>Zurücksetzen</strong>, um den Alarm zu beenden und zum Leerlauf zurückzukehren.</p>
+
+    <h2>Elektroden-Reinigungsalarme</h2>
+    <p>Während der Elektrolyse bildet sich Silberoxid an der positiven Elektrode. Regelmäßiges Reinigen (Polarität umkehren) hält die Partikelgröße gleichmäßig und verbessert die Reinheit. SilverTimer kann Sie automatisch in regelmäßigen Abständen erinnern.</p>
+    <p>So richten Sie Reinigungsalarme ein:</p>
+    <ol>
+      <li>Öffnen Sie <strong>Einstellungen → Elektroden-Reinigungsalarm</strong>.</li>
+      <li>Schalten Sie <strong>Reinigungsalarm aktivieren</strong> ein.</li>
+      <li>Legen Sie das <strong>Intervall</strong> fest (5–30 Minuten oder einen benutzerdefinierten Wert).</li>
+    </ol>
+    <p>Während einer Sitzung löst jeder Reinigungsalarm eine Betriebssystem-Benachrichtigung (auch im Hintergrund) und ein In-App-Banner aus. Der kreisförmige Fortschrittsring zeigt auch kleine Markierungen an jeder Alarmposition.</p>
+    <p>Wenn ein Reinigungsalarm auslöst:</p>
+    <ol>
+      <li>Heben Sie beide Elektroden kurz aus dem Wasser.</li>
+      <li>Tauschen Sie die Drähte (positiver und negativer Anschluss werden vertauscht — Polarität umkehren).</li>
+      <li>Tauchen Sie die Elektroden wieder ein und setzen Sie fort.</li>
+    </ol>
+
+    <h2>Einstellungen im Überblick</h2>
+    <table>
+      <thead><tr><th>Einstellung</th><th>Beschreibung</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Design</strong></td><td>Systemeinstellung (folgt dem Betriebssystem), Hell oder Dunkel.</td></tr>
+        <tr><td><strong>Volumeneinheit</strong></td><td>mL oder L — legt die Standardeinheit im Volumenfeld des Rechners fest.</td></tr>
+        <tr><td><strong>Standard-PPM</strong></td><td>Füllt das Zielkonzentrations-Feld im Rechner vorab aus.</td></tr>
+        <tr><td><strong>Standard-Strom (mA)</strong></td><td>Der für alle Berechnungen verwendete Elektrodenstrom. Messen Sie mit einem Milliamperemeter und aktualisieren Sie ihn bei Änderungen Ihres Setups.</td></tr>
+        <tr><td><strong>Benachrichtigungen aktivieren</strong></td><td>Hauptschalter für alle Betriebssystem-Benachrichtigungen (Abschluss + Reinigung).</td></tr>
+        <tr><td><strong>Reinigungsalarm aktivieren</strong></td><td>Aktiviert regelmäßige Erinnerungen zur Elektrodenreinigung während einer Sitzung.</td></tr>
+        <tr><td><strong>Reinigungsintervall</strong></td><td>Wie oft (in Minuten) der Reinigungsalarm auslöst.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Sitzungsverlauf</h2>
+    <p>Jede normal abgeschlossene Sitzung wird automatisch im Reiter <strong>Verlauf</strong> gespeichert. Jeder Eintrag zeigt:</p>
+    <ul>
+      <li>Datum und Uhrzeit der Fertigstellung</li>
+      <li>Wasservolumen und Ziel-PPM</li>
+      <li>Verwendeter Strom (mA)</li>
+      <li>Gesamtdauer</li>
+    </ul>
+    <p>Um einen einzelnen Eintrag zu löschen, wischen Sie ihn nach links und tippen Sie auf den Löschen-Button. Um den gesamten Verlauf zu löschen, tippen Sie auf das Papierkorb-Symbol in der oberen rechten Ecke.</p>
+
+    <h2>Tipps für beste Ergebnisse</h2>
+    <ul>
+      <li><strong>Verwenden Sie immer destilliertes Wasser.</strong> Leitungswasser enthält Chloridionen, die mit Silber zu Silberchlorid reagieren — einem weißen Niederschlag, der kein kolloidales Silber ist.</li>
+      <li><strong>Überprüfen Sie Ihren Strom vor jeder Charge.</strong> Selbst kleine Abweichungen vom gespeicherten Standard-Strom beeinflussen die endgültige PPM. Aktualisieren Sie die Einstellungen, wenn Ihre Messung um mehr als ±0,1 mA abweicht.</li>
+      <li><strong>Verwenden Sie einen Magnetrührer</strong> oder rühren Sie alle paar Minuten sanft, um die Ionenkonzentration im Wasser gleichmäßig zu halten.</li>
+      <li><strong>Halten Sie die Elektroden parallel und vollständig eingetaucht</strong> in gleichbleibendem Abstand während der gesamten Sitzung.</li>
+      <li><strong>Lagern Sie kolloidales Silber</strong> in dunklem Glas (Bernstein- oder Kobaltblau) abseits von direktem Licht, Wärme und starken elektromagnetischen Feldern. Verwenden Sie keine Kunststoffbehälter.</li>
+      <li><strong>Reinigen Sie die Elektroden zwischen den Chargen</strong> mit feiner Stahlwolle oder einem weichen Tuch, um aufgebautes Silberoxid zu entfernen.</li>
+    </ul>
+
+    <h2>Haftungsausschluss</h2>
+    <p>SilverTimer ist ein Berechnungs- und Zeiterfassungswerkzeug. Die Genauigkeit des Ergebnisses hängt vollständig von der Genauigkeit der Strommessung sowie der Reinheit des verwendeten Wassers und der Elektroden ab. Der Autor erhebt keine medizinischen Ansprüche bezüglich kolloidalem Silber.</p>
+
+  </main>
+
+  <footer>
+    <p>SilverTimer &copy; Jörg Holzapfel</p>
+    <a class="back-link" href="../../">← Zurück zur SilverTimer-Web-App</a>
+  </footer>
+
+</body>
+</html>

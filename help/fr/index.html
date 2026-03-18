@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comment utiliser SilverTimer</title>
+  <link rel="stylesheet" href="../help.css" />
+</head>
+<body>
+
+  <nav class="lang-switcher">
+    <a href="../en/" class="lang-btn" hreflang="en">EN</a>
+    <a href="../de/" class="lang-btn" hreflang="de">DE</a>
+    <a href="../fr/" class="lang-btn active" hreflang="fr">FR</a>
+    <a href="../es/" class="lang-btn" hreflang="es">ES</a>
+  </nav>
+
+  <header>
+    <img src="../../icons/Icon-192.png" alt="Icône SilverTimer" />
+    <h1>SilverTimer</h1>
+    <p>Instructions &amp; Guide d'utilisation</p>
+  </header>
+
+  <main>
+
+    <h2>Qu'est-ce que SilverTimer&nbsp;?</h2>
+    <p>
+      SilverTimer est une calculatrice et un minuteur d'électrolyse pour l'argent
+      colloïdal, disponible sur iOS, Android et le web. Il utilise la
+      <strong>loi de Faraday sur l'électrolyse</strong> pour calculer précisément
+      la durée de fonctionnement nécessaire pour atteindre une concentration cible
+      en argent (en PPM) pour un volume donné d'eau distillée et un courant
+      d'électrode connu.
+    </p>
+    <p>
+      L'application comporte quatre onglets : <strong>Calculateur</strong>,
+      <strong>Minuteur</strong>, <strong>Historique</strong> et <strong>Infos</strong>.
+    </p>
+
+    <h2>Ce dont vous avez besoin</h2>
+    <ul>
+      <li><strong>Eau distillée</strong> — n'utilisez jamais d'eau du robinet ni d'eau minérale ; les minéraux dissous perturbent le processus et produisent de l'argent impur</li>
+      <li><strong>Deux électrodes en argent pur</strong> — argent fin à 99,9 % ; fils, lamelles ou tiges conviennent tous</li>
+      <li><strong>Une source d'alimentation CC stable</strong> — délivrant généralement 0,5 à 3 mA pour un usage domestique</li>
+      <li><strong>Un milliampèremètre</strong> — pour mesurer le courant réel traversant le circuit</li>
+      <li><strong>Un récipient en verre propre</strong> — dimensionné selon votre volume de production</li>
+    </ul>
+
+    <h2>Étape 1 — Configurer les paramètres par défaut</h2>
+    <p>
+      Avant votre premier lot, ouvrez l'onglet <strong>Paramètres</strong> (icône
+      d'engrenage en haut à droite de n'importe quel écran) et définissez :
+    </p>
+    <ul>
+      <li><strong>Courant par défaut (mA)</strong> — mesurez le courant réel avec votre milliampèremètre et saisissez cette valeur. C'est le paramètre le plus important pour la précision. Mesurez à nouveau avant chaque lot si votre alimentation varie.</li>
+      <li><strong>PPM par défaut</strong> — votre concentration cible habituelle (par ex. 10 PPM). Cela préremplit la calculatrice pour éviter une ressaisie à chaque fois.</li>
+      <li><strong>Unité de volume par défaut</strong> — choisissez mL ou L selon la taille habituelle de votre récipient.</li>
+      <li><strong>Activer les notifications</strong> — activez cette option pour que l'application puisse vous alerter lorsque le minuteur se termine.</li>
+    </ul>
+
+    <h2>Étape 2 — Saisir vos paramètres</h2>
+    <p>Ouvrez l'onglet <strong>Calculateur</strong> et remplissez les deux champs :</p>
+    <ol>
+      <li><strong>Volume d'eau</strong> — la quantité d'eau distillée dans votre récipient. Appuyez sur le commutateur <code>mL / L</code> à côté du champ pour changer d'unité. Vous pouvez également utiliser les puces de sélection rapide (par ex. 250 mL, 500 mL, 1 L).</li>
+      <li><strong>Concentration cible</strong> — le niveau PPM souhaité. Les valeurs courantes sont 10, 15, 20 ou 25 PPM. Appuyez sur une puce prédéfinie pour une saisie rapide.</li>
+    </ol>
+    <div class="note">
+      <p>Le courant utilisé dans le calcul provient de <strong>Paramètres → Courant par défaut</strong>. Si le courant d'aujourd'hui diffère de votre valeur par défaut, mettez à jour les paramètres avant de calculer.</p>
+    </div>
+
+    <h2>Étape 3 — Calculer</h2>
+    <p>Appuyez sur <strong>Calculer la durée</strong>. La carte de résultat affiche la durée d'électrolyse requise, décomposée en heures, minutes et secondes.</p>
+    <p>La formule utilisée est la loi de Faraday sur l'électrolyse :</p>
+    <div class="formula">temps (s) = (PPM × Volume_L × F) / (M_Ag × I_A × 1000)
+
+où :
+  F    = 96 485 C/mol  — constante de Faraday
+  M_Ag = 107,87 g/mol  — masse molaire de l'argent
+  I_A  = courant en ampères  (mA ÷ 1000)
+  PPM  = concentration cible en mg/L</div>
+    <p>Appuyez sur l'icône <strong>ƒ</strong> (formule) sur la carte de résultat pour voir cette décomposition dans l'application à tout moment.</p>
+
+    <h2>Étape 4 — Démarrer le minuteur</h2>
+    <p>Appuyez sur <strong>Démarrer le minuteur</strong> sur la carte de résultat. L'application passe à l'onglet <strong>Minuteur</strong> et commence le compte à rebours avec un anneau de progression circulaire.</p>
+    <ol>
+      <li>Placez vos électrodes en argent dans l'eau.</li>
+      <li>Connectez l'alimentation et vérifiez le courant avec votre milliampèremètre.</li>
+      <li>Quittez l'application — elle continue de mesurer le temps correctement en arrière-plan.</li>
+    </ol>
+    <div class="note">
+      <p>Le minuteur est ancré à l'horloge murale de l'appareil, et non à un compteur de ticks logiciel. Il reste précis même si l'application est suspendue, l'écran verrouillé ou l'appareil redémarré.</p>
+    </div>
+    <p>Commandes du minuteur :</p>
+    <ul>
+      <li><strong>Pause</strong> — suspend le compte à rebours (annule également les notifications en attente ; elles sont replanifiées à la reprise).</li>
+      <li><strong>Reprendre</strong> — continue là où il s'était arrêté.</li>
+      <li><strong>Réinitialiser</strong> — annule la session et revient à l'état inactif. La session n'est <em>pas</em> enregistrée dans l'historique si elle est réinitialisée avant la fin.</li>
+    </ul>
+
+    <h2>Alarme de fin</h2>
+    <p>Lorsque le minuteur atteint zéro, SilverTimer déclenche une notification de niveau alarme qui fonctionne comme le réveil de votre appareil :</p>
+    <ul>
+      <li><strong>Au premier plan</strong> — la sonnerie d'alarme est jouée directement via l'application et une notification est affichée.</li>
+      <li><strong>En arrière-plan / écran verrouillé</strong> — une notification planifiée par le système d'exploitation se déclenche indépendamment des paramètres «&nbsp;Ne pas déranger&nbsp;» ou d'optimisation de la batterie.</li>
+      <li><strong>Android</strong> — utilise <code>AlarmManager.setAlarmClock()</code>, qui contourne entièrement le mode Doze.</li>
+      <li><strong>iOS</strong> — utilise <code>InterruptionLevel.timeSensitive</code>, qui perce les modes Focus.</li>
+    </ul>
+    <p>Appuyez sur <strong>Réinitialiser</strong> sur l'écran du minuteur complété pour couper l'alarme et revenir à l'état inactif.</p>
+
+    <h2>Alarmes de nettoyage des électrodes</h2>
+    <p>L'oxyde d'argent s'accumule sur l'électrode positive pendant l'électrolyse. Un nettoyage périodique (inversion de polarité) maintient une taille de particules uniforme et améliore la pureté. SilverTimer peut vous rappeler automatiquement à intervalle régulier.</p>
+    <p>Pour configurer les alarmes de nettoyage :</p>
+    <ol>
+      <li>Ouvrez <strong>Paramètres → Alarme de nettoyage des électrodes</strong>.</li>
+      <li>Activez <strong>Activer l'alarme de nettoyage</strong>.</li>
+      <li>Définissez l'<strong>Intervalle</strong> (5 à 30 minutes ou une valeur personnalisée).</li>
+    </ol>
+    <p>Pendant une session, chaque alarme de nettoyage déclenche une notification du système d'exploitation (même en arrière-plan) et affiche une bannière dans l'application. L'anneau de progression circulaire affiche également de petits marqueurs à chaque position d'alarme.</p>
+    <p>Lorsqu'une alarme de nettoyage se déclenche :</p>
+    <ol>
+      <li>Soulevez brièvement les deux électrodes hors de l'eau.</li>
+      <li>Échangez les fils (inversez les connexions positif et négatif — inversion de polarité).</li>
+      <li>Remettez les électrodes dans l'eau et continuez.</li>
+    </ol>
+
+    <h2>Aperçu des paramètres</h2>
+    <table>
+      <thead><tr><th>Paramètre</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Thème</strong></td><td>Système (suit l'OS), Clair ou Sombre.</td></tr>
+        <tr><td><strong>Unité de volume</strong></td><td>mL ou L — définit l'unité par défaut dans le champ de volume de la calculatrice.</td></tr>
+        <tr><td><strong>PPM par défaut</strong></td><td>Préremplit le champ Concentration cible dans l'onglet Calculateur.</td></tr>
+        <tr><td><strong>Courant par défaut (mA)</strong></td><td>Le courant d'électrode utilisé dans tous les calculs. Mesurez avec un milliampèremètre et mettez à jour en cas de changement de configuration.</td></tr>
+        <tr><td><strong>Activer les notifications</strong></td><td>Interrupteur principal pour toutes les notifications du système d'exploitation (fin + nettoyage).</td></tr>
+        <tr><td><strong>Activer l'alarme de nettoyage</strong></td><td>Active les rappels périodiques de nettoyage des électrodes pendant une session.</td></tr>
+        <tr><td><strong>Intervalle de nettoyage</strong></td><td>La fréquence (en minutes) à laquelle l'alarme de nettoyage se déclenche.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Historique des sessions</h2>
+    <p>Chaque session qui se termine normalement est automatiquement enregistrée dans l'onglet <strong>Historique</strong>. Chaque entrée affiche :</p>
+    <ul>
+      <li>Date et heure de fin</li>
+      <li>Volume d'eau et PPM cible</li>
+      <li>Courant utilisé (mA)</li>
+      <li>Durée totale</li>
+    </ul>
+    <p>Pour supprimer une entrée, faites-la glisser vers la gauche et appuyez sur le bouton de suppression. Pour effacer tout l'historique, appuyez sur l'icône de corbeille en haut à droite.</p>
+
+    <h2>Conseils pour de meilleurs résultats</h2>
+    <ul>
+      <li><strong>Utilisez toujours de l'eau distillée.</strong> L'eau du robinet contient des ions chlorure qui réagissent avec l'argent pour former du chlorure d'argent — un précipité blanc qui n'est pas de l'argent colloïdal.</li>
+      <li><strong>Vérifiez votre courant avant chaque lot.</strong> Même de petits écarts par rapport au courant par défaut enregistré affectent le PPM final. Mettez à jour les paramètres si votre mesure diffère de plus de ±0,1 mA.</li>
+      <li><strong>Utilisez un agitateur magnétique</strong> ou remuez doucement toutes les quelques minutes pour maintenir une concentration ionique uniforme dans l'eau.</li>
+      <li><strong>Gardez les électrodes parallèles et entièrement immergées</strong> à une distance constante pendant toute la session.</li>
+      <li><strong>Conservez l'argent colloïdal</strong> dans du verre teinté (ambre ou bleu cobalt) à l'abri de la lumière directe, de la chaleur et des champs électromagnétiques forts. N'utilisez pas de récipients en plastique.</li>
+      <li><strong>Nettoyez les électrodes entre les lots</strong> avec de la laine d'acier fine ou un chiffon doux pour éliminer l'accumulation d'oxyde d'argent.</li>
+    </ul>
+
+    <h2>Avertissement</h2>
+    <p>SilverTimer est un outil de calcul et de chronométrage. La précision du résultat dépend entièrement de la précision de la mesure du courant et de la pureté de l'eau et des électrodes utilisées. L'auteur ne fait aucune déclaration médicale concernant l'argent colloïdal.</p>
+
+  </main>
+
+  <footer>
+    <p>SilverTimer &copy; Jörg Holzapfel</p>
+    <a class="back-link" href="../../">← Retour à l'application web SilverTimer</a>
+  </footer>
+
+</body>
+</html>
