@@ -6,6 +6,30 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-03-18
+
+### Added
+- Info tab (4th navigation tab) with About screen: app name, live version number,
+  app icon, author credit ("by Jörg Holzapfel"), and link to hosted help page
+- Multilingual help page at `/silvertimer_flutter/help/` with automatic browser
+  language detection redirecting to EN, DE, FR, or ES sub-pages; manual language
+  switcher on every page; shared CSS (`help.css`)
+- `package_info_plus` integration — version number on Info screen always reflects
+  the actual installed build
+- `url_launcher` integration — help link opens in the system browser
+
+### Changed
+- App display name corrected to "SilverTimer" on all platforms (was
+  "silvertimer_flutter" on Android, "Silvertimer Flutter" on iOS,
+  "silvertimer_flutter" on macOS)
+- Alarm-clock notifications upgraded: separate high-priority alarm channel with
+  `AudioAttributesUsage.alarm`, `AndroidScheduleMode.alarmClock` (bypasses Doze),
+  `InterruptionLevel.timeSensitive` on iOS/macOS (bypasses Focus/DND), looping
+  in-app alarm sound via `audioplayers`, full-screen intent on lock screen
+- Version bump tooling added: `scripts/bump_version.sh`, GitHub Actions
+  `bump-version.yml` workflow, auto-tagging step in `deploy-web.yml`
+- `CHANGELOG.md` introduced
+
 ## [1.0.0] - 2026-03-18
 
 ### Added
@@ -31,5 +55,6 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - GitHub Actions workflow deploying Flutter web to GitHub Pages on every push
   to `main`
 
-[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/ceotjoe/silvertimer_flutter/releases/tag/v1.0.0
