@@ -51,6 +51,10 @@ android/.gradle/
 android/captures/
 android/local.properties
 android/key.properties
+android/*.jks
+android/*.keystore
+*.p12
+*.mobileprovision
 
 # iOS CocoaPods
 ios/Pods/

@@ -6,6 +6,29 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-03-18
+
+### Added
+- Fastlane integration for Android and iOS CI/CD pipelines — replaces raw
+  shell scripts with `upload_to_play_store` and `upload_to_testflight` for
+  richer error output and more reliable codesigning
+
+### Changed
+- CI codesigning switched to manual style (`CODE_SIGN_STYLE = Manual`) in
+  Xcode project; certificate and provisioning profile injected via GitHub
+  Secrets at build time
+- CocoaPods added to Gemfile so `pod` is available in the Ruby 3.2
+  environment used by Fastlane — fixes "CocoaPods broken" error in CI
+
+### Fixed
+- `build.gradle.kts` unresolved `java.util` / `java.io` references and
+  deprecated `jvmTarget` DSL corrected
+- Android versionCode aligned to 35 to match existing Play Store history
+- Provisioning profile UUID extraction now uses a temp file instead of
+  piping to PlistBuddy (pipe seek not supported)
+- Fastfile `sh()` commands prefixed with `cd ..` to run from project root
+- AAB upload path corrected to absolute `ROOT`-based path
+
 ## [2.0.1] - 2026-03-18
 
 ### Added
