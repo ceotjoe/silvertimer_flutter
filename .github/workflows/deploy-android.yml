@@ -2,15 +2,8 @@ name: Deploy Android to Play Store
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'lib/**'
-      - 'android/**'
-      - 'pubspec.yaml'
-      - 'pubspec.lock'
-      - 'fastlane/**'
-      - '.github/workflows/deploy-android.yml'
+    tags:
+      - 'v*.*.*'
   workflow_dispatch:
 
 env:

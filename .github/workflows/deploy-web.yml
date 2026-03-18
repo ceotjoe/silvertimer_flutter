@@ -2,15 +2,8 @@ name: Deploy Flutter Web to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'lib/**'
-      - 'web/**'
-      - 'assets/**'
-      - 'pubspec.yaml'
-      - 'pubspec.lock'
-      - '.github/workflows/deploy-web.yml'
+    tags:
+      - 'v*.*.*'
   # Allow manual trigger from the Actions tab
   workflow_dispatch:
 
@@ -24,10 +17,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          # Full history required so annotated tags can be pushed (shallow
-          # clones cannot push tag objects).
-          fetch-depth: 0
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -57,20 +46,3 @@ jobs:
           # Keep the CNAME file if a custom domain is configured later
           keep_files: false
 
-      # ── Auto-tag ────────────────────────────────────────────────────────────
-      # Creates an annotated git tag vX.Y.Z on main after every successful
-      # deploy. Idempotent: skips silently if the tag already exists, so
-      # re-running the workflow manually is safe.
-      - name: Create release tag
-        run: |
-          RAW=$(grep -E '^version: ' pubspec.yaml | sed 's/version: //')
-          TAG="v${RAW%%+*}"
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git ls-remote --tags origin "refs/tags/$TAG" | grep -q "$TAG"; then
-            echo "Tag $TAG already exists on remote — skipping."
-          else
-            git tag -a "$TAG" -m "Release $TAG"
-            git push origin "$TAG"
-            echo "✓ Tagged $TAG"
-          fi

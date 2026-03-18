@@ -1,0 +1,45 @@
+name: Create Release Tag
+
+# Runs whenever pubspec.yaml is updated on main (i.e. after a version-bump PR
+# is merged). Reads the semver from pubspec.yaml and pushes an annotated tag
+# vX.Y.Z. That tag push is what triggers the three deploy workflows.
+#
+# Idempotent: if the tag already exists (e.g. workflow re-run) it skips silently.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'pubspec.yaml'
+
+permissions:
+  contents: write   # required to push the tag
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history required so annotated tag objects can be pushed
+          # (shallow clones cannot push tag objects).
+          fetch-depth: 0
+
+      - name: Read version and create tag
+        run: |
+          RAW=$(grep -E '^version: ' pubspec.yaml | sed 's/version: //')
+          TAG="v${RAW%%+*}"
+          echo "Version in pubspec.yaml: $RAW  →  tag: $TAG"
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git ls-remote --tags origin "refs/tags/$TAG" | grep -q "$TAG"; then
+            echo "Tag $TAG already exists on remote — skipping."
+          else
+            git tag -a "$TAG" -m "Release $TAG"
+            git push origin "$TAG"
+            echo "✓ Created and pushed tag $TAG"
+          fi

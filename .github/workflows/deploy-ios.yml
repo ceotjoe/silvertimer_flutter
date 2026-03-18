@@ -2,15 +2,8 @@ name: Deploy iOS to App Store
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'lib/**'
-      - 'ios/**'
-      - 'pubspec.yaml'
-      - 'pubspec.lock'
-      - 'fastlane/**'
-      - '.github/workflows/deploy-ios.yml'
+    tags:
+      - 'v*.*.*'
   workflow_dispatch:
 
 env:
