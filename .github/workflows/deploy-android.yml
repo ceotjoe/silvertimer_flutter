@@ -49,6 +49,35 @@ jobs:
       - name: Build app bundle
         run: flutter build appbundle --release
 
+      - name: Debug - Verify Play API access
+        env:
+          PLAY_KEY: ${{ secrets.PLAY_STORE_JSON_KEY }}
+        run: |
+          echo "$PLAY_KEY" > /tmp/play-key.json
+          pip3 install google-auth requests --quiet
+          python3 - <<'PYEOF'
+          import json, sys, requests
+          from google.oauth2 import service_account
+          import google.auth.transport.requests
+
+          SCOPES = ['https://www.googleapis.com/auth/androidpublisher']
+          PACKAGE = 'com.it_web_service.silvertimer'
+
+          key_data = json.loads(open('/tmp/play-key.json').read())
+          print(f"Service account: {key_data.get('client_email', 'MISSING')}")
+
+          creds = service_account.Credentials.from_service_account_info(key_data, scopes=SCOPES)
+          creds.refresh(google.auth.transport.requests.Request())
+          print("Token obtained OK")
+
+          r = requests.post(
+              f'https://androidpublisher.googleapis.com/androidpublisher/v3/applications/{PACKAGE}/edits',
+              headers={'Authorization': f'Bearer {creds.token}'},
+              json={})
+          print(f'HTTP {r.status_code}: {r.text}')
+          sys.exit(0 if r.status_code == 200 else 1)
+          PYEOF
+
       - name: Upload to Play Store
         uses: r0adkll/upload-google-play@v1
         with:

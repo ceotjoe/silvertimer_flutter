@@ -85,8 +85,27 @@ jobs:
           </plist>
           EOF
 
-      - name: Build IPA
-        run: flutter build ipa --release --export-options-plist=ios/ExportOptions.plist
+      - name: Build Flutter (no code sign)
+        run: flutter build ios --release --no-codesign
+
+      - name: Archive
+        run: |
+          xcodebuild archive \
+            -workspace ios/Runner.xcworkspace \
+            -scheme Runner \
+            -configuration Release \
+            -archivePath "$RUNNER_TEMP/SilverTimer.xcarchive" \
+            CODE_SIGN_STYLE=Manual \
+            "CODE_SIGN_IDENTITY=Apple Distribution" \
+            "PROVISIONING_PROFILE=$PROFILE_UUID" \
+            DEVELOPMENT_TEAM=Q486NF4XF6
+
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/SilverTimer.xcarchive" \
+            -exportOptionsPlist ios/ExportOptions.plist \
+            -exportPath "$RUNNER_TEMP/export"
 
       - name: Upload to App Store Connect
         run: |
@@ -96,7 +115,7 @@ jobs:
             > "$API_KEY_DIR/AuthKey_${{ secrets.APPSTORE_API_KEY_ID }}.p8"
           xcrun altool --upload-app \
             --type ios \
-            --file $(find build/ios/ipa -name "*.ipa" | head -1) \
+            --file $(find "$RUNNER_TEMP/export" -name "*.ipa" | head -1) \
             --apiKey "${{ secrets.APPSTORE_API_KEY_ID }}" \
             --apiIssuer "${{ secrets.APPSTORE_ISSUER_ID }}" \
             --apiKeyPath "$API_KEY_DIR/AuthKey_${{ secrets.APPSTORE_API_KEY_ID }}.p8"
