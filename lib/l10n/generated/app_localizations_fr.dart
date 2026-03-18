@@ -165,7 +165,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get defaultCurrentLabel => 'Courant par défaut';
 
   @override
-  String get typicalCurrentRange => 'Plage typique : 0,5–3 mA';
+  String get typicalCurrentRange => 'Plage typique : 5 – 40 mA';
 
   @override
   String get electrodeCleaningSection => 'Alarme de nettoyage des électrodes';

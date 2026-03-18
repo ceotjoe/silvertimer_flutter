@@ -270,7 +270,7 @@
     "description": "Label for the default current (mA) input in Settings."
   },
 
-  "typicalCurrentRange": "Typical range: 0.5–3 mA",
+  "typicalCurrentRange": "Typical range: 5 – 40 mA",
   "@typicalCurrentRange": {
     "description": "Subtitle hint below the default current input."
   },

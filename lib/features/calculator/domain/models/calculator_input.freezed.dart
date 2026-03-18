@@ -158,10 +158,10 @@ class __$$CalculatorInputImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CalculatorInputImpl extends _CalculatorInput {
   const _$CalculatorInputImpl({
-    this.volumeValue = 0.0,
+    this.volumeValue = 500.0,
     this.volumeUnit = VolumeUnit.ml,
     this.currentMilliamps = 0.0,
-    this.targetPpm = 10.0,
+    this.targetPpm = 25.0,
   }) : super._();
 
   factory _$CalculatorInputImpl.fromJson(Map<String, dynamic> json) =>

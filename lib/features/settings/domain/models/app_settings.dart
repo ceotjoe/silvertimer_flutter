@@ -10,7 +10,7 @@ abstract class AppSettings with _$AppSettings {
     @Default(ThemeMode.system) ThemeMode themeMode,
     @Default(VolumeUnit.ml) VolumeUnit defaultVolumeUnit,
     @Default(true) bool notificationsEnabled,
-    @Default(10.0) double defaultPpm,
+    @Default(25.0) double defaultPpm,
     @Default(10.0) double defaultCurrentMa,
     @Default(true) bool cleaningAlarmsEnabled,
     @Default(10) int cleaningIntervalMinutes,

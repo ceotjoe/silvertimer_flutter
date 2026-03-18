@@ -6,6 +6,35 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-03-18
+
+### Added
+- Android and iOS CI/CD workflows deploying AAB to Play Store internal track
+  and IPA to TestFlight on every push to `main`
+- `ios/ExportOptions.plist` for App Store IPA export
+
+### Changed
+- Android `applicationId` changed to `com.it_web_service.silvertimer` to match
+  existing Play Store listing
+- iOS and macOS bundle identifier changed to `com.ITWebService.SilverTimer` to
+  match existing App Store listing
+- Android `MainActivity.kt` moved to new package `com.it_web_service.silvertimer`
+- Settings screen: unit labels (PPM / mA) moved to the left of their input fields
+  for cleaner alignment; both fields now display integer values only
+- Settings screen: theme selector centred
+- Settings screen: version number now reads dynamically from `package_info_plus`
+  instead of being hardcoded
+- Typical current range hint updated from "0.5–3 mA" to "5–40 mA" across all
+  four locales (EN, DE, FR, ES)
+- Default first-launch values updated: Water Volume 500 ml, Target Concentration
+  25 PPM
+- Fixed: settings values (PPM, mA) were not persisted when navigating away without
+  dismissing the keyboard — now saved in `dispose()`
+- Fixed: `build.gradle.kts` imports and deprecated `jvmTarget` DSL corrected for
+  compatibility with current Kotlin Gradle plugin
+- CLAUDE.md: versioning and documentation rules strengthened; absolute script path
+  added
+
 ## [2.0.0] - 2026-03-18
 
 ### Added
@@ -55,6 +84,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - GitHub Actions workflow deploying Flutter web to GitHub Pages on every push
   to `main`
 
-[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/ceotjoe/silvertimer_flutter/releases/tag/v1.0.0

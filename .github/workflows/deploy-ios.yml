@@ -75,7 +75,7 @@ jobs:
                   <string>${PROFILE_UUID}</string>
               </dict>
               <key>uploadSymbols</key>
-              <true/>
+              <false/>
               <key>uploadBitcode</key>
               <false/>
           </dict>

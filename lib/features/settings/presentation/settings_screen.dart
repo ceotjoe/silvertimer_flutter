@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculator_input.dart';
 import 'package:silvertimer_flutter/features/settings/presentation/settings_controller.dart';
@@ -23,7 +24,7 @@ class SettingsScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(l10n.themeLabel, style: Theme.of(context).textTheme.bodyMedium),
                 const SizedBox(height: 8),
@@ -72,23 +73,41 @@ class SettingsScreen extends ConsumerWidget {
           ),
           ListTile(
             title: Text(l10n.defaultPpmLabel),
-            trailing: SizedBox(
-              width: 80,
-              child: _PpmField(
-                value: settings.defaultPpm,
-                onChanged: notifier.setDefaultPpm,
-              ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 40,
+                  child: Text(l10n.ppmSuffix, style: Theme.of(context).textTheme.bodyMedium),
+                ),
+                SizedBox(
+                  width: 80,
+                  child: _PpmField(
+                    value: settings.defaultPpm,
+                    onChanged: notifier.setDefaultPpm,
+                  ),
+                ),
+              ],
             ),
           ),
           ListTile(
             title: Text(l10n.defaultCurrentLabel),
             subtitle: Text(l10n.typicalCurrentRange),
-            trailing: SizedBox(
-              width: 100,
-              child: _CurrentMaField(
-                value: settings.defaultCurrentMa,
-                onChanged: notifier.setDefaultCurrentMa,
-              ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 40,
+                  child: Text(l10n.maSuffix, style: Theme.of(context).textTheme.bodyMedium),
+                ),
+                SizedBox(
+                  width: 80,
+                  child: _CurrentMaField(
+                    value: settings.defaultCurrentMa,
+                    onChanged: notifier.setDefaultCurrentMa,
+                  ),
+                ),
+              ],
             ),
           ),
 
@@ -152,10 +171,13 @@ class SettingsScreen extends ConsumerWidget {
               ),
             ],
           ),
-          ListTile(
-            leading: const Icon(Icons.info_outline),
-            title: Text(l10n.versionLabel),
-            trailing: const Text('1.0.0'),
+          FutureBuilder(
+            future: PackageInfo.fromPlatform(),
+            builder: (context, snapshot) => ListTile(
+              leading: const Icon(Icons.info_outline),
+              title: Text(l10n.versionLabel),
+              trailing: Text(snapshot.data?.version ?? '—'),
+            ),
           ),
         ],
       ),
@@ -192,15 +214,30 @@ class _PpmField extends StatefulWidget {
 
 class _PpmFieldState extends State<_PpmField> {
   late final TextEditingController _controller;
+  late final FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.value.toInt().toString());
+    _focusNode = FocusNode()..addListener(_onFocusChange);
+  }
+
+  void _onFocusChange() {
+    if (!_focusNode.hasFocus) _save(_controller.text);
+  }
+
+  void _save(String v) {
+    final parsed = double.tryParse(v);
+    if (parsed != null && parsed > 0) widget.onChanged(parsed);
   }
 
   @override
   void dispose() {
+    _save(_controller.text);
+    _focusNode
+      ..removeListener(_onFocusChange)
+      ..dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -209,13 +246,11 @@ class _PpmFieldState extends State<_PpmField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: _controller,
+      focusNode: _focusNode,
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-      decoration: InputDecoration(suffixText: context.l10n.ppmSuffix, isDense: true),
-      onSubmitted: (v) {
-        final parsed = double.tryParse(v);
-        if (parsed != null && parsed > 0) widget.onChanged(parsed);
-      },
+      decoration: const InputDecoration(isDense: true),
+      onSubmitted: _save,
     );
   }
 }
@@ -231,15 +266,30 @@ class _CurrentMaField extends StatefulWidget {
 
 class _CurrentMaFieldState extends State<_CurrentMaField> {
   late final TextEditingController _controller;
+  late final FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.value.toString());
+    _controller = TextEditingController(text: widget.value.toInt().toString());
+    _focusNode = FocusNode()..addListener(_onFocusChange);
+  }
+
+  void _onFocusChange() {
+    if (!_focusNode.hasFocus) _save(_controller.text);
+  }
+
+  void _save(String v) {
+    final parsed = double.tryParse(v);
+    if (parsed != null && parsed > 0) widget.onChanged(parsed);
   }
 
   @override
   void dispose() {
+    _save(_controller.text);
+    _focusNode
+      ..removeListener(_onFocusChange)
+      ..dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -248,13 +298,11 @@ class _CurrentMaFieldState extends State<_CurrentMaField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: _controller,
-      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-      decoration: InputDecoration(suffixText: context.l10n.maSuffix, isDense: true),
-      onSubmitted: (v) {
-        final parsed = double.tryParse(v);
-        if (parsed != null && parsed > 0) widget.onChanged(parsed);
-      },
+      focusNode: _focusNode,
+      keyboardType: TextInputType.number,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      decoration: const InputDecoration(isDense: true),
+      onSubmitted: _save,
     );
   }
 }

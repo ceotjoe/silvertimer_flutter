@@ -18,7 +18,7 @@ class SettingsRepository {
     final volumeUnitIndex = _prefs.getInt(AppConstants.prefDefaultVolumeUnit) ?? 0;
     final notificationsEnabled =
         _prefs.getBool(AppConstants.prefNotificationsEnabled) ?? true;
-    final defaultPpm = _prefs.getDouble(AppConstants.prefDefaultPpm) ?? 10.0;
+    final defaultPpm = _prefs.getDouble(AppConstants.prefDefaultPpm) ?? 25.0;
     final defaultCurrentMa = _prefs.getDouble(AppConstants.prefDefaultCurrentMa) ?? 10.0;
     final cleaningAlarmsEnabled =
         _prefs.getBool(AppConstants.prefCleaningAlarmsEnabled) ?? true;
