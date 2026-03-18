@@ -32,6 +32,11 @@ class AppScaffold extends StatelessWidget {
             selectedIcon: const Icon(Icons.history),
             label: context.l10n.navHistory,
           ),
+          NavigationDestination(
+            icon: const Icon(Icons.info_outline),
+            selectedIcon: const Icon(Icons.info),
+            label: context.l10n.navInfo,
+          ),
         ],
       ),
     );
@@ -40,6 +45,7 @@ class AppScaffold extends StatelessWidget {
   int _locationToIndex(String location) {
     if (location.startsWith('/timer')) return 1;
     if (location.startsWith('/history')) return 2;
+    if (location.startsWith('/info')) return 3;
     return 0;
   }
 
@@ -51,6 +57,8 @@ class AppScaffold extends StatelessWidget {
         context.go('/timer');
       case 2:
         context.go('/history');
+      case 3:
+        context.go('/info');
     }
   }
 }

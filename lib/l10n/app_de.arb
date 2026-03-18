@@ -76,5 +76,10 @@
   "notifCompleteBody": "Ihre kolloidale Silberelektrolyse ist beendet.",
   "notifCleanTitle": "Elektroden reinigen",
   "notifCleanBody": "Zeit, Ihre Elektroden zu reinigen (Alarm #{alarmNumber}).",
-  "notifChannelDescription": "SilverTimer Elektrolyse-Abschlussbenachrichtigungen"
+  "notifChannelDescription": "SilverTimer Elektrolyse-Abschlussbenachrichtigungen",
+
+  "navInfo": "Info",
+  "infoTitle": "Info",
+  "infoAuthor": "von Jörg Holzapfel",
+  "infoHowToUse": "So verwendest du SilverTimer"
 }

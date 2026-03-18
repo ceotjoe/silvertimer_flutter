@@ -32,9 +32,10 @@ dependencies:
   # Local Storage - Settings
   shared_preferences: ^2.3.3
 
-  # Notifications
+  # Notifications & alarm sound
   flutter_local_notifications: ^18.0.1
   timezone: ^0.9.4
+  audioplayers: ^6.1.0
 
   # Platform detection
   universal_platform: ^1.1.0
@@ -48,6 +49,10 @@ dependencies:
 
   # Icons
   cupertino_icons: ^1.0.8
+
+  # Info screen
+  package_info_plus: ^8.1.2
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -63,3 +68,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+
+  assets:
+    - assets/sounds/
+    - assets/images/

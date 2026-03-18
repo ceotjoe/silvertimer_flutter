@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -8,13 +10,19 @@ import 'package:universal_platform/universal_platform.dart';
 
 part 'notification_service.g.dart';
 
+/// Vibration pattern for the alarm: 0 ms delay, then 600/200/600/200/600 ms on/off.
+final _alarmVibration = Int64List.fromList([0, 600, 200, 600, 200, 600]);
+
+/// Vibration pattern for cleaning reminders: gentler single pulse.
+final _cleaningVibration = Int64List.fromList([0, 400]);
+
 class NotificationService {
   NotificationService();
 
   final _plugin = FlutterLocalNotificationsPlugin();
   bool _initialized = false;
 
-  // Android 12+ (API 31+): whether the user has granted SCHEDULE_EXACT_ALARM.
+  // Android 12+ (API 31+): whether SCHEDULE_EXACT_ALARM is granted.
   // Falls back to inexact scheduling when false.
   bool _canScheduleExact = true;
 
@@ -38,10 +46,9 @@ class NotificationService {
       ),
     );
 
-    // On Android 12+, check whether exact alarms are already permitted.
     if (UniversalPlatform.isAndroid) {
-      final androidPlugin = _plugin
-          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+      final androidPlugin =
+          _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
       _canScheduleExact = await androidPlugin?.canScheduleExactNotifications() ?? true;
     }
 
@@ -52,14 +59,12 @@ class NotificationService {
     if (UniversalPlatform.isWeb || !_initialized) return false;
 
     if (UniversalPlatform.isAndroid) {
-      final androidPlugin = _plugin
-          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+      final androidPlugin =
+          _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
 
-      // 1. Request POST_NOTIFICATIONS (Android 13+).
       final granted = await androidPlugin?.requestNotificationsPermission() ?? false;
 
-      // 2. Request SCHEDULE_EXACT_ALARM (Android 12+).
-      //    Opens the system "Alarms & Reminders" settings page if not yet granted.
+      // Request SCHEDULE_EXACT_ALARM — opens "Alarms & Reminders" settings on Android 12+.
       await androidPlugin?.requestExactAlarmsPermission();
       _canScheduleExact = await androidPlugin?.canScheduleExactNotifications() ?? true;
 
@@ -91,6 +96,29 @@ class NotificationService {
     return false;
   }
 
+  // ---------------------------------------------------------------------------
+  // Android notification details
+  // ---------------------------------------------------------------------------
+
+  /// Full alarm-level details: alarm audio stream, max importance, full-screen
+  /// intent, strong vibration. Used for timer completion.
+  AndroidNotificationDetails _androidAlarmDetails(String channelDescription) =>
+      AndroidNotificationDetails(
+        AppConstants.alarmChannelId,
+        AppConstants.alarmChannelName,
+        channelDescription: channelDescription,
+        importance: Importance.max,
+        priority: Priority.max,
+        playSound: true,
+        sound: const RawResourceAndroidNotificationSound(AppConstants.alarmSoundRaw),
+        audioAttributesUsage: AudioAttributesUsage.alarm,
+        fullScreenIntent: true,
+        category: AndroidNotificationCategory.alarm,
+        vibrationPattern: _alarmVibration,
+        enableVibration: true,
+      );
+
+  /// Standard high-priority details for cleaning reminders.
   AndroidNotificationDetails _androidDetails(String channelDescription) =>
       AndroidNotificationDetails(
         AppConstants.notificationChannelId,
@@ -99,14 +127,31 @@ class NotificationService {
         importance: Importance.high,
         priority: Priority.high,
         playSound: true,
+        vibrationPattern: _cleaningVibration,
+        enableVibration: true,
       );
 
-  /// Exact scheduling when permitted, inexact (~1 min tolerance) as fallback.
-  AndroidScheduleMode get _scheduleMode => _canScheduleExact
-      ? AndroidScheduleMode.exactAllowWhileIdle
-      : AndroidScheduleMode.inexactAllowWhileIdle;
+  // ---------------------------------------------------------------------------
+  // Schedule mode
+  // ---------------------------------------------------------------------------
 
-  /// Shows an immediate completion notification (app is in foreground).
+  /// For the completion alarm: use alarmClock (AlarmManager.setAlarmClock) which
+  /// bypasses Doze/battery optimisation entirely. Falls back to inexact if the
+  /// exact-alarm permission was not granted.
+  AndroidScheduleMode get _alarmScheduleMode =>
+      _canScheduleExact ? AndroidScheduleMode.alarmClock : AndroidScheduleMode.inexactAllowWhileIdle;
+
+  /// For cleaning reminders: exactAllowWhileIdle is sufficient.
+  AndroidScheduleMode get _scheduleMode =>
+      _canScheduleExact
+          ? AndroidScheduleMode.exactAllowWhileIdle
+          : AndroidScheduleMode.inexactAllowWhileIdle;
+
+  // ---------------------------------------------------------------------------
+  // Completion notification (timer done)
+  // ---------------------------------------------------------------------------
+
+  /// Shows an immediate alarm-level notification when the app is in the foreground.
   Future<void> showCompletionNotification(
     String title,
     String body, {
@@ -114,10 +159,12 @@ class NotificationService {
   }) async {
     if (UniversalPlatform.isWeb || !_initialized) return;
 
+    // timeSensitive: breaks through Focus/DND on iOS.
     const darwinDetails = DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: true,
       presentSound: true,
+      interruptionLevel: InterruptionLevel.timeSensitive,
     );
 
     await _plugin.show(
@@ -125,16 +172,17 @@ class NotificationService {
       title,
       body,
       NotificationDetails(
-        android: _androidDetails(channelDescription),
+        android: _androidAlarmDetails(channelDescription),
         iOS: darwinDetails,
         macOS: darwinDetails,
       ),
     );
   }
 
-  /// Schedules a notification to fire at [fireAt] as a reliable OS-level alarm.
-  /// Fires even if the app is backgrounded or killed. Uses exact alarms when
-  /// permitted, falling back to inexact when the user has not granted the permission.
+  /// Schedules an alarm-level OS notification at [fireAt].
+  /// Fires even if the app is backgrounded or killed.
+  /// Uses AndroidScheduleMode.alarmClock — bypasses all Android battery
+  /// optimisations and Doze mode, identical to the system alarm clock.
   Future<void> scheduleCompletionNotification(
     DateTime fireAt,
     String title,
@@ -149,6 +197,7 @@ class NotificationService {
       presentAlert: true,
       presentBadge: true,
       presentSound: true,
+      interruptionLevel: InterruptionLevel.timeSensitive,
     );
 
     await _plugin.zonedSchedule(
@@ -157,16 +206,20 @@ class NotificationService {
       body,
       tzFireAt,
       NotificationDetails(
-        android: _androidDetails(channelDescription),
+        android: _androidAlarmDetails(channelDescription),
         iOS: darwinDetails,
         macOS: darwinDetails,
       ),
-      androidScheduleMode: _scheduleMode,
+      androidScheduleMode: _alarmScheduleMode,
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
 
-  /// Shows an immediate cleaning alarm notification (app is in foreground).
+  // ---------------------------------------------------------------------------
+  // Cleaning alarm notifications
+  // ---------------------------------------------------------------------------
+
+  /// Shows an immediate cleaning reminder notification (app in foreground).
   Future<void> showCleaningAlarmNotification(
     int alarmNumber,
     String title,
@@ -179,6 +232,7 @@ class NotificationService {
       presentAlert: true,
       presentBadge: false,
       presentSound: true,
+      interruptionLevel: InterruptionLevel.timeSensitive,
     );
 
     await _plugin.show(
@@ -193,8 +247,7 @@ class NotificationService {
     );
   }
 
-  /// Schedules a cleaning alarm notification at [fireAt].
-  /// Uses exact alarms when permitted, falling back to inexact.
+  /// Schedules a cleaning reminder notification at [fireAt].
   Future<void> scheduleCleaningNotification(
     DateTime fireAt,
     int alarmNumber,
@@ -211,6 +264,7 @@ class NotificationService {
       presentAlert: true,
       presentBadge: false,
       presentSound: true,
+      interruptionLevel: InterruptionLevel.timeSensitive,
     );
 
     await _plugin.zonedSchedule(
@@ -228,6 +282,8 @@ class NotificationService {
     );
   }
 
+  // ---------------------------------------------------------------------------
+
   /// Cancels all pending/delivered notifications.
   Future<void> cancelAll() async {
     if (UniversalPlatform.isWeb || !_initialized) return;
@@ -235,8 +291,7 @@ class NotificationService {
   }
 }
 
-// keepAlive: true — NotificationService must never be disposed while the app
-// is running; losing _initialized/_canScheduleExact state would silently
-// break all background notifications.
+// keepAlive: true — must never be disposed; losing _initialized/_canScheduleExact
+// state would silently break all background notifications.
 @Riverpod(keepAlive: true)
 NotificationService notificationService(Ref ref) => NotificationService();

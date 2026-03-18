@@ -6,9 +6,13 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
     <!-- Reschedule exact alarms after device reboot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- Wake the screen when the alarm fires (full-screen intent) -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <!-- Show full-screen notification on lock screen (Android 14+: user must grant) -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
 
     <application
-        android:label="silvertimer_flutter"
+        android:label="SilverTimer"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -58,6 +62,11 @@
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
+        </intent>
+        <!-- url_launcher: allow opening https links in a browser (Android 11+) -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https"/>
         </intent>
     </queries>
 </manifest>

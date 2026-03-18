@@ -555,6 +555,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'SilverTimer electrolysis completion notifications'**
   String get notifChannelDescription;
+
+  /// Label for the Info tab in the bottom navigation bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Info'**
+  String get navInfo;
+
+  /// AppBar title on the Info screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Info'**
+  String get infoTitle;
+
+  /// Author credit shown on the Info screen.
+  ///
+  /// In en, this message translates to:
+  /// **'by Jörg Holzapfel'**
+  String get infoAuthor;
+
+  /// Tappable link label that opens the instructions page in the browser.
+  ///
+  /// In en, this message translates to:
+  /// **'How to use SilverTimer'**
+  String get infoHowToUse;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

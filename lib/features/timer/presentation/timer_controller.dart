@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:silvertimer_flutter/core/constants/app_constants.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculation_result.dart';
 import 'package:silvertimer_flutter/features/history/domain/models/session_record.dart';
 import 'package:silvertimer_flutter/features/history/presentation/history_controller.dart';
@@ -17,6 +19,10 @@ class TimerController extends _$TimerController {
   StreamSubscription<int>? _tickerSub;
   CalculationResult? _lastResult;
   NotificationStrings? _notificationStrings;
+
+  /// Audio player used to sound the alarm in-app (foreground).
+  /// Kept alive for the lifetime of the controller so it can be stopped on reset.
+  final AudioPlayer _alarmPlayer = AudioPlayer();
 
   // --- Electrode cleaning alarm state ---
   /// Sorted list of elapsed Durations at which cleaning alarms fire.
@@ -110,6 +116,7 @@ class TimerController extends _$TimerController {
   /// Reset the timer back to idle.
   void reset() {
     _cancelTicker();
+    _stopAlarm();
     ref.read(notificationServiceProvider).cancelAll();
     _lastResult = null;
     _notificationStrings = null;
@@ -174,8 +181,14 @@ class TimerController extends _$TimerController {
   void _complete(Duration total) {
     _cancelTicker();
 
-    // Fire immediate in-app completion notification (guarded: strings may be
-    // null if the app was killed and restarted mid-session).
+    // Play the alarm sound directly — works even when the app is in the
+    // foreground where OS notifications may be suppressed or quieter.
+    // Also fires when the app resumes after being backgrounded (onAppResumed).
+    _playAlarm();
+
+    // Fire OS notification as well so the sound plays on the lock screen /
+    // notification shade (guarded: strings may be null if the app was killed
+    // and restarted mid-session).
     final strings = _notificationStrings;
     if (strings != null) {
       ref.read(notificationServiceProvider).showCompletionNotification(
@@ -207,6 +220,18 @@ class TimerController extends _$TimerController {
   void _cancelTicker() {
     _tickerSub?.cancel();
     _tickerSub = null;
+  }
+
+  /// Plays the alarm sound on a loop so the user is notified even when the
+  /// app is in the foreground. Stopped by [_stopAlarm] via reset().
+  Future<void> _playAlarm() async {
+    await _alarmPlayer.setReleaseMode(ReleaseMode.loop);
+    await _alarmPlayer.play(AssetSource(AppConstants.alarmSoundAsset.replaceFirst('assets/', '')));
+  }
+
+  /// Stops the looping alarm sound.
+  Future<void> _stopAlarm() async {
+    await _alarmPlayer.stop();
   }
 
   /// Builds the cleaning alarm schedule and pre-schedules all future OS notifications.

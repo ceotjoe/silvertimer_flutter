@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/calculator_controller.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/calculator_screen.dart';
 import 'package:silvertimer_flutter/features/history/presentation/history_screen.dart';
+import 'package:silvertimer_flutter/features/info/presentation/info_screen.dart';
 import 'package:silvertimer_flutter/features/settings/presentation/settings_screen.dart';
 import 'package:silvertimer_flutter/features/timer/presentation/timer_screen.dart';
 import 'package:silvertimer_flutter/shared/widgets/app_scaffold.dart';
@@ -41,6 +42,12 @@ GoRouter appRouter(Ref ref) {
             path: '/history',
             pageBuilder: (context, state) => const NoTransitionPage(
               child: HistoryScreen(),
+            ),
+          ),
+          GoRoute(
+            path: '/info',
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: InfoScreen(),
             ),
           ),
         ],

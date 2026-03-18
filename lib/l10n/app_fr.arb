@@ -76,5 +76,10 @@
   "notifCompleteBody": "Votre électrolyse d''argent colloïdal est terminée.",
   "notifCleanTitle": "Nettoyer les électrodes",
   "notifCleanBody": "Il est temps de nettoyer vos électrodes (alarme #{alarmNumber}).",
-  "notifChannelDescription": "Notifications de fin d''électrolyse SilverTimer"
+  "notifChannelDescription": "Notifications de fin d''électrolyse SilverTimer",
+
+  "navInfo": "Infos",
+  "infoTitle": "Infos",
+  "infoAuthor": "par Jörg Holzapfel",
+  "infoHowToUse": "Comment utiliser SilverTimer"
 }

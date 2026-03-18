@@ -409,5 +409,25 @@
   "notifChannelDescription": "SilverTimer electrolysis completion notifications",
   "@notifChannelDescription": {
     "description": "Android notification channel description string (registered once by the OS on first install)."
+  },
+
+  "navInfo": "Info",
+  "@navInfo": {
+    "description": "Label for the Info tab in the bottom navigation bar."
+  },
+
+  "infoTitle": "Info",
+  "@infoTitle": {
+    "description": "AppBar title on the Info screen."
+  },
+
+  "infoAuthor": "by Jörg Holzapfel",
+  "@infoAuthor": {
+    "description": "Author credit shown on the Info screen."
+  },
+
+  "infoHowToUse": "How to use SilverTimer",
+  "@infoHowToUse": {
+    "description": "Tappable link label that opens the instructions page in the browser."
   }
 }
