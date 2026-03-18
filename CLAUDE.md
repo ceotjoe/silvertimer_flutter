@@ -72,6 +72,12 @@ Many files are generated — never edit `*.g.dart` or `*.freezed.dart` by hand. 
 
 Electrode cleaning alarms are pre-scheduled as OS notifications on `start()` and cancelled on `pause()` / `reset()`, then rebuilt on the next `start()`.
 
+## Branching
+
+The `main` branch on origin is **protected** — direct pushes are not allowed.
+All changes must go through a Pull Request from `dev` (or a feature branch) into `main`.
+Never instruct the user to `git push origin main` directly; always create a PR instead.
+
 ## Versioning
 
 **Never edit `pubspec.yaml` version manually.** Always use the version bump script:
