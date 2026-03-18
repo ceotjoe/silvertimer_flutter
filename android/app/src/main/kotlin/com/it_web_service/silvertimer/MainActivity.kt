@@ -1,4 +1,4 @@
-package com.webitservice.silvertimer_flutter
+package com.it_web_service.silvertimer
 
 import io.flutter.embedding.android.FlutterActivity
 

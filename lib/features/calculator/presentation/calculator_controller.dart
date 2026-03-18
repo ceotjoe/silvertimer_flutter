@@ -43,7 +43,7 @@ class CalculatorController extends _$CalculatorController {
 
     return CalculatorState(
       input: CalculatorInput(
-        volumeValue: last.volumeValue ?? 0.0,
+        volumeValue: last.volumeValue ?? 500.0,
         volumeUnit: last.volumeUnit ?? settings.defaultVolumeUnit,
         targetPpm: last.targetPpm ?? settings.defaultPpm,
         currentMilliamps: settings.defaultCurrentMa,

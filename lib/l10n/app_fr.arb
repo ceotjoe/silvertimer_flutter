@@ -50,7 +50,7 @@
   "volumeUnitLiters": "Litres",
   "defaultPpmLabel": "PPM par défaut",
   "defaultCurrentLabel": "Courant par défaut",
-  "typicalCurrentRange": "Plage typique : 0,5–3 mA",
+  "typicalCurrentRange": "Plage typique : 5 – 40 mA",
   "electrodeCleaningSection": "Alarme de nettoyage des électrodes",
   "enableCleaningAlarmLabel": "Activer l''alarme de nettoyage",
   "enableCleaningAlarmSubtitle": "Vous rappelle de nettoyer les électrodes pendant une session",

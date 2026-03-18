@@ -10,10 +10,10 @@ abstract class CalculatorInput with _$CalculatorInput {
   const CalculatorInput._();
 
   const factory CalculatorInput({
-    @Default(0.0) double volumeValue,
+    @Default(500.0) double volumeValue,
     @Default(VolumeUnit.ml) VolumeUnit volumeUnit,
     @Default(0.0) double currentMilliamps,
-    @Default(10.0) double targetPpm,
+    @Default(25.0) double targetPpm,
   }) = _CalculatorInput;
 
   factory CalculatorInput.fromJson(Map<String, dynamic> json) =>

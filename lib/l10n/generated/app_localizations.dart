@@ -397,7 +397,7 @@ abstract class AppLocalizations {
   /// Subtitle hint below the default current input.
   ///
   /// In en, this message translates to:
-  /// **'Typical range: 0.5–3 mA'**
+  /// **'Typical range: 5 – 40 mA'**
   String get typicalCurrentRange;
 
   /// Section header for the Electrode Cleaning Alarm group in Settings.

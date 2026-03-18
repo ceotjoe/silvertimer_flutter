@@ -164,7 +164,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get defaultCurrentLabel => 'Standardstrom';
 
   @override
-  String get typicalCurrentRange => 'Typischer Bereich: 0,5–3 mA';
+  String get typicalCurrentRange => 'Typischer Bereich: 5 – 40 mA';
 
   @override
   String get electrodeCleaningSection => 'Elektrodenreinigungsalarm';

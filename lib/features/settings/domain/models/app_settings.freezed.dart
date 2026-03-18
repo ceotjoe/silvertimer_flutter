@@ -193,7 +193,7 @@ class _$AppSettingsImpl implements _AppSettings {
     this.themeMode = ThemeMode.system,
     this.defaultVolumeUnit = VolumeUnit.ml,
     this.notificationsEnabled = true,
-    this.defaultPpm = 10.0,
+    this.defaultPpm = 25.0,
     this.defaultCurrentMa = 10.0,
     this.cleaningAlarmsEnabled = true,
     this.cleaningIntervalMinutes = 10,

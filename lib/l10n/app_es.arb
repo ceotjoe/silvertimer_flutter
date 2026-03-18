@@ -50,7 +50,7 @@
   "volumeUnitLiters": "Litros",
   "defaultPpmLabel": "PPM predeterminado",
   "defaultCurrentLabel": "Corriente predeterminada",
-  "typicalCurrentRange": "Rango típico: 0,5–3 mA",
+  "typicalCurrentRange": "Rango típico: 5 – 40 mA",
   "electrodeCleaningSection": "Alarma de limpieza de electrodos",
   "enableCleaningAlarmLabel": "Activar alarma de limpieza",
   "enableCleaningAlarmSubtitle": "Le recuerda limpiar los electrodos durante una sesión",

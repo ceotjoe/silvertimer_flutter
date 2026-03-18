@@ -164,7 +164,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get defaultCurrentLabel => 'Default Current';
 
   @override
-  String get typicalCurrentRange => 'Typical range: 0.5–3 mA';
+  String get typicalCurrentRange => 'Typical range: 5 – 40 mA';
 
   @override
   String get electrodeCleaningSection => 'Electrode Cleaning Alarm';

@@ -72,6 +72,38 @@ Many files are generated — never edit `*.g.dart` or `*.freezed.dart` by hand. 
 
 Electrode cleaning alarms are pre-scheduled as OS notifications on `start()` and cancelled on `pause()` / `reset()`, then rebuilt on the next `start()`.
 
+## Branching
+
+The `main` branch on origin is **protected** — direct pushes are not allowed.
+All changes must go through a Pull Request from `dev` (or a feature branch) into `main`.
+Never instruct the user to `git push origin main` directly; always create a PR instead.
+
+## Versioning
+
+**Never edit `pubspec.yaml` version manually.** Always use the version bump script:
+
+```bash
+# Bump patch (e.g. 2.0.0 → 2.0.1)
+bash /Volumes/Crucial_X9/Development/silvertimer_flutter/scripts/bump_version.sh patch
+
+# Bump minor (e.g. 2.0.0 → 2.1.0)
+bash /Volumes/Crucial_X9/Development/silvertimer_flutter/scripts/bump_version.sh minor
+
+# Bump major (e.g. 2.0.0 → 3.0.0)
+bash /Volumes/Crucial_X9/Development/silvertimer_flutter/scripts/bump_version.sh major
+```
+
+The script updates `pubspec.yaml` (version + build number) and must be run before every release commit.
+
+## Documentation
+
+**After every feature, fix, or release — without exception:**
+
+- **CHANGELOG.md** — add an entry under the appropriate version heading (`## [x.y.z]`) describing what changed. Follow the Keep a Changelog format (Added / Changed / Fixed / Removed).
+- **README.md** — update whenever the change affects setup steps, features, screenshots, or usage instructions visible to contributors or users.
+
+Both files must be updated in the same commit as the code change — never leave them stale.
+
 ## Coding style
 
 Use prettier before commiting changes.
