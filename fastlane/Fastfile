@@ -1,5 +1,8 @@
 require "base64"
 
+# Absolute path to the Flutter project root (one level above fastlane/)
+ROOT = File.expand_path("..", __dir__)
+
 default_platform(:ios)
 
 # ─── iOS ──────────────────────────────────────────────────────────────────────
@@ -8,8 +11,8 @@ platform :ios do
   desc "Build and deploy to TestFlight"
   lane :deploy do
     # Flutter dependencies & code generation
-    sh("cd .. && flutter pub get")
-    sh("cd .. && dart run build_runner build --delete-conflicting-outputs")
+    sh("cd #{ROOT} && flutter pub get")
+    sh("cd #{ROOT} && dart run build_runner build --delete-conflicting-outputs")
 
     # Create a temporary CI keychain
     setup_ci
@@ -38,11 +41,11 @@ platform :ios do
 
     # Build Flutter iOS artifacts without code signing
     # (Xcode will apply signing during the archive step below)
-    sh("cd .. && flutter build ios --release --no-codesign")
+    sh("cd #{ROOT} && flutter build ios --release --no-codesign")
 
     # Archive and export a signed IPA
     build_app(
-      workspace: "../ios/Runner.xcworkspace",
+      workspace: "#{ROOT}/ios/Runner.xcworkspace",
       scheme: "Runner",
       configuration: "Release",
       export_method: "app-store",
@@ -53,7 +56,7 @@ platform :ios do
         uploadSymbols: false,
         uploadBitcode: false
       },
-      output_directory: "../build/ios/ipa",
+      output_directory: "#{ROOT}/build/ios/ipa",
       output_name: "SilverTimer.ipa"
     )
 
@@ -67,7 +70,7 @@ platform :ios do
     )
     upload_to_testflight(
       api_key: api_key,
-      ipa: "../build/ios/ipa/SilverTimer.ipa",
+      ipa: "#{ROOT}/build/ios/ipa/SilverTimer.ipa",
       skip_waiting_for_build_processing: true
     )
   end
@@ -79,28 +82,28 @@ platform :android do
   desc "Build and deploy to Play Store internal track"
   lane :deploy do
     # Flutter dependencies & code generation
-    sh("cd .. && flutter pub get")
-    sh("cd .. && dart run build_runner build --delete-conflicting-outputs")
+    sh("cd #{ROOT} && flutter pub get")
+    sh("cd #{ROOT} && dart run build_runner build --delete-conflicting-outputs")
 
     # Write signing config (key.properties + decoded keystore)
-    File.write("../android/key.properties", [
+    File.write("#{ROOT}/android/key.properties", [
       "storePassword=#{ENV.fetch('KEYSTORE_PASSWORD')}",
       "keyPassword=#{ENV.fetch('KEY_PASSWORD')}",
       "keyAlias=#{ENV.fetch('KEY_ALIAS')}",
       "storeFile=../upload-keystore.jks"
     ].join("\n"))
     File.binwrite(
-      "../android/upload-keystore.jks",
+      "#{ROOT}/android/upload-keystore.jks",
       Base64.strict_decode64(ENV.fetch("KEYSTORE_BASE64"))
     )
 
     # Build release AAB
-    sh("cd .. && flutter build appbundle --release")
+    sh("cd #{ROOT} && flutter build appbundle --release")
 
     # Upload to Play Store — fastlane supply gives detailed error output
     upload_to_play_store(
       package_name: "com.it_web_service.silvertimer",
-      aab: "../build/app/outputs/bundle/release/app-release.aab",
+      aab: "#{ROOT}/build/app/outputs/bundle/release/app-release.aab",
       track: "internal",
       json_key_data: ENV.fetch("PLAY_STORE_JSON_KEY"),
       release_status: "completed"
