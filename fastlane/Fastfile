@@ -10,7 +10,6 @@ platform :ios do
     # Flutter dependencies & code generation
     sh("cd .. && flutter pub get")
     sh("cd .. && dart run build_runner build --delete-conflicting-outputs")
-    sh("cd ../ios && pod install")
 
     # Create a temporary CI keychain
     setup_ci
