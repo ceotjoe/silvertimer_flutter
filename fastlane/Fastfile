@@ -45,10 +45,14 @@ platform :ios do
     sh("cd #{ROOT} && flutter build ios --release --no-codesign")
 
     # Archive and export a signed IPA
+    # codesigning_identity and xcargs supply PROVISIONING_PROFILE_SPECIFIER to the
+    # xcodebuild archive step (export_options only applies to the later export step)
     build_app(
       workspace: "#{ROOT}/ios/Runner.xcworkspace",
       scheme: "Runner",
       configuration: "Release",
+      codesigning_identity: "Apple Distribution",
+      xcargs: "PROVISIONING_PROFILE_SPECIFIER='#{profile_uuid}'",
       export_method: "app-store",
       export_options: {
         teamID: "Q486NF4XF6",
