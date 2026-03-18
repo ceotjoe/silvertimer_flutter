@@ -1,0 +1,99 @@
+name: Deploy iOS to App Store
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'lib/**'
+      - 'ios/**'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+      - '.github/workflows/deploy-ios.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Install CocoaPods dependencies
+        run: cd ios && pod install
+
+      - name: Generate code
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Import distribution certificate
+        run: |
+          echo "${{ secrets.IOS_DISTRIBUTION_CERT_BASE64 }}" | base64 --decode > dist.p12
+          security create-keychain -p "${{ secrets.IOS_KEYCHAIN_PASSWORD }}" build.keychain
+          security import dist.p12 -k build.keychain \
+            -P "${{ secrets.IOS_DISTRIBUTION_CERT_PASSWORD }}" \
+            -T /usr/bin/codesign
+          security list-keychains -s build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "${{ secrets.IOS_KEYCHAIN_PASSWORD }}" build.keychain
+          security set-key-partition-list -S apple-tool:,apple: \
+            -s -k "${{ secrets.IOS_KEYCHAIN_PASSWORD }}" build.keychain
+
+      - name: Install provisioning profile
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "${{ secrets.IOS_PROVISIONING_PROFILE_BASE64 }}" | base64 --decode > dist.mobileprovision
+          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print :UUID" \
+            /dev/stdin <<< $(security cms -D -i dist.mobileprovision 2>/dev/null))
+          cp dist.mobileprovision \
+            ~/Library/MobileDevice/Provisioning\ Profiles/${PROFILE_UUID}.mobileprovision
+          echo "PROFILE_UUID=${PROFILE_UUID}" >> $GITHUB_ENV
+
+      - name: Create ExportOptions.plist
+        run: |
+          cat > ios/ExportOptions.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>method</key>
+              <string>app-store</string>
+              <key>teamID</key>
+              <string>Q486NF4XF6</string>
+              <key>signingStyle</key>
+              <string>manual</string>
+              <key>provisioningProfiles</key>
+              <dict>
+                  <key>com.ITWebService.SilverTimer</key>
+                  <string>${PROFILE_UUID}</string>
+              </dict>
+              <key>uploadSymbols</key>
+              <true/>
+              <key>uploadBitcode</key>
+              <false/>
+          </dict>
+          </plist>
+          EOF
+
+      - name: Build IPA
+        run: flutter build ipa --release --export-options-plist=ios/ExportOptions.plist
+
+      - name: Upload to App Store Connect
+        run: |
+          API_KEY_DIR="$RUNNER_TEMP/private_keys"
+          mkdir -p "$API_KEY_DIR"
+          echo "${{ secrets.APPSTORE_API_KEY_BASE64 }}" | base64 --decode \
+            > "$API_KEY_DIR/AuthKey_${{ secrets.APPSTORE_API_KEY_ID }}.p8"
+          xcrun altool --upload-app \
+            --type ios \
+            --file $(find build/ios/ipa -name "*.ipa" | head -1) \
+            --apiKey "${{ secrets.APPSTORE_API_KEY_ID }}" \
+            --apiIssuer "${{ secrets.APPSTORE_ISSUER_ID }}" \
+            --apiKeyPath "$API_KEY_DIR/AuthKey_${{ secrets.APPSTORE_API_KEY_ID }}.p8"

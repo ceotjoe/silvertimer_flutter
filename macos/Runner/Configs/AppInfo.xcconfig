@@ -8,7 +8,7 @@
 PRODUCT_NAME = SilverTimer
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.webitservice.silvertimerFlutter
+PRODUCT_BUNDLE_IDENTIFIER = com.ITWebService.SilverTimer
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2026 com.webitservice. All rights reserved.
