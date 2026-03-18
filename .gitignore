@@ -63,5 +63,7 @@ devtools_options.yaml
 
 # Drift web worker — compiled from web/drift_worker.dart by CI (dart compile js)
 web/drift_worker.dart.js
+web/drift_worker.dart.js.deps
+web/drift_worker.dart.js.map
 
 .claude/
