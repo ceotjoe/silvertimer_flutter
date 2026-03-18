@@ -1,0 +1,123 @@
+name: Bump Version
+
+# Manually triggered from the Actions tab.
+# Bumps the version in pubspec.yaml on the dev branch and pushes the commit.
+# Does NOT create a git tag — that is done automatically by deploy-web.yml
+# after the bump PR is merged to main.
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: "Version bump type"
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      custom_version:
+        description: "Exact version X.Y.Z (overrides bump_type when set)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write   # needed to push the commit back to dev
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── Checkout dev ───────────────────────────────────────────────────────
+      - name: Checkout dev branch
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          # If dev has branch-protection rules that require signed commits,
+          # replace GITHUB_TOKEN below with a PAT stored as secrets.PAT.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── Read current version ───────────────────────────────────────────────
+      - name: Read current version
+        id: cur
+        run: |
+          RAW=$(grep -E '^version: ' pubspec.yaml | sed 's/version: //')
+          SEMVER="${RAW%%+*}"
+          BUILD="${RAW##*+}"
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$SEMVER"
+          echo "raw=$RAW"       >> "$GITHUB_OUTPUT"
+          echo "semver=$SEMVER" >> "$GITHUB_OUTPUT"
+          echo "build=$BUILD"   >> "$GITHUB_OUTPUT"
+          echo "major=$MAJOR"   >> "$GITHUB_OUTPUT"
+          echo "minor=$MINOR"   >> "$GITHUB_OUTPUT"
+          echo "patch=$PATCH"   >> "$GITHUB_OUTPUT"
+
+      # ── Calculate new version ──────────────────────────────────────────────
+      - name: Calculate new version
+        id: new
+        run: |
+          MA=${{ steps.cur.outputs.major }}
+          MI=${{ steps.cur.outputs.minor }}
+          PA=${{ steps.cur.outputs.patch }}
+          B=${{ steps.cur.outputs.build }}
+          CUSTOM="${{ github.event.inputs.custom_version }}"
+          BUMP="${{ github.event.inputs.bump_type }}"
+
+          if [[ -n "$CUSTOM" ]]; then
+            if [[ ! "$CUSTOM" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "Error: custom_version '$CUSTOM' is not valid X.Y.Z format" >&2
+              exit 1
+            fi
+            NEW_SEMVER="$CUSTOM"
+          else
+            case "$BUMP" in
+              patch) NEW_SEMVER="$MA.$MI.$((PA + 1))" ;;
+              minor) NEW_SEMVER="$MA.$((MI + 1)).0" ;;
+              major) NEW_SEMVER="$((MA + 1)).0.0" ;;
+            esac
+          fi
+
+          NEW_BUILD="$((B + 1))"
+          echo "semver=$NEW_SEMVER"             >> "$GITHUB_OUTPUT"
+          echo "build=$NEW_BUILD"               >> "$GITHUB_OUTPUT"
+          echo "version=${NEW_SEMVER}+$NEW_BUILD" >> "$GITHUB_OUTPUT"
+
+      # ── Update pubspec.yaml ────────────────────────────────────────────────
+      - name: Update pubspec.yaml
+        run: |
+          V="${{ steps.new.outputs.version }}"
+          # GNU sed on ubuntu-latest (no '' after -i, unlike macOS)
+          sed -i "s/^version: .*/version: $V/" pubspec.yaml
+          # Verify the replacement landed correctly
+          VERIFIED=$(grep -E '^version: ' pubspec.yaml | sed 's/version: //')
+          if [[ "$VERIFIED" != "$V" ]]; then
+            echo "Error: sed replacement failed. pubspec.yaml contains: '$VERIFIED'" >&2
+            exit 1
+          fi
+          echo "pubspec.yaml → version: $V"
+
+      # ── Commit and push ────────────────────────────────────────────────────
+      - name: Commit and push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pubspec.yaml
+          git commit -m "chore: bump version to ${{ steps.new.outputs.version }}"
+          git push origin dev
+
+      # ── Job summary ────────────────────────────────────────────────────────
+      - name: Summary
+        run: |
+          S="${{ steps.new.outputs.semver }}"
+          echo "### Version bumped ✅" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| | |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Previous | \`${{ steps.cur.outputs.raw }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| New      | \`${{ steps.new.outputs.version }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Next steps:**" >> "$GITHUB_STEP_SUMMARY"
+          echo "1. Update \`CHANGELOG.md\` on \`dev\` — move \`[Unreleased]\` entries to \`## [$S] - $(date +%Y-%m-%d)\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "2. Open a PR: **dev → main** with title \`chore: release v$S\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "3. After merge the deploy workflow builds, deploys, and tags \`v$S\` automatically." >> "$GITHUB_STEP_SUMMARY"
