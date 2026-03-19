@@ -10,9 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - `SECURITY.md` — vulnerability reporting policy using GitHub Private Vulnerability Reporting
 
 ### Fixed
-- iOS screenshot CI: prepend bundler gem bin dir to `ENV['PATH']` in Fastfile before
-  `flutter build ios` so the bundler-managed `pod` is used instead of the missing
-  system CocoaPods (`CocoaPods not installed or not in valid state` error)
+- iOS screenshot/deploy CI: `bundle exec fastlane` injects `RUBYOPT=-r bundler/setup`
+  and `BUNDLE_GEMFILE` into the environment; Flutter's internal `pod --version` check
+  inherits them and fails with "CocoaPods installed but broken". Fixed by prefixing
+  `RUBYOPT= BUNDLE_GEMFILE=` on every `flutter build ios` call in the Fastfile so
+  the system CocoaPods runs with its own Ruby without bundler interference.
+  `gem install cocoapods` added to the screenshots workflow as a fallback in case the
+  Homebrew pod is absent on the runner.
 
 ## [2.1.0] - 2026-03-18
 
