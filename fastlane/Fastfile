@@ -24,23 +24,8 @@ platform :ios do
     # the binary as-is; if it was built from lib/main.dart the app never calls
     # IntegrationTestWidgetsFlutterBinding.ensureInitialized() and the driver
     # hangs waiting for a VM service extension that never appears.
-    #
-    # CocoaPods isolation fix:
-    #
-    # `bundle exec fastlane` injects four env vars that contaminate every Ruby
-    # subprocess, including the `pod --version` check Flutter runs internally:
-    #   RUBYOPT    = -r bundler/setup   (forces bundler gem loading)
-    #   BUNDLE_GEMFILE                  (points to our Gemfile)
-    #   GEM_HOME   = vendor/bundle/...  (overrides default gem home)
-    #   GEM_PATH   = vendor/bundle/...  (overrides default gem search path)
-    #
-    # `env -u VAR` *unsets* (not merely empties) a variable for the child
-    # process. Unsetting all four lets the `pod` binary that Flutter spawns
-    # load cocoapods from the *system* Ruby gem path (where the workflow's
-    # `gem install cocoapods` step placed a working copy with activesupport 7.x),
-    # completely bypassing the bundler-managed vendor/bundle tree.
     app_path = "#{ROOT}/build/ios/iphonesimulator/Runner.app"
-    sh("cd #{ROOT} && env -u RUBYOPT -u BUNDLE_GEMFILE -u GEM_HOME -u GEM_PATH flutter build ios --debug --simulator --target=integration_test/screenshot_test.dart")
+    sh("cd #{ROOT} && flutter build ios --debug --simulator --target=integration_test/screenshot_test.dart")
 
     all_devices = [
       { sim: "iPhone 16 Pro Max",     dir: "iPhone_16_Pro_Max", type: "iphone" },
@@ -159,9 +144,7 @@ platform :ios do
 
     # Build Flutter iOS artifacts without code signing
     # (Xcode will apply signing during the archive step below)
-    # Unset all bundler-injected vars so Flutter's `pod --version` check
-    # is not contaminated (same env -u fix as screenshots lane).
-    sh("cd #{ROOT} && env -u RUBYOPT -u BUNDLE_GEMFILE -u GEM_HOME -u GEM_PATH flutter build ios --release --no-codesign")
+    sh("cd #{ROOT} && flutter build ios --release --no-codesign")
 
     # Archive and export a signed IPA
     # codesigning_identity and xcargs supply PROVISIONING_PROFILE_SPECIFIER to the
