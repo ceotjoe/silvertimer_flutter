@@ -16,7 +16,6 @@ Only the latest release receives security fixes. Older versions are not patched.
 Use one of these private channels:
 
 - **GitHub Private Vulnerability Reporting** — [Report a vulnerability](../../security/advisories/new) (preferred)
-- **Email** — joerg.holzapfel@it-web-service.de
 
 Include as much detail as possible: steps to reproduce, affected version, potential impact.
 
