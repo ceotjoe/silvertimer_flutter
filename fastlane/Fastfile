@@ -49,26 +49,32 @@ platform :ios do
       end
 
       begin
-        # Boot the simulator ONCE for all locales on this device.
-        # bootstatus -b blocks until SpringBoard is fully ready.
-        sh("xcrun simctl boot #{sim_id} 2>/dev/null || true", log: false)
-        sh("xcrun simctl bootstatus #{sim_id} -b", log: false)
-        # Simulator.app must be open so the springboard renders correctly.
-        sh("open -a Simulator --args -CurrentDeviceUDID #{sim_id}", log: false)
-        sleep(5)
-
-        # Install the pre-built app ONCE per simulator — no recompile per locale.
-        sh("xcrun simctl install #{sim_id} '#{app_path}'", log: false)
-
         locales.each do |loc|
           UI.message("📸  #{device[:sim]} · #{loc[:locale]}")
 
-          # Switch locale; the app picks it up on the next cold launch.
+          # Boot a FRESH simulator for every locale run.
+          #
+          # Keeping the simulator alive across locale switches causes
+          # SpringBoard to become unresponsive on the iPad Pro 13 after a
+          # prolonged integration-test session (flutter drive stays connected
+          # for ~2 min per run). The fresh boot also reclaims the ~2-3 GB
+          # RAM the simulator holds, preventing OOM on the 14 GB macOS runner
+          # after several sequential runs.
+          #
+          # bootstatus -b blocks until SpringBoard is fully ready.
+          sh("xcrun simctl boot #{sim_id} 2>/dev/null || true", log: false)
+          sh("xcrun simctl bootstatus #{sim_id} -b", log: false)
+          # Simulator.app must be open so the springboard renders correctly.
+          sh("open -a Simulator --args -CurrentDeviceUDID #{sim_id}", log: false)
+          sleep(5)
+
+          # Write locale while the simulator is running — simctl spawn
+          # requires a booted device. The app reads these keys at launch.
           sh("xcrun simctl spawn #{sim_id} defaults write -g AppleLanguages -array '#{loc[:lang]}'", log: false)
           sh("xcrun simctl spawn #{sim_id} defaults write -g AppleLocale '#{loc[:region]}'", log: false)
-          # Terminate any running instance so the fresh locale is applied on relaunch.
-          sh("xcrun simctl terminate #{sim_id} com.ITWebService.SilverTimer 2>/dev/null || true", log: false)
-          sleep(2)
+
+          # Install the pre-built integration-test binary.
+          sh("xcrun simctl install #{sim_id} '#{app_path}'", log: false)
 
           out_dir = "#{ROOT}/fastlane/screenshots/#{loc[:locale]}/#{device[:dir]}"
           sh("mkdir -p #{out_dir}")
@@ -81,12 +87,15 @@ platform :ios do
             "--use-application-binary='#{app_path}' " \
             "-d #{sim_id}"
           )
+
+          # Shutdown immediately after each locale run to free RAM before
+          # the next boot. The ensure block is a safety net if we raise here.
+          sh("xcrun simctl shutdown #{sim_id} 2>/dev/null || true", log: false)
+          sleep(3)
         end
       ensure
-        # Always shut down after all locales — even if a locale run crashed —
-        # so the next device starts with full RAM headroom.
+        # Safety net: guarantee shutdown even if a locale run raised.
         sh("xcrun simctl shutdown #{sim_id} 2>/dev/null || true", log: false)
-        sleep(2)
       end
     end
 
