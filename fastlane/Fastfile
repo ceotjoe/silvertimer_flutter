@@ -18,7 +18,7 @@ platform :ios do
     devices = [
       { sim: "iPhone 16 Pro Max",                        dir: "iPhone_16_Pro_Max" },
       { sim: "iPhone 14 Plus",                           dir: "iPhone_14_Plus"    },
-      { sim: "iPad Pro (12.9-inch) (6th generation)",    dir: "iPad_Pro_13"       },
+      { sim: "iPad Pro 13-inch (M4)",                    dir: "iPad_Pro_13"       },
     ]
     locales = [
       { locale: "en-US", lang: "en", region: "en_US" },
