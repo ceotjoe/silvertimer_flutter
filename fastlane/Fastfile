@@ -39,8 +39,14 @@ platform :ios do
       locales.each do |loc|
         UI.message("📸  #{device[:sim]} · #{loc[:locale]}")
 
-        # Boot simulator (ignore error if already booted)
+        # Boot simulator and wait until it is fully ready before proceeding.
+        # Without bootstatus -b, flutter drive installs the app while the
+        # simulator is still initialising and then hangs waiting for VMService.
         sh("xcrun simctl boot #{sim_id} 2>/dev/null || true", log: false)
+        sh("xcrun simctl bootstatus #{sim_id} -b", log: false)
+        # Open Simulator.app — the springboard must be visible for the app to launch.
+        sh("open -a Simulator --args -CurrentDeviceUDID #{sim_id}", log: false)
+        sleep(5) # give the springboard a moment to settle
 
         # Apply locale; the app picks it up on the next cold launch
         sh("xcrun simctl spawn #{sim_id} defaults write -g AppleLanguages -array '#{loc[:lang]}'", log: false)
