@@ -162,16 +162,29 @@ platform :android do
       { locale: "de-DE", lang: "de-DE" },
     ]
 
+    in_ci = ENV.key?("CI")
+
     devices.each do |device|
       locales.each do |loc|
         UI.message("📸  #{device[:avd]} · #{loc[:locale]}")
 
-        # Start emulator
-        sh("$ANDROID_HOME/emulator/emulator -avd #{device[:avd]} -no-audio -no-window &", log: false)
-        sh("adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'")
+        if in_ci
+          # In CI the emulator is already running and managed by the
+          # reactivecircus/android-emulator-runner action — do not start
+          # or kill it; just wait for it to be fully booted.
+          sh("adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'", log: false)
+        else
+          # Locally: start a fresh emulator for each run.
+          sh("$ANDROID_HOME/emulator/emulator -avd #{device[:avd]} -no-audio -no-window &", log: false)
+          sh("adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'")
+        end
 
-        # Set locale
-        sh("adb shell am broadcast -a com.android.intent.action.SET_LOCALE --es locale #{loc[:lang]}", log: false)
+        # Switch locale on the running device (works on Android 7+).
+        sh("adb shell settings put system system_locales #{loc[:lang]}", log: false)
+        sh("adb shell am broadcast -a android.intent.action.LOCALE_CHANGED", log: false)
+        # Force-stop any leftover app process so the new locale is picked up.
+        sh("adb shell am force-stop com.it_web_service.silvertimer", log: false)
+        sleep(3)
 
         out_dir = "#{ROOT}/fastlane/screenshots/#{loc[:locale]}/#{device[:dir]}"
         sh("mkdir -p #{out_dir}")
@@ -183,7 +196,8 @@ platform :android do
           "-d emulator-5554"
         )
 
-        sh("adb emu kill", log: false)
+        # Locally: kill the emulator after each run so the next one starts clean.
+        sh("adb emu kill", log: false) unless in_ci
       end
     end
 
