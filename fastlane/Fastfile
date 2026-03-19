@@ -214,14 +214,23 @@ platform :android do
       locales.each do |loc|
         UI.message("📸  #{device[:avd]} · #{loc[:locale]}")
 
-        # Set the system locale before flutter drive launches the app.
-        # android.intent.action.LOCALE_CHANGED is a protected broadcast that
-        # only the system can send — do NOT use `am broadcast` here.
-        # flutter drive --use-application-binary re-installs + cold-launches
-        # the app each run, so the new locale is picked up automatically.
+        # Switch locale reliably via Android runtime soft-restart.
+        #
+        # `settings put system system_locales` writes to the database, but
+        # Zygote caches the Configuration at startup and won't re-read it
+        # until the Android runtime is restarted. Without a restart the app
+        # process forks with the old locale still cached.
+        #
+        # `adb shell stop` stops system_server + Zygote while leaving the
+        # Linux kernel and adb daemon running (no full emulator reboot).
+        # `adb shell start` brings the runtime back up reading the new locale.
+        # This adds ~15-20 s per locale switch but is guaranteed correct.
         sh("adb shell settings put system system_locales #{loc[:lang]}", log: false)
-        sh("adb shell am force-stop com.it_web_service.silvertimer 2>/dev/null || true", log: false)
+        sh("adb shell stop", log: false)
         sleep(3)
+        sh("adb shell start", log: false)
+        sh("adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'", log: false)
+        sleep(5) # allow system services to fully settle before app launch
 
         out_dir = "#{ROOT}/fastlane/screenshots/#{loc[:locale]}/#{device[:dir]}"
         sh("mkdir -p #{out_dir}")
@@ -244,7 +253,11 @@ platform :android do
       end
     end
 
-    frame_screenshots(path: "#{ROOT}/fastlane/screenshots")
+    # NOTE: frame_screenshots is intentionally omitted for Android.
+    # frameit only recognises exact real-device resolutions; the Pixel 7
+    # emulator produces 1080×2337 which is not in the frameit catalogue.
+    # Google Play Store does not require framed screenshots — raw
+    # screenshots are uploaded and reviewed as-is.
   end
 
   desc "Build and deploy to Play Store internal track"
