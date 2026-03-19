@@ -207,12 +207,13 @@ platform :android do
       locales.each do |loc|
         UI.message("📸  #{device[:avd]} · #{loc[:locale]}")
 
-        # Switch system locale and force-stop so the app relaunches fresh.
-        # flutter drive --use-application-binary re-installs the APK each run,
-        # but the system locale must be set before the app process starts.
+        # Set the system locale before flutter drive launches the app.
+        # android.intent.action.LOCALE_CHANGED is a protected broadcast that
+        # only the system can send — do NOT use `am broadcast` here.
+        # flutter drive --use-application-binary re-installs + cold-launches
+        # the app each run, so the new locale is picked up automatically.
         sh("adb shell settings put system system_locales #{loc[:lang]}", log: false)
-        sh("adb shell am broadcast -a android.intent.action.LOCALE_CHANGED", log: false)
-        sh("adb shell am force-stop com.it_web_service.silvertimer", log: false)
+        sh("adb shell am force-stop com.it_web_service.silvertimer 2>/dev/null || true", log: false)
         sleep(3)
 
         out_dir = "#{ROOT}/fastlane/screenshots/#{loc[:locale]}/#{device[:dir]}"
