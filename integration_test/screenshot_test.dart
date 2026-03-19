@@ -14,9 +14,9 @@ void main() {
     await tester.pumpAndSettle(const Duration(seconds: 3));
 
     // ── 1 · Calculator ──────────────────────────────────────────────────────
-    // Tap the Calculate button (FilledButton.icon with Icons.calculate)
-    // so that the result card is visible in the screenshot.
-    final calculateBtn = find.byIcon(Icons.calculate);
+    // Scope the finder to FilledButton so we don't accidentally hit the
+    // same icon in the bottom NavigationBar's selected state.
+    final calculateBtn = find.widgetWithIcon(FilledButton, Icons.calculate);
     if (calculateBtn.evaluate().isNotEmpty) {
       await tester.tap(calculateBtn);
       // Use pump instead of pumpAndSettle so the slide-in animation
@@ -27,7 +27,7 @@ void main() {
 
     // ── 2 · Timer ───────────────────────────────────────────────────────────
     // The "Start Timer" button is inside the result card.
-    final startTimerBtn = find.byIcon(Icons.timer);
+    final startTimerBtn = find.widgetWithIcon(FilledButton, Icons.timer);
     if (startTimerBtn.evaluate().isNotEmpty) {
       await tester.tap(startTimerBtn);
       // Give the timer screen time to paint its first frame; avoid
