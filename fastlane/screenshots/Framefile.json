@@ -1,0 +1,14 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "background": "#0D1B2A",
+    "title": {
+      "color": "#FFFFFF",
+      "size": 52,
+      "font": "fonts/HelveticaNeue-Light.ttf"
+    },
+    "padding": 60,
+    "show_complete_frame": false,
+    "stack_title": true
+  }
+}

@@ -1,0 +1,100 @@
+name: Generate Screenshots
+
+# Manual trigger only — screenshots don't need to be regenerated on every push.
+# Run this before a new App Store / Play Store release to refresh store imagery.
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: "Platform to capture (ios / android / both)"
+        required: true
+        default: "both"
+        type: choice
+        options: [ios, android, both]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  # ─── iOS ──────────────────────────────────────────────────────────────────
+  ios-screenshots:
+    if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' }}
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+
+      - name: Install Xcode simulators
+        run: |
+          xcrun simctl list devices available | grep -E "iPhone 16 Pro Max|iPhone 14 Plus|iPad Pro" || \
+            xcodebuild -downloadPlatform iOS
+
+      - name: Capture iOS screenshots
+        run: bundle exec fastlane ios screenshots
+
+      - name: Upload raw screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-ios-raw
+          path: fastlane/screenshots/
+          retention-days: 30
+
+  # ─── Android ──────────────────────────────────────────────────────────────
+  android-screenshots:
+    if: ${{ github.event.inputs.platform == 'android' || github.event.inputs.platform == 'both' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+
+      - name: Enable KVM for hardware acceleration
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | \
+            sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Create AVDs
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_7
+          avd-name: Pixel_7_API_34
+          script: echo "AVD ready"
+
+      - name: Capture Android screenshots
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_7
+          avd-name: Pixel_7_API_34
+          script: bundle exec fastlane android screenshots
+
+      - name: Upload raw screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-android-raw
+          path: fastlane/screenshots/
+          retention-days: 30

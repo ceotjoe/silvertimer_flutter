@@ -8,6 +8,62 @@ default_platform(:ios)
 # ─── iOS ──────────────────────────────────────────────────────────────────────
 
 platform :ios do
+  desc "Capture App Store screenshots for all devices and locales, then frame them"
+  lane :screenshots do
+    sh("cd #{ROOT} && flutter pub get")
+    sh("cd #{ROOT} && dart run build_runner build --delete-conflicting-outputs")
+
+    # Device name as it appears in `xcrun simctl list devices`
+    # → folder name used inside fastlane/screenshots/<locale>/
+    devices = [
+      { sim: "iPhone 16 Pro Max",                        dir: "iPhone_16_Pro_Max" },
+      { sim: "iPhone 14 Plus",                           dir: "iPhone_14_Plus"    },
+      { sim: "iPad Pro (12.9-inch) (6th generation)",    dir: "iPad_Pro_13"       },
+    ]
+    locales = [
+      { locale: "en-US", lang: "en", region: "en_US" },
+      { locale: "de-DE", lang: "de", region: "de_DE" },
+    ]
+
+    devices.each do |device|
+      sim_id = sh(
+        "xcrun simctl list devices available | grep '#{device[:sim]}' | grep -oE '[A-F0-9-]{36}' | head -1",
+        log: false
+      ).strip
+
+      if sim_id.empty?
+        UI.important("Simulator '#{device[:sim]}' not found — skipping.")
+        next
+      end
+
+      locales.each do |loc|
+        UI.message("📸  #{device[:sim]} · #{loc[:locale]}")
+
+        # Boot simulator (ignore error if already booted)
+        sh("xcrun simctl boot #{sim_id} 2>/dev/null || true", log: false)
+
+        # Apply locale; the app picks it up on the next cold launch
+        sh("xcrun simctl spawn #{sim_id} defaults write -g AppleLanguages -array '#{loc[:lang]}'", log: false)
+        sh("xcrun simctl spawn #{sim_id} defaults write -g AppleLocale '#{loc[:region]}'", log: false)
+
+        out_dir = "#{ROOT}/fastlane/screenshots/#{loc[:locale]}/#{device[:dir]}"
+        sh("mkdir -p #{out_dir}")
+
+        sh(
+          "cd #{ROOT} && SCREENSHOT_OUT_DIR=#{out_dir} flutter drive " \
+          "--driver=test_driver/integration_test.dart " \
+          "--target=integration_test/screenshot_test.dart " \
+          "-d #{sim_id}"
+        )
+
+        sh("xcrun simctl shutdown #{sim_id} 2>/dev/null || true", log: false)
+      end
+    end
+
+    # Apply device frames + marketing text from title.strings
+    frame_screenshots(path: "#{ROOT}/fastlane/screenshots")
+  end
+
   desc "Build and deploy to TestFlight"
   lane :deploy do
     # Flutter dependencies & code generation
@@ -84,6 +140,50 @@ end
 # ─── Android ──────────────────────────────────────────────────────────────────
 
 platform :android do
+  desc "Capture Play Store screenshots for phone and tablet, then frame them"
+  lane :screenshots do
+    sh("cd #{ROOT} && flutter pub get")
+    sh("cd #{ROOT} && dart run build_runner build --delete-conflicting-outputs")
+
+    # AVD names must exist on the machine / CI runner.
+    # Adjust to the emulators you have available.
+    devices = [
+      { avd: "Pixel_7_API_34",          dir: "Phone"  },
+      { avd: "Pixel_Tablet_API_34",      dir: "Tablet" },
+    ]
+    locales = [
+      { locale: "en-US", lang: "en-US" },
+      { locale: "de-DE", lang: "de-DE" },
+    ]
+
+    devices.each do |device|
+      locales.each do |loc|
+        UI.message("📸  #{device[:avd]} · #{loc[:locale]}")
+
+        # Start emulator
+        sh("$ANDROID_HOME/emulator/emulator -avd #{device[:avd]} -no-audio -no-window &", log: false)
+        sh("adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'")
+
+        # Set locale
+        sh("adb shell am broadcast -a com.android.intent.action.SET_LOCALE --es locale #{loc[:lang]}", log: false)
+
+        out_dir = "#{ROOT}/fastlane/screenshots/#{loc[:locale]}/#{device[:dir]}"
+        sh("mkdir -p #{out_dir}")
+
+        sh(
+          "cd #{ROOT} && SCREENSHOT_OUT_DIR=#{out_dir} flutter drive " \
+          "--driver=test_driver/integration_test.dart " \
+          "--target=integration_test/screenshot_test.dart " \
+          "-d emulator-5554"
+        )
+
+        sh("adb emu kill", log: false)
+      end
+    end
+
+    frame_screenshots(path: "#{ROOT}/fastlane/screenshots")
+  end
+
   desc "Build and deploy to Play Store internal track"
   lane :deploy do
     # Flutter dependencies & code generation
