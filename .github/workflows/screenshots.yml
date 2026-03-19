@@ -39,8 +39,16 @@ jobs:
           ruby-version: "3.2"
           bundler-cache: true
 
-      - name: Expose bundler gems (CocoaPods) to PATH
-        run: echo "$(bundle exec ruby -e 'puts Gem.bindir')" >> $GITHUB_PATH
+      # Ensure a working `pod` binary is available for the active Ruby.
+      # flutter build ios spawns `pod --version` to check CocoaPods. When
+      # called from within `bundle exec fastlane`, RUBYOPT=-r bundler/setup
+      # and BUNDLE_GEMFILE are set in the environment. The Fastfile clears
+      # these for the flutter process (RUBYOPT= BUNDLE_GEMFILE= prefix), so
+      # the system/Homebrew pod can run with its own Ruby without bundler
+      # interference. This step ensures a fresh pod is available in the
+      # active Ruby gem path as a fallback in case the Homebrew pod is absent.
+      - name: Install CocoaPods for active Ruby
+        run: gem install cocoapods --no-document
 
       - name: Create required iPhone simulators
         run: |
@@ -98,8 +106,8 @@ jobs:
           ruby-version: "3.2"
           bundler-cache: true
 
-      - name: Expose bundler gems (CocoaPods) to PATH
-        run: echo "$(bundle exec ruby -e 'puts Gem.bindir')" >> $GITHUB_PATH
+      - name: Install CocoaPods for active Ruby
+        run: gem install cocoapods --no-document
 
       - name: Create required iPad simulators
         run: |
