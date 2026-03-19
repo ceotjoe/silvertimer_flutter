@@ -19,8 +19,13 @@ platform :ios do
     sleep(3)
 
     # ── Build ONCE — reused for every device × locale combination ─────────────
+    # IMPORTANT: must build with --target pointing at the integration test entry
+    # point, not lib/main.dart. flutter drive --use-application-binary installs
+    # the binary as-is; if it was built from lib/main.dart the app never calls
+    # IntegrationTestWidgetsFlutterBinding.ensureInitialized() and the driver
+    # hangs waiting for a VM service extension that never appears.
     app_path = "#{ROOT}/build/ios/iphonesimulator/Runner.app"
-    sh("cd #{ROOT} && flutter build ios --debug --simulator")
+    sh("cd #{ROOT} && flutter build ios --debug --simulator --target=integration_test/screenshot_test.dart")
 
     devices = [
       { sim: "iPhone 16 Pro Max",     dir: "iPhone_16_Pro_Max" },
@@ -191,8 +196,10 @@ platform :android do
     ]
 
     # ── Build ONCE — reused for every device × locale combination ─────────────
+    # Must use --target=integration_test/screenshot_test.dart so the binary
+    # contains IntegrationTestWidgetsFlutterBinding — same reason as iOS.
     apk_path = "#{ROOT}/build/app/outputs/flutter-apk/app-debug.apk"
-    sh("cd #{ROOT} && flutter build apk --debug")
+    sh("cd #{ROOT} && flutter build apk --debug --target=integration_test/screenshot_test.dart")
 
     active_devices.each do |device|
       unless in_ci
