@@ -27,11 +27,18 @@ platform :ios do
     app_path = "#{ROOT}/build/ios/iphonesimulator/Runner.app"
     sh("cd #{ROOT} && flutter build ios --debug --simulator --target=integration_test/screenshot_test.dart")
 
-    devices = [
-      { sim: "iPhone 16 Pro Max",     dir: "iPhone_16_Pro_Max" },
-      { sim: "iPhone 14 Plus",         dir: "iPhone_14_Plus"    },
-      { sim: "iPad Pro 13-inch (M4)", dir: "iPad_Pro_13"       },
+    all_devices = [
+      { sim: "iPhone 16 Pro Max",     dir: "iPhone_16_Pro_Max", type: "iphone" },
+      { sim: "iPhone 14 Plus",         dir: "iPhone_14_Plus",    type: "iphone" },
+      { sim: "iPad Pro 13-inch (M4)", dir: "iPad_Pro_13",       type: "ipad"   },
     ]
+    # SCREENSHOT_DEVICE_TYPE=iphone runs only iPhones (CI iphone job).
+    # SCREENSHOT_DEVICE_TYPE=ipad   runs only iPads   (CI ipad job).
+    # Unset: run all devices (local use).
+    device_filter = ENV["SCREENSHOT_DEVICE_TYPE"]
+    devices = device_filter \
+      ? all_devices.select { |d| d[:type] == device_filter } \
+      : all_devices
     locales = [
       { locale: "en-US", lang: "en", region: "en_US" },
       { locale: "de-DE", lang: "de", region: "de_DE" },
@@ -220,6 +227,12 @@ platform :android do
       # reactivecircus/android-emulator-runner; local emulator just launched above).
       sh("adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'", log: false)
 
+      # `adb shell stop/start` requires a root shell.
+      # `adb root` restarts the adb daemon as root — must be called once per
+      # emulator session before any stop/start locale switch.
+      sh("adb root", log: false)
+      sleep(3) # wait for adb daemon to restart as root
+
       locales.each do |loc|
         UI.message("📸  #{device[:avd]} · #{loc[:locale]}")
 
@@ -234,6 +247,7 @@ platform :android do
         # Linux kernel and adb daemon running (no full emulator reboot).
         # `adb shell start` brings the runtime back up reading the new locale.
         # This adds ~15-20 s per locale switch but is guaranteed correct.
+        # `adb root` (called once above) is required for stop/start to succeed.
         sh("adb shell settings put system system_locales #{loc[:lang]}", log: false)
         sh("adb shell stop", log: false)
         sleep(3)

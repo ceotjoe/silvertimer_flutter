@@ -16,8 +16,11 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  # ─── iOS ────────────────────────────────────────────────────────────────────
-  ios-screenshots:
+  # ─── iOS iPhone ─────────────────────────────────────────────────────────────
+  # Separate job from iPad so each gets a fresh 14 GB macOS runner.
+  # The iPad Pro 13 simulator alone consumes ~2-3 GB; running it after two
+  # iPhone runs on the same runner causes SpringBoard to hang.
+  ios-iphone-screenshots:
     if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' }}
     runs-on: macos-latest
     steps:
@@ -33,13 +36,10 @@ jobs:
           ruby-version: "3.2"
           bundler-cache: true
 
-      # flutter drive calls `pod` from the system PATH, not from the Bundler
-      # environment. Expose the bundler gem bin dir so the cocoapods gem we
-      # installed via Gemfile is the one that flutter drive picks up.
       - name: Expose bundler gems (CocoaPods) to PATH
         run: echo "$(bundle exec ruby -e 'puts Gem.bindir')" >> $GITHUB_PATH
 
-      - name: Create required simulators
+      - name: Create required iPhone simulators
         run: |
           RUNTIME=$(xcrun simctl list runtimes --json \
             | python3 -c "
@@ -64,19 +64,74 @@ jobs:
             "com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro-Max" "$RUNTIME"
           create_if_missing "iPhone 14 Plus" \
             "com.apple.CoreSimulator.SimDeviceType.iPhone-14-Plus" "$RUNTIME"
+
+          echo "Available simulators after setup:"
+          xcrun simctl list devices available | grep -E "iPhone 16 Pro Max|iPhone 14 Plus"
+
+      - name: Capture iPhone screenshots
+        run: SCREENSHOT_DEVICE_TYPE=iphone bundle exec fastlane ios screenshots
+
+      - name: Upload iPhone screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-ios-iphone
+          path: fastlane/screenshots/
+          retention-days: 30
+
+  # ─── iOS iPad ───────────────────────────────────────────────────────────────
+  ios-ipad-screenshots:
+    if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' }}
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+
+      - name: Expose bundler gems (CocoaPods) to PATH
+        run: echo "$(bundle exec ruby -e 'puts Gem.bindir')" >> $GITHUB_PATH
+
+      - name: Create required iPad simulators
+        run: |
+          RUNTIME=$(xcrun simctl list runtimes --json \
+            | python3 -c "
+          import json, sys
+          runtimes = json.load(sys.stdin)['runtimes']
+          ios = [r['identifier'] for r in runtimes if r.get('isAvailable') and 'iOS' in r['name']]
+          print(sorted(ios)[-1] if ios else '')
+          ")
+          echo "Using iOS runtime: $RUNTIME"
+
+          create_if_missing() {
+            local name="$1" type="$2" runtime="$3"
+            if xcrun simctl list devices available | grep -qF "$name"; then
+              echo "✓ '$name' already exists — skipping"
+            else
+              xcrun simctl create "$name" "$type" "$runtime"
+              echo "✓ Created '$name'"
+            fi
+          }
+
           create_if_missing "iPad Pro 13-inch (M4)" \
             "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-13-inch-M4" "$RUNTIME"
 
           echo "Available simulators after setup:"
-          xcrun simctl list devices available | grep -E "iPhone 16 Pro Max|iPhone 14 Plus|iPad Pro 13"
+          xcrun simctl list devices available | grep -E "iPad Pro 13"
 
-      - name: Capture iOS screenshots
-        run: bundle exec fastlane ios screenshots
+      - name: Capture iPad screenshots
+        run: SCREENSHOT_DEVICE_TYPE=ipad bundle exec fastlane ios screenshots
 
-      - name: Upload framed screenshots
+      - name: Upload iPad screenshots
         uses: actions/upload-artifact@v4
         with:
-          name: screenshots-ios
+          name: screenshots-ios-ipad
           path: fastlane/screenshots/
           retention-days: 30
 
