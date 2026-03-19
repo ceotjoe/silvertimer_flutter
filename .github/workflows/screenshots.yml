@@ -33,10 +33,27 @@ jobs:
           ruby-version: "3.2"
           bundler-cache: true
 
-      - name: Install Xcode simulators
+      - name: Create required simulators
         run: |
-          xcrun simctl list devices available | grep -E "iPhone 16 Pro Max|iPhone 14 Plus|iPad Pro" || \
-            xcodebuild -downloadPlatform iOS
+          # Find the latest installed iOS runtime identifier
+          RUNTIME=$(xcrun simctl list runtimes --json \
+            | python3 -c "
+          import json, sys
+          runtimes = json.load(sys.stdin)['runtimes']
+          ios = [r['identifier'] for r in runtimes if r.get('isAvailable') and 'iOS' in r['name']]
+          print(sorted(ios)[-1] if ios else '')
+          ")
+          echo "Using iOS runtime: $RUNTIME"
+
+          xcrun simctl create "iPhone 16 Pro Max" \
+            "com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro-Max" "$RUNTIME" || true
+          xcrun simctl create "iPhone 14 Plus" \
+            "com.apple.CoreSimulator.SimDeviceType.iPhone-14-Plus" "$RUNTIME" || true
+          xcrun simctl create "iPad Pro (12.9-inch) (6th generation)" \
+            "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-12_9-inch-6th-generation" "$RUNTIME" || true
+
+          echo "Available simulators after setup:"
+          xcrun simctl list devices available | grep -E "iPhone 16 Pro Max|iPhone 14 Plus|iPad Pro 12"
 
       - name: Capture iOS screenshots
         run: bundle exec fastlane ios screenshots
