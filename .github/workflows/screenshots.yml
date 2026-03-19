@@ -47,8 +47,19 @@ jobs:
       # the system/Homebrew pod can run with its own Ruby without bundler
       # interference. This step ensures a fresh pod is available in the
       # active Ruby gem path as a fallback in case the Homebrew pod is absent.
+      # Install CocoaPods into the active Ruby gem path so Flutter's internal
+      # `pod --version` check finds a working binary.
+      #
+      # gem install cocoapods alone would install activesupport 8.x as a
+      # dependency. CocoaPods 1.x is incompatible with activesupport 8.x, so
+      # `pod --version` would fail. Installing activesupport 7.x first and
+      # using --conservative prevents gem from upgrading it to 8.x.
+      # `pod --version` at the end validates the installation before Fastlane.
       - name: Install CocoaPods for active Ruby
-        run: gem install cocoapods --no-document
+        run: |
+          gem install activesupport -v '~> 7.2' --no-document
+          gem install cocoapods --no-document --conservative
+          pod --version
 
       - name: Create required iPhone simulators
         run: |
@@ -106,8 +117,19 @@ jobs:
           ruby-version: "3.2"
           bundler-cache: true
 
+      # Install CocoaPods into the active Ruby gem path so Flutter's internal
+      # `pod --version` check finds a working binary.
+      #
+      # gem install cocoapods alone would install activesupport 8.x as a
+      # dependency. CocoaPods 1.x is incompatible with activesupport 8.x, so
+      # `pod --version` would fail. Installing activesupport 7.x first and
+      # using --conservative prevents gem from upgrading it to 8.x.
+      # `pod --version` at the end validates the installation before Fastlane.
       - name: Install CocoaPods for active Ruby
-        run: gem install cocoapods --no-document
+        run: |
+          gem install activesupport -v '~> 7.2' --no-document
+          gem install cocoapods --no-document --conservative
+          pod --version
 
       - name: Create required iPad simulators
         run: |
