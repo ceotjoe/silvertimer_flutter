@@ -27,11 +27,18 @@ platform :ios do
     app_path = "#{ROOT}/build/ios/iphonesimulator/Runner.app"
     sh("cd #{ROOT} && flutter build ios --debug --simulator --target=integration_test/screenshot_test.dart")
 
-    devices = [
-      { sim: "iPhone 16 Pro Max",     dir: "iPhone_16_Pro_Max" },
-      { sim: "iPhone 14 Plus",         dir: "iPhone_14_Plus"    },
-      { sim: "iPad Pro 13-inch (M4)", dir: "iPad_Pro_13"       },
+    all_devices = [
+      { sim: "iPhone 16 Pro Max",     dir: "iPhone_16_Pro_Max", type: "iphone" },
+      { sim: "iPhone 14 Plus",         dir: "iPhone_14_Plus",    type: "iphone" },
+      { sim: "iPad Pro 13-inch (M4)", dir: "iPad_Pro_13",       type: "ipad"   },
     ]
+    # SCREENSHOT_DEVICE_TYPE=iphone runs only iPhones (CI iphone job).
+    # SCREENSHOT_DEVICE_TYPE=ipad   runs only iPads   (CI ipad job).
+    # Unset: run all devices (local use).
+    device_filter = ENV["SCREENSHOT_DEVICE_TYPE"]
+    devices = device_filter \
+      ? all_devices.select { |d| d[:type] == device_filter } \
+      : all_devices
     locales = [
       { locale: "en-US", lang: "en", region: "en_US" },
       { locale: "de-DE", lang: "de", region: "de_DE" },
