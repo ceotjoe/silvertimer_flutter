@@ -33,6 +33,12 @@ jobs:
           ruby-version: "3.2"
           bundler-cache: true
 
+      # flutter drive calls `pod` from the system PATH, not from the Bundler
+      # environment. Expose the bundler gem bin dir so the cocoapods gem we
+      # installed via Gemfile is the one that flutter drive picks up.
+      - name: Expose bundler gems (CocoaPods) to PATH
+        run: echo "$(bundle exec ruby -e 'puts Gem.bindir')" >> $GITHUB_PATH
+
       - name: Create required simulators
         run: |
           # Find the latest installed iOS runtime identifier

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -12,6 +13,13 @@ void main() {
 
     // Wait for app to fully initialise (fonts, providers, DB)
     await tester.pumpAndSettle(const Duration(seconds: 3));
+
+    // Android requires the Flutter surface to be converted to an image
+    // before any screenshot can be taken. iOS does not need this call.
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      await binding.convertFlutterSurfaceToImage();
+      await tester.pump();
+    }
 
     // ── 1 · Calculator ──────────────────────────────────────────────────────
     // Use a stable Key so the finder is always unambiguous, regardless of
