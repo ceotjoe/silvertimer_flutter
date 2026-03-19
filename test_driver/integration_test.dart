@@ -1,5 +1,9 @@
+// Copyright (C) 2026 Jörg Holzapfel
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:integration_test/integration_test_driver_extended.dart';
 
@@ -25,27 +29,33 @@ Future<void> main() async {
       final dir = Directory(outDir);
       await dir.create(recursive: true);
 
-      // The integration_test package changed the screenshots payload format:
-      //   old: Map<String, dynamic>  { name: base64bytes }
-      //   new: List<dynamic>         [ {screenshotName: name, bytes: base64bytes} ]
-      // Handle both so the driver works across package versions.
+      // The integration_test package has changed the screenshots payload
+      // format across versions — handle all known variants:
+      //
+      //  v1  Map<String, dynamic>  { name → base64String }
+      //  v2  List<dynamic>         [ {screenshotName, bytes: base64String} ]
+      //  v3  List<dynamic>         [ {screenshotName, bytes: List<int>}    ]
       final raw = data['screenshots'];
       if (raw == null) return;
 
+      Uint8List decodeBytes(dynamic value) {
+        if (value is String) return base64.decode(value);
+        if (value is List) return Uint8List.fromList(value.cast<int>());
+        throw StateError('Unexpected bytes type: ${value.runtimeType}');
+      }
+
       if (raw is Map<String, dynamic>) {
         for (final entry in raw.entries) {
-          final bytes = base64.decode(entry.value as String);
           final file = File('${dir.path}/${entry.key}.png');
-          await file.writeAsBytes(bytes);
+          await file.writeAsBytes(decodeBytes(entry.value));
           stdout.writeln('Saved screenshot → ${file.path}');
         }
       } else if (raw is List<dynamic>) {
         for (final item in raw) {
           final screenshot = item as Map<String, dynamic>;
           final name = screenshot['screenshotName'] as String;
-          final bytes = base64.decode(screenshot['bytes'] as String);
           final file = File('${dir.path}/$name.png');
-          await file.writeAsBytes(bytes);
+          await file.writeAsBytes(decodeBytes(screenshot['bytes']));
           stdout.writeln('Saved screenshot → ${file.path}');
         }
       }

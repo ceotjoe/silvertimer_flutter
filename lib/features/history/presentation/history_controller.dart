@@ -1,3 +1,6 @@
+// Copyright (C) 2026 Jörg Holzapfel
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:silvertimer_flutter/features/history/data/history_repository.dart';
 import 'package:silvertimer_flutter/features/history/domain/models/session_record.dart';

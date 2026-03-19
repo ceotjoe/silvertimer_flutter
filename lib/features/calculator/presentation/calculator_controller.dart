@@ -1,3 +1,6 @@
+// Copyright (C) 2026 Jörg Holzapfel
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:silvertimer_flutter/core/utils/silver_calculator.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculation_result.dart';

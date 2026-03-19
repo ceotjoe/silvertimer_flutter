@@ -1,3 +1,6 @@
+// Copyright (C) 2026 Jörg Holzapfel
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /// Resolved, locale-specific strings for OS notifications.
 ///
 /// Created at the point where [BuildContext] is available (TimerScreen),

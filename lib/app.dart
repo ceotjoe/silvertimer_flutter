@@ -1,3 +1,6 @@
+// Copyright (C) 2026 Jörg Holzapfel
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

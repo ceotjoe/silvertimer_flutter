@@ -1,3 +1,6 @@
+// Copyright (C) 2026 Jörg Holzapfel
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:silvertimer_flutter/core/utils/silver_calculator.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculator_input.dart';

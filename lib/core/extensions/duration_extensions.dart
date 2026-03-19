@@ -1,3 +1,6 @@
+// Copyright (C) 2026 Jörg Holzapfel
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 extension DurationFormatting on Duration {
   /// Formats a [Duration] as HH:MM:SS (zero-padded).
   String toHhMmSs() {

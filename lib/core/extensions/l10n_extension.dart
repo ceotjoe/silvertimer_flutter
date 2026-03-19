@@ -1,3 +1,6 @@
+// Copyright (C) 2026 Jörg Holzapfel
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'package:flutter/widgets.dart';
 import 'package:silvertimer_flutter/l10n/generated/app_localizations.dart';
 
