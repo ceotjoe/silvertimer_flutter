@@ -14,9 +14,9 @@ void main() {
     await tester.pumpAndSettle(const Duration(seconds: 3));
 
     // ── 1 · Calculator ──────────────────────────────────────────────────────
-    // Scope the finder to FilledButton so we don't accidentally hit the
-    // same icon in the bottom NavigationBar's selected state.
-    final calculateBtn = find.widgetWithIcon(FilledButton, Icons.calculate);
+    // Use a stable Key so the finder is always unambiguous, regardless of
+    // how many FilledButton ancestors the icon has in the widget tree.
+    final calculateBtn = find.byKey(const Key('calculate_button'));
     if (calculateBtn.evaluate().isNotEmpty) {
       await tester.tap(calculateBtn);
       // Use pump instead of pumpAndSettle so the slide-in animation

@@ -107,6 +107,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
 
               // Calculate button
               FilledButton.icon(
+                key: const Key('calculate_button'),
                 onPressed: () {
                   FocusScope.of(context).unfocus();
                   final result = notifier.calculate();
