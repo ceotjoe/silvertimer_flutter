@@ -45,15 +45,25 @@ jobs:
           ")
           echo "Using iOS runtime: $RUNTIME"
 
-          xcrun simctl create "iPhone 16 Pro Max" \
-            "com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro-Max" "$RUNTIME" || true
-          xcrun simctl create "iPhone 14 Plus" \
-            "com.apple.CoreSimulator.SimDeviceType.iPhone-14-Plus" "$RUNTIME" || true
-          xcrun simctl create "iPad Pro (12.9-inch) (6th generation)" \
-            "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-12_9-inch-6th-generation" "$RUNTIME" || true
+          create_if_missing() {
+            local name="$1" type="$2" runtime="$3"
+            if xcrun simctl list devices available | grep -qF "$name"; then
+              echo "✓ '$name' already exists — skipping"
+            else
+              xcrun simctl create "$name" "$type" "$runtime"
+              echo "✓ Created '$name'"
+            fi
+          }
+
+          create_if_missing "iPhone 16 Pro Max" \
+            "com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro-Max" "$RUNTIME"
+          create_if_missing "iPhone 14 Plus" \
+            "com.apple.CoreSimulator.SimDeviceType.iPhone-14-Plus" "$RUNTIME"
+          create_if_missing "iPad Pro 13-inch (M4)" \
+            "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-13-inch-M4" "$RUNTIME"
 
           echo "Available simulators after setup:"
-          xcrun simctl list devices available | grep -E "iPhone 16 Pro Max|iPhone 14 Plus|iPad Pro 12"
+          xcrun simctl list devices available | grep -E "iPhone 16 Pro Max|iPhone 14 Plus|iPad Pro 13"
 
       - name: Capture iOS screenshots
         run: bundle exec fastlane ios screenshots
