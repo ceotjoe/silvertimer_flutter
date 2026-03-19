@@ -21,17 +21,33 @@ Future<void> main() async {
   await integrationDriver(
     responseDataCallback: (data) async {
       if (data == null) return;
-      final screenshots = data['screenshots'] as Map<String, dynamic>?;
-      if (screenshots == null) return;
 
       final dir = Directory(outDir);
       await dir.create(recursive: true);
 
-      for (final entry in screenshots.entries) {
-        final bytes = base64.decode(entry.value as String);
-        final file = File('${dir.path}/${entry.key}.png');
-        await file.writeAsBytes(bytes);
-        stdout.writeln('Saved screenshot → ${file.path}');
+      // The integration_test package changed the screenshots payload format:
+      //   old: Map<String, dynamic>  { name: base64bytes }
+      //   new: List<dynamic>         [ {screenshotName: name, bytes: base64bytes} ]
+      // Handle both so the driver works across package versions.
+      final raw = data['screenshots'];
+      if (raw == null) return;
+
+      if (raw is Map<String, dynamic>) {
+        for (final entry in raw.entries) {
+          final bytes = base64.decode(entry.value as String);
+          final file = File('${dir.path}/${entry.key}.png');
+          await file.writeAsBytes(bytes);
+          stdout.writeln('Saved screenshot → ${file.path}');
+        }
+      } else if (raw is List<dynamic>) {
+        for (final item in raw) {
+          final screenshot = item as Map<String, dynamic>;
+          final name = screenshot['screenshotName'] as String;
+          final bytes = base64.decode(screenshot['bytes'] as String);
+          final file = File('${dir.path}/$name.png');
+          await file.writeAsBytes(bytes);
+          stdout.writeln('Saved screenshot → ${file.path}');
+        }
       }
     },
   );
