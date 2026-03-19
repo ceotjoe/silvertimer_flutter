@@ -10,13 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - `SECURITY.md` — vulnerability reporting policy using GitHub Private Vulnerability Reporting
 
 ### Fixed
-- iOS screenshot/deploy CI: `bundle exec fastlane` injects `RUBYOPT`, `BUNDLE_GEMFILE`,
-  `GEM_HOME`, and `GEM_PATH` into the environment; Flutter's internal `pod --version`
-  check inherits them and fails with "CocoaPods installed but broken". Fixed by using
-  `env -u` to fully unset all four bundler vars for the `flutter build ios` subprocess
-  so the system-installed CocoaPods loads from the default Ruby gem path unimpeded.
-  Screenshots workflow now installs activesupport 7.x before cocoapods to prevent
-  gem install from pulling in the incompatible activesupport 8.x.
+- iOS screenshot/deploy CI: `bundle exec fastlane` injects `RUBYOPT=-r bundler/setup`
+  and `BUNDLE_GEMFILE` into the environment; Flutter's internal `pod --version` check
+  inherits them and fails with "CocoaPods installed but broken". Fixed by prefixing
+  `RUBYOPT= BUNDLE_GEMFILE=` on every `flutter build ios` call in the Fastfile so
+  the system CocoaPods runs with its own Ruby without bundler interference.
+  `gem install cocoapods` added to the screenshots workflow as a fallback in case the
+  Homebrew pod is absent on the runner.
 
 ## [2.1.0] - 2026-03-18
 
