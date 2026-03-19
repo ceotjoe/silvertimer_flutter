@@ -13,12 +13,19 @@ platform :ios do
     sh("cd #{ROOT} && flutter pub get")
     sh("cd #{ROOT} && dart run build_runner build --delete-conflicting-outputs")
 
-    # Device name as it appears in `xcrun simctl list devices`
-    # → folder name used inside fastlane/screenshots/<locale>/
+    # Kill any stale simulator processes left over from a previous (crashed) run.
+    # Each booted iOS 26 simulator consumes ~2–3 GB RAM on the 14 GB macOS runner.
+    sh("xcrun simctl shutdown all 2>/dev/null || true", log: false)
+    sleep(3)
+
+    # ── Build ONCE — reused for every device × locale combination ─────────────
+    app_path = "#{ROOT}/build/ios/iphonesimulator/Runner.app"
+    sh("cd #{ROOT} && flutter build ios --debug --simulator")
+
     devices = [
-      { sim: "iPhone 16 Pro Max",                        dir: "iPhone_16_Pro_Max" },
-      { sim: "iPhone 14 Plus",                           dir: "iPhone_14_Plus"    },
-      { sim: "iPad Pro 13-inch (M4)",                    dir: "iPad_Pro_13"       },
+      { sim: "iPhone 16 Pro Max",     dir: "iPhone_16_Pro_Max" },
+      { sim: "iPhone 14 Plus",         dir: "iPhone_14_Plus"    },
+      { sim: "iPad Pro 13-inch (M4)", dir: "iPad_Pro_13"       },
     ]
     locales = [
       { locale: "en-US", lang: "en", region: "en_US" },
@@ -36,33 +43,45 @@ platform :ios do
         next
       end
 
-      locales.each do |loc|
-        UI.message("📸  #{device[:sim]} · #{loc[:locale]}")
-
-        # Boot simulator and wait until it is fully ready before proceeding.
-        # Without bootstatus -b, flutter drive installs the app while the
-        # simulator is still initialising and then hangs waiting for VMService.
+      begin
+        # Boot the simulator ONCE for all locales on this device.
+        # bootstatus -b blocks until SpringBoard is fully ready.
         sh("xcrun simctl boot #{sim_id} 2>/dev/null || true", log: false)
         sh("xcrun simctl bootstatus #{sim_id} -b", log: false)
-        # Open Simulator.app — the springboard must be visible for the app to launch.
+        # Simulator.app must be open so the springboard renders correctly.
         sh("open -a Simulator --args -CurrentDeviceUDID #{sim_id}", log: false)
-        sleep(5) # give the springboard a moment to settle
+        sleep(5)
 
-        # Apply locale; the app picks it up on the next cold launch
-        sh("xcrun simctl spawn #{sim_id} defaults write -g AppleLanguages -array '#{loc[:lang]}'", log: false)
-        sh("xcrun simctl spawn #{sim_id} defaults write -g AppleLocale '#{loc[:region]}'", log: false)
+        # Install the pre-built app ONCE per simulator — no recompile per locale.
+        sh("xcrun simctl install #{sim_id} '#{app_path}'", log: false)
 
-        out_dir = "#{ROOT}/fastlane/screenshots/#{loc[:locale]}/#{device[:dir]}"
-        sh("mkdir -p #{out_dir}")
+        locales.each do |loc|
+          UI.message("📸  #{device[:sim]} · #{loc[:locale]}")
 
-        sh(
-          "cd #{ROOT} && SCREENSHOT_OUT_DIR=#{out_dir} flutter drive " \
-          "--driver=test_driver/integration_test.dart " \
-          "--target=integration_test/screenshot_test.dart " \
-          "-d #{sim_id}"
-        )
+          # Switch locale; the app picks it up on the next cold launch.
+          sh("xcrun simctl spawn #{sim_id} defaults write -g AppleLanguages -array '#{loc[:lang]}'", log: false)
+          sh("xcrun simctl spawn #{sim_id} defaults write -g AppleLocale '#{loc[:region]}'", log: false)
+          # Terminate any running instance so the fresh locale is applied on relaunch.
+          sh("xcrun simctl terminate #{sim_id} com.ITWebService.SilverTimer 2>/dev/null || true", log: false)
+          sleep(2)
 
+          out_dir = "#{ROOT}/fastlane/screenshots/#{loc[:locale]}/#{device[:dir]}"
+          sh("mkdir -p #{out_dir}")
+
+          # --use-application-binary skips the Xcode build (~110 s) entirely.
+          sh(
+            "cd #{ROOT} && SCREENSHOT_OUT_DIR=#{out_dir} flutter drive " \
+            "--driver=test_driver/integration_test.dart " \
+            "--target=integration_test/screenshot_test.dart " \
+            "--use-application-binary='#{app_path}' " \
+            "-d #{sim_id}"
+          )
+        end
+      ensure
+        # Always shut down after all locales — even if a locale run crashed —
+        # so the next device starts with full RAM headroom.
         sh("xcrun simctl shutdown #{sim_id} 2>/dev/null || true", log: false)
+        sleep(2)
       end
     end
 
@@ -151,53 +170,69 @@ platform :android do
     sh("cd #{ROOT} && flutter pub get")
     sh("cd #{ROOT} && dart run build_runner build --delete-conflicting-outputs")
 
-    # AVD names must exist on the machine / CI runner.
-    # Adjust to the emulators you have available.
-    devices = [
-      { avd: "Pixel_7_API_34",          dir: "Phone"  },
-      { avd: "Pixel_Tablet_API_34",      dir: "Tablet" },
+    in_ci = ENV.key?("CI")
+
+    # In CI each job handles ONE AVD (set via SCREENSHOT_AVD env var) because
+    # reactivecircus/android-emulator-runner only manages one emulator per job
+    # and ubuntu-latest has only 7 GB RAM — not enough for two concurrent instances.
+    # Locally, all devices run in sequence.
+    all_devices = [
+      { avd: "Pixel_7_API_34",       dir: "Phone"  },
+      { avd: "Pixel_Tablet_API_34",  dir: "Tablet" },
     ]
+    avd_filter   = ENV["SCREENSHOT_AVD"]
+    active_devices = avd_filter \
+      ? all_devices.select { |d| d[:avd] == avd_filter } \
+      : all_devices
+
     locales = [
       { locale: "en-US", lang: "en-US" },
       { locale: "de-DE", lang: "de-DE" },
     ]
 
-    in_ci = ENV.key?("CI")
+    # ── Build ONCE — reused for every device × locale combination ─────────────
+    apk_path = "#{ROOT}/build/app/outputs/flutter-apk/app-debug.apk"
+    sh("cd #{ROOT} && flutter build apk --debug")
 
-    devices.each do |device|
+    active_devices.each do |device|
+      unless in_ci
+        # Locally: start a fresh emulator for this device.
+        sh("$ANDROID_HOME/emulator/emulator -avd #{device[:avd]} -no-audio -no-window &", log: false)
+      end
+
+      # Wait for the emulator to be fully booted (CI emulator is pre-started by
+      # reactivecircus/android-emulator-runner; local emulator just launched above).
+      sh("adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'", log: false)
+
       locales.each do |loc|
         UI.message("📸  #{device[:avd]} · #{loc[:locale]}")
 
-        if in_ci
-          # In CI the emulator is already running and managed by the
-          # reactivecircus/android-emulator-runner action — do not start
-          # or kill it; just wait for it to be fully booted.
-          sh("adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'", log: false)
-        else
-          # Locally: start a fresh emulator for each run.
-          sh("$ANDROID_HOME/emulator/emulator -avd #{device[:avd]} -no-audio -no-window &", log: false)
-          sh("adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'")
-        end
-
-        # Switch locale on the running device (works on Android 7+).
+        # Switch system locale and force-stop so the app relaunches fresh.
+        # flutter drive --use-application-binary re-installs the APK each run,
+        # but the system locale must be set before the app process starts.
         sh("adb shell settings put system system_locales #{loc[:lang]}", log: false)
         sh("adb shell am broadcast -a android.intent.action.LOCALE_CHANGED", log: false)
-        # Force-stop any leftover app process so the new locale is picked up.
         sh("adb shell am force-stop com.it_web_service.silvertimer", log: false)
         sleep(3)
 
         out_dir = "#{ROOT}/fastlane/screenshots/#{loc[:locale]}/#{device[:dir]}"
         sh("mkdir -p #{out_dir}")
 
+        # --use-application-binary skips the Gradle build (~315 s) entirely.
         sh(
           "cd #{ROOT} && SCREENSHOT_OUT_DIR=#{out_dir} flutter drive " \
           "--driver=test_driver/integration_test.dart " \
           "--target=integration_test/screenshot_test.dart " \
+          "--use-application-binary='#{apk_path}' " \
           "-d emulator-5554"
         )
+      end
 
-        # Locally: kill the emulator after each run so the next one starts clean.
-        sh("adb emu kill", log: false) unless in_ci
+      unless in_ci
+        # Locally: kill and wait for the emulator to fully stop before
+        # starting the next device, to avoid two concurrent instances.
+        sh("adb emu kill", log: false)
+        sleep(5)
       end
     end
 

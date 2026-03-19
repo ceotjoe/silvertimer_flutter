@@ -16,7 +16,7 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  # ─── iOS ──────────────────────────────────────────────────────────────────
+  # ─── iOS ────────────────────────────────────────────────────────────────────
   ios-screenshots:
     if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' }}
     runs-on: macos-latest
@@ -41,7 +41,6 @@ jobs:
 
       - name: Create required simulators
         run: |
-          # Find the latest installed iOS runtime identifier
           RUNTIME=$(xcrun simctl list runtimes --json \
             | python3 -c "
           import json, sys
@@ -74,15 +73,15 @@ jobs:
       - name: Capture iOS screenshots
         run: bundle exec fastlane ios screenshots
 
-      - name: Upload raw screenshots
+      - name: Upload framed screenshots
         uses: actions/upload-artifact@v4
         with:
-          name: screenshots-ios-raw
+          name: screenshots-ios
           path: fastlane/screenshots/
           retention-days: 30
 
-  # ─── Android ──────────────────────────────────────────────────────────────
-  android-screenshots:
+  # ─── Android Phone ──────────────────────────────────────────────────────────
+  android-phone-screenshots:
     if: ${{ github.event.inputs.platform == 'android' || github.event.inputs.platform == 'both' }}
     runs-on: ubuntu-latest
     steps:
@@ -105,7 +104,7 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: Create AVDs
+      - name: Capture Android Phone screenshots
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
@@ -113,21 +112,56 @@ jobs:
           arch: x86_64
           profile: pixel_7
           avd-name: Pixel_7_API_34
-          script: echo "AVD ready"
+          # SCREENSHOT_AVD tells the Fastfile to only process the Phone device.
+          # The emulator is managed entirely by this action — do not start/stop
+          # it inside Fastlane (in_ci guard handles this).
+          script: SCREENSHOT_AVD=Pixel_7_API_34 bundle exec fastlane android screenshots
 
-      - name: Capture Android screenshots
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 34
-          target: google_apis
-          arch: x86_64
-          profile: pixel_7
-          avd-name: Pixel_7_API_34
-          script: bundle exec fastlane android screenshots
-
-      - name: Upload raw screenshots
+      - name: Upload framed phone screenshots
         uses: actions/upload-artifact@v4
         with:
-          name: screenshots-android-raw
+          name: screenshots-android-phone
+          path: fastlane/screenshots/
+          retention-days: 30
+
+  # ─── Android Tablet ─────────────────────────────────────────────────────────
+  android-tablet-screenshots:
+    if: ${{ github.event.inputs.platform == 'android' || github.event.inputs.platform == 'both' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+
+      - name: Enable KVM for hardware acceleration
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | \
+            sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Capture Android Tablet screenshots
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_tablet
+          avd-name: Pixel_Tablet_API_34
+          # SCREENSHOT_AVD tells the Fastfile to only process the Tablet device.
+          script: SCREENSHOT_AVD=Pixel_Tablet_API_34 bundle exec fastlane android screenshots
+
+      - name: Upload framed tablet screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-android-tablet
           path: fastlane/screenshots/
           retention-days: 30
