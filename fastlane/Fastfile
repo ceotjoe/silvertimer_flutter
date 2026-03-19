@@ -24,6 +24,12 @@ platform :ios do
     # the binary as-is; if it was built from lib/main.dart the app never calls
     # IntegrationTestWidgetsFlutterBinding.ensureInitialized() and the driver
     # hangs waiting for a VM service extension that never appears.
+    #
+    # CocoaPods PATH fix: flutter build ios internally calls `pod install`.
+    # On CI, CocoaPods is installed via Bundler into vendor/bundle and is NOT
+    # on the system PATH. Prepend the bundler gem bin dir so `pod` resolves to
+    # the bundler-managed version rather than a missing or broken system gem.
+    ENV["PATH"] = "#{`bundle exec ruby -e 'puts Gem.bindir'`.strip}:#{ENV["PATH"]}"
     app_path = "#{ROOT}/build/ios/iphonesimulator/Runner.app"
     sh("cd #{ROOT} && flutter build ios --debug --simulator --target=integration_test/screenshot_test.dart")
 
