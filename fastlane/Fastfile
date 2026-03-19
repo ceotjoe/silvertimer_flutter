@@ -244,7 +244,11 @@ platform :android do
       end
     end
 
-    frame_screenshots(path: "#{ROOT}/fastlane/screenshots")
+    # NOTE: frame_screenshots is intentionally omitted for Android.
+    # frameit only recognises exact real-device resolutions; the Pixel 7
+    # emulator produces 1080×2337 which is not in the frameit catalogue.
+    # Google Play Store does not require framed screenshots — raw
+    # screenshots are uploaded and reviewed as-is.
   end
 
   desc "Build and deploy to Play Store internal track"
