@@ -9,12 +9,12 @@ part of 'calculator_input.dart';
 _$CalculatorInputImpl _$$CalculatorInputImplFromJson(
   Map<String, dynamic> json,
 ) => _$CalculatorInputImpl(
-  volumeValue: (json['volumeValue'] as num?)?.toDouble() ?? 0.0,
+  volumeValue: (json['volumeValue'] as num?)?.toDouble() ?? 500.0,
   volumeUnit:
       $enumDecodeNullable(_$VolumeUnitEnumMap, json['volumeUnit']) ??
       VolumeUnit.ml,
   currentMilliamps: (json['currentMilliamps'] as num?)?.toDouble() ?? 0.0,
-  targetPpm: (json['targetPpm'] as num?)?.toDouble() ?? 10.0,
+  targetPpm: (json['targetPpm'] as num?)?.toDouble() ?? 25.0,
 );
 
 Map<String, dynamic> _$$CalculatorInputImplToJson(

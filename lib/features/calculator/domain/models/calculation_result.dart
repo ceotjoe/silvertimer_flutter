@@ -1,3 +1,6 @@
+// Copyright (C) 2026 Jörg Holzapfel
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'calculator_input.dart';
 

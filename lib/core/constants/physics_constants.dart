@@ -1,3 +1,6 @@
+// Copyright (C) 2026 Jörg Holzapfel
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /// Physical constants used in the colloidal silver electrolysis calculation.
 class PhysicsConstants {
   PhysicsConstants._();
