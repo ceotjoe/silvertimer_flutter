@@ -107,3 +107,14 @@ Both files must be updated in the same commit as the code change — never leave
 ## Coding style
 
 Use prettier before commiting changes.
+
+## File header
+
+Every new hand-written `.dart` source file must start with this copyright header (two lines, then a blank line before the first import):
+
+```dart
+// Copyright (C) 2026 Jörg Holzapfel
+// SPDX-License-Identifier: GPL-3.0-or-later
+```
+
+Generated files (`*.g.dart`, `*.freezed.dart`, `l10n/generated/`) are exempt — they are overwritten by tooling and must not be edited manually.
