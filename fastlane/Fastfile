@@ -25,16 +25,13 @@ platform :ios do
     # IntegrationTestWidgetsFlutterBinding.ensureInitialized() and the driver
     # hangs waiting for a VM service extension that never appears.
     #
-    # CocoaPods isolation fix: `bundle exec fastlane` sets RUBYOPT=-r bundler/setup
-    # and BUNDLE_GEMFILE in the environment. Every child process inherits them —
-    # including the `pod --version` check Flutter runs internally. The pre-installed
-    # system/Homebrew CocoaPods uses its own Ruby; when it inherits RUBYOPT it tries
-    # to load bundler/setup against the wrong Gemfile, producing "CocoaPods is
-    # installed but broken". Clearing both variables just for the flutter process
-    # (shell-level prefix) lets pod run with its native Ruby without bundler
-    # interference, while leaving the Fastlane process itself unaffected.
+    # CocoaPods PATH fix: flutter build ios internally calls `pod install`.
+    # On CI, CocoaPods is installed via Bundler into vendor/bundle and is NOT
+    # on the system PATH. Prepend the bundler gem bin dir so `pod` resolves to
+    # the bundler-managed version rather than a missing or broken system gem.
+    ENV["PATH"] = "#{`bundle exec ruby -e 'puts Gem.bindir'`.strip}:#{ENV["PATH"]}"
     app_path = "#{ROOT}/build/ios/iphonesimulator/Runner.app"
-    sh("cd #{ROOT} && RUBYOPT= BUNDLE_GEMFILE= flutter build ios --debug --simulator --target=integration_test/screenshot_test.dart")
+    sh("cd #{ROOT} && flutter build ios --debug --simulator --target=integration_test/screenshot_test.dart")
 
     all_devices = [
       { sim: "iPhone 16 Pro Max",     dir: "iPhone_16_Pro_Max", type: "iphone" },
@@ -153,9 +150,7 @@ platform :ios do
 
     # Build Flutter iOS artifacts without code signing
     # (Xcode will apply signing during the archive step below)
-    # RUBYOPT/BUNDLE_GEMFILE cleared so Flutter's internal `pod` check
-    # is not contaminated by the bundle exec environment (same fix as screenshots lane).
-    sh("cd #{ROOT} && RUBYOPT= BUNDLE_GEMFILE= flutter build ios --release --no-codesign")
+    sh("cd #{ROOT} && flutter build ios --release --no-codesign")
 
     # Archive and export a signed IPA
     # codesigning_identity and xcargs supply PROVISIONING_PROFILE_SPECIFIER to the
