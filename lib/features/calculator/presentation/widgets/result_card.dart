@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:silvertimer_flutter/core/extensions/duration_extensions.dart';
 import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculation_result.dart';
+import 'package:silvertimer_flutter/shared/widgets/glass_card.dart';
 
 class ResultCard extends StatelessWidget {
   const ResultCard({super.key, required this.result, required this.onStartTimer});
@@ -18,11 +19,9 @@ class ResultCard extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final l10n = context.l10n;
 
-    return Card(
-      color: colorScheme.primaryContainer,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
+    return GlassCard(
+      tintColor: colorScheme.primaryContainer,
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
@@ -62,7 +61,6 @@ class ResultCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
     )
         .animate()
         .fadeIn(duration: 400.ms)
