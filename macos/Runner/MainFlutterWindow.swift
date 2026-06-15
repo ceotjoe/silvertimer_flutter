@@ -4,9 +4,13 @@ import FlutterMacOS
 class MainFlutterWindow: NSWindow {
   override func awakeFromNib() {
     let flutterViewController = FlutterViewController()
-    let windowFrame = self.frame
     self.contentViewController = flutterViewController
-    self.setFrame(windowFrame, display: true)
+
+    let portraitSize = NSSize(width: 390, height: 844)
+    self.setContentSize(portraitSize)
+    self.minSize = NSSize(width: 320, height: 568)
+    self.maxSize = NSSize(width: 430, height: 932)
+    self.center()
 
     RegisterGeneratedPlugins(registry: flutterViewController)
 

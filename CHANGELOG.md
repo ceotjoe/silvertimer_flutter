@@ -7,6 +7,9 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Changed
+- macOS window opens in portrait mode (390×844) with iPhone-sized min/max constraints for a phone-like experience
+
+### Changed
 - Bumped 25 transitive and direct dependencies to latest compatible versions (Tier 1 patch/minor upgrades): audioplayers 6.7.1, cupertino_icons 1.0.9, shared_preferences 2.5.5, and assorted transitive packages
 - Upgraded all Tier 2 major dependencies: drift 2.34, drift_flutter 0.3, freezed 3.x, json_annotation 4.12, json_serializable 6.14, flutter_riverpod 3.x, riverpod_annotation/generator 4.x, go_router 17.x, flutter_local_notifications 22.x, timezone 0.11, package_info_plus 10.x, build_runner 2.15, sqlite3_flutter_libs 0.6
 - Migrated notification_service.dart to flutter_local_notifications v22 named-parameter API (show/zonedSchedule/initialize); removed deprecated UILocalNotificationDateInterpretation
