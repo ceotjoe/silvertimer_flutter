@@ -154,7 +154,10 @@ platform :ios do
       scheme: "Runner",
       configuration: "Release",
       codesigning_identity: "Apple Distribution",
-      xcargs: "PROVISIONING_PROFILE_SPECIFIER='#{profile_uuid}'",
+      # DEVELOPMENT_TEAM is passed globally so Xcode 15+ SPM package targets
+      # also receive a team ID — without it they error with "requires a
+      # development team" even though the Runner target is signed manually.
+      xcargs: "PROVISIONING_PROFILE_SPECIFIER='#{profile_uuid}' DEVELOPMENT_TEAM=Q486NF4XF6",
       export_method: "app-store",
       export_options: {
         teamID: "Q486NF4XF6",
