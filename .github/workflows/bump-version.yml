@@ -24,6 +24,9 @@ on:
 permissions:
   contents: write   # needed to push the commit back to dev
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   bump:
     runs-on: ubuntu-latest

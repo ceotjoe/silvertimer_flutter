@@ -36,6 +36,7 @@ jobs:
 
       - name: Deploy to TestFlight
         env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           IOS_DISTRIBUTION_CERT_BASE64: ${{ secrets.IOS_DISTRIBUTION_CERT_BASE64 }}
           IOS_DISTRIBUTION_CERT_PASSWORD: ${{ secrets.IOS_DISTRIBUTION_CERT_PASSWORD }}
           IOS_PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE_BASE64 }}
