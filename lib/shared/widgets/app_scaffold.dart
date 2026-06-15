@@ -2,27 +2,91 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/core/utils/platform_utils.dart';
+import 'package:silvertimer_flutter/features/timer/domain/models/timer_state.dart';
+import 'package:silvertimer_flutter/features/timer/presentation/timer_controller.dart';
 import 'package:silvertimer_flutter/shared/widgets/glass_navigation_bar.dart';
 
-class AppScaffold extends StatelessWidget {
+class AppScaffold extends ConsumerStatefulWidget {
   const AppScaffold({super.key, required this.child});
 
   final Widget child;
 
   @override
+  ConsumerState<AppScaffold> createState() => _AppScaffoldState();
+}
+
+class _AppScaffoldState extends ConsumerState<AppScaffold>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    final notifier = ref.read(timerControllerProvider.notifier);
+    if (state == AppLifecycleState.paused) {
+      notifier.onAppPaused();
+    } else if (state == AppLifecycleState.resumed) {
+      notifier.onAppResumed();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    // Show/hide the completion banner from any tab so the alarm can always be dismissed.
+    ref.listen<TimerState>(timerControllerProvider, (prev, next) {
+      if (!mounted) return;
+      final messenger = ScaffoldMessenger.of(context);
+      if (next is TimerCompleted && prev is! TimerCompleted) {
+        messenger.showMaterialBanner(
+          MaterialBanner(
+            leading: const Icon(Icons.check_circle, color: Colors.green),
+            content: Text(l10n.electrolysisCompleteTitle),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  messenger.clearMaterialBanners();
+                  ref.read(timerControllerProvider.notifier).reset();
+                  context.go('/calculator');
+                },
+                child: Text(l10n.doneButton),
+              ),
+            ],
+          ),
+        );
+      } else if (prev is TimerCompleted && next is! TimerCompleted) {
+        // Alarm was already stopped via another path (e.g., Timer tab Done button).
+        messenger.clearMaterialBanners();
+      }
+    });
+
     final location = GoRouterState.of(context).uri.path;
     final index = _locationToIndex(location);
 
     if (isApplePlatform) {
-      return _AppleScaffold(selectedIndex: index, onSelect: (i) => _indexToLocation(context, i), child: child);
+      return _AppleScaffold(
+        selectedIndex: index,
+        onSelect: (i) => _indexToLocation(context, i),
+        child: widget.child,
+      );
     }
 
     return Scaffold(
-      body: child,
+      body: widget.child,
       bottomNavigationBar: NavigationBar(
         selectedIndex: index,
         onDestinationSelected: (i) => _indexToLocation(context, i),
@@ -30,22 +94,22 @@ class AppScaffold extends StatelessWidget {
           NavigationDestination(
             icon: const Icon(Icons.calculate_outlined),
             selectedIcon: const Icon(Icons.calculate),
-            label: context.l10n.navCalculator,
+            label: l10n.navCalculator,
           ),
           NavigationDestination(
             icon: const Icon(Icons.timer_outlined),
             selectedIcon: const Icon(Icons.timer),
-            label: context.l10n.navTimer,
+            label: l10n.navTimer,
           ),
           NavigationDestination(
             icon: const Icon(Icons.history_outlined),
             selectedIcon: const Icon(Icons.history),
-            label: context.l10n.navHistory,
+            label: l10n.navHistory,
           ),
           NavigationDestination(
             icon: const Icon(Icons.info_outline),
             selectedIcon: const Icon(Icons.info),
-            label: context.l10n.navInfo,
+            label: l10n.navInfo,
           ),
         ],
       ),

@@ -6,6 +6,13 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.1.1] - 2026-06-15
+
+### Fixed
+- Alarm could not be dismissed when the timer completed while the user was on a different tab: `WidgetsBindingObserver` moved from `TimerScreen` to `AppScaffold` so `onAppResumed()` fires regardless of the active tab
+- Added a global `MaterialBanner` in `AppScaffold` that appears on timer completion and provides a "Done" button visible from any tab, stopping the looping alarm without requiring navigation to the Timer tab
+- Completion dialog changed to `barrierDismissible: true` so it can be dismissed even if its navigator context becomes stale after a tab switch
+
 ### Added
 - Liquid Glass support (Steps 1 & 2): platform detection helper and frosted glass navigation bar for iOS and macOS
 - `GlassNavigationBar` widget: `BackdropFilter` blur + semi-transparent surface, animated icon/label switching, dark mode aware
@@ -129,7 +136,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - GitHub Actions workflow deploying Flutter web to GitHub Pages on every push
   to `main`
 
-[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.0...v2.1.1
 [2.0.1]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/ceotjoe/silvertimer_flutter/releases/tag/v1.0.0

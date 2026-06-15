@@ -23,12 +23,10 @@ class TimerScreen extends ConsumerStatefulWidget {
   ConsumerState<TimerScreen> createState() => _TimerScreenState();
 }
 
-class _TimerScreenState extends ConsumerState<TimerScreen>
-    with WidgetsBindingObserver {
+class _TimerScreenState extends ConsumerState<TimerScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     // Auto-load calculation when navigating to the timer screen.
     // If the timer is idle but a calculation result exists, load it.
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -38,22 +36,6 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
         ref.read(timerControllerProvider.notifier).loadCalculation(calcResult);
       }
     });
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    final notifier = ref.read(timerControllerProvider.notifier);
-    if (state == AppLifecycleState.paused) {
-      notifier.onAppPaused();
-    } else if (state == AppLifecycleState.resumed) {
-      notifier.onAppResumed();
-    }
   }
 
   @override
@@ -271,7 +253,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
     final l10n = context.l10n;
     showDialog<void>(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: true,
       builder: (ctx) => AlertDialog(
         icon: const Icon(Icons.check_circle, size: 64, color: Colors.green),
         title: Text(l10n.electrolysisCompleteTitle),
@@ -283,6 +265,8 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
+              // Also clear the global completion banner shown by AppScaffold.
+              ScaffoldMessenger.of(context).clearMaterialBanners();
               ref.read(timerControllerProvider.notifier).reset();
               context.go('/calculator');
             },
