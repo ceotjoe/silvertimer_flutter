@@ -12,6 +12,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - Migrated notification_service.dart to flutter_local_notifications v22 named-parameter API (show/zonedSchedule/initialize); removed deprecated UILocalNotificationDateInterpretation
 - Replaced StateProvider with NotifierProvider in timer_controller.dart (StateProvider removed in Riverpod v3)
 - Removed redundant flutter_riverpod imports in files that already import riverpod_annotation
+- Removed explicit kotlin-android Gradle plugin from app/build.gradle.kts; Kotlin is now provided by the Flutter Gradle Plugin (built-in Kotlin migration)
 
 ## [2.1.0] - 2026-03-18
 
