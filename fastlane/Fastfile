@@ -107,7 +107,11 @@ platform :ios do
 
     # Apply device frames + marketing text from title.strings
     frame_screenshots(path: "#{ROOT}/fastlane/screenshots")
-  end
+
+    # App Store Connect rejects PNGs that contain an alpha channel.
+    # frameit outputs RGBA even when a background colour is set in Framefile.json,
+    # so flatten every framed screenshot onto its own background pixels here.
+    sh("find '#{ROOT}/fastlane/screenshots' -name '*.png' -exec mogrify -flatten {} \\;")
 
   desc "Build and deploy to TestFlight"
   lane :deploy do
