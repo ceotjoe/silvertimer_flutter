@@ -17,33 +17,6 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  analyze-dart:
-    name: Analyze Dart
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          # Dart source is analyzed directly — no build step required.
-          languages: dart
-          build-mode: none
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
-        with:
-          category: dart
-
   analyze-swift:
     name: Analyze Swift (iOS)
     runs-on: macos-latest
