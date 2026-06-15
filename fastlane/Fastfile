@@ -157,10 +157,10 @@ platform :ios do
       # DEVELOPMENT_TEAM is passed globally so Xcode 15+ SPM package targets
       # also receive a team ID — without it they error with "requires a
       # development team" even though the Runner target is signed manually.
-      xcargs: "PROVISIONING_PROFILE_SPECIFIER='#{profile_uuid}' DEVELOPMENT_TEAM=Q486NF4XF6",
+      xcargs: "PROVISIONING_PROFILE_SPECIFIER='#{profile_uuid}' DEVELOPMENT_TEAM=#{ENV.fetch('APPLE_TEAM_ID')}",
       export_method: "app-store",
       export_options: {
-        teamID: "Q486NF4XF6",
+        teamID: ENV.fetch("APPLE_TEAM_ID"),
         signingStyle: "manual",
         provisioningProfiles: { "com.ITWebService.SilverTimer" => profile_uuid },
         uploadSymbols: false,
