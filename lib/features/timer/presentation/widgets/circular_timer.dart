@@ -84,11 +84,25 @@ class _CircularTimerState extends ConsumerState<CircularTimer>
             .clamp(0.0, 1.0)
         : 0.0;
 
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     final progressColor = widget.isComplete
         ? AppColors.progressComplete
         : AppColors.progressForeground;
 
-    final cleanGreen = Colors.green.shade400;
+    // Ring track colour: surfaceContainerHighest is visible in both themes.
+    final ringBackground = colorScheme.surfaceContainerHighest;
+
+    // Cleaning countdown uses the theme's tertiary colour (adapts to dark mode).
+    final cleanColor = colorScheme.tertiary;
+
+    // Tick-mark colours relative to the ring background brightness.
+    final tickPendingColor = isDark
+        ? Colors.white.withValues(alpha: 0.85)
+        : Colors.black.withValues(alpha: 0.75);
+    final tickPassedColor =
+        isDark ? Colors.white.withValues(alpha: 0.35) : Colors.black.withValues(alpha: 0.30);
 
     return SizedBox(
       width: _radius * 2,
@@ -121,7 +135,7 @@ class _CircularTimerState extends ConsumerState<CircularTimer>
                   Text(
                     nextCleaningIn.toHhMmSs(),
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: cleanGreen,
+                          color: cleanColor,
                           fontWeight: FontWeight.w600,
                           fontFeatures: const [FontFeature.tabularFigures()],
                         ),
@@ -129,14 +143,14 @@ class _CircularTimerState extends ConsumerState<CircularTimer>
                   Text(
                     context.l10n.nextClean,
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: cleanGreen,
+                          color: cleanColor,
                         ),
                   ),
                 ],
               ],
             ),
             progressColor: progressColor,
-            backgroundColor: AppColors.progressBackground,
+            backgroundColor: ringBackground,
             circularStrokeCap: CircularStrokeCap.round,
             animation: false,
           ),
@@ -153,6 +167,8 @@ class _CircularTimerState extends ConsumerState<CircularTimer>
                     passedMarkers: markers.passed,
                     arcRadius: _arcRadius,
                     pulseProgress: _pulseAnimation.value,
+                    pendingColor: tickPendingColor,
+                    passedColor: tickPassedColor,
                   ),
                 );
               },
@@ -181,6 +197,8 @@ class _CleaningMarkerPainter extends CustomPainter {
     required this.passedMarkers,
     required this.arcRadius,
     required this.pulseProgress,
+    required this.pendingColor,
+    required this.passedColor,
   });
 
   final List<double> pendingMarkers;
@@ -190,6 +208,10 @@ class _CleaningMarkerPainter extends CustomPainter {
   /// 0.0 = alarm just fired (bright), 1.0 = fully transitioned to dim.
   final double pulseProgress;
 
+  /// Theme-aware colours supplied by the parent widget.
+  final Color pendingColor;
+  final Color passedColor;
+
   static const double _tickHalfLength = 7.0;
 
   @override
@@ -197,13 +219,13 @@ class _CleaningMarkerPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
 
     final passedPaint = Paint()
-      ..color = Colors.white54
+      ..color = passedColor
       ..strokeWidth = 2.5
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     final pendingPaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.85)
+      ..color = pendingColor
       ..strokeWidth = 2.5
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
@@ -215,10 +237,10 @@ class _CleaningMarkerPainter extends CustomPainter {
       Paint paint;
       if (isLastFired && pulseProgress < 1.0) {
         // Animate: bright-pending → dim-passed
-        final alpha = _lerp(0.85, 0.54, pulseProgress);
+        final alpha = _lerp(pendingColor.a, passedColor.a, pulseProgress);
         final strokeW = _lerp(4.0, 2.5, pulseProgress);
         paint = Paint()
-          ..color = Colors.white.withValues(alpha: alpha)
+          ..color = pendingColor.withValues(alpha: alpha)
           ..strokeWidth = strokeW
           ..strokeCap = StrokeCap.round
           ..style = PaintingStyle.stroke;
@@ -252,7 +274,9 @@ class _CleaningMarkerPainter extends CustomPainter {
   bool shouldRepaint(_CleaningMarkerPainter old) {
     return old.pendingMarkers != pendingMarkers ||
         old.passedMarkers != passedMarkers ||
-        old.pulseProgress != pulseProgress;
+        old.pulseProgress != pulseProgress ||
+        old.pendingColor != pendingColor ||
+        old.passedColor != passedColor;
   }
 
   static double _lerp(double a, double b, double t) => a + (b - a) * t;
