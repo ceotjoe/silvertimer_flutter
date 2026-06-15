@@ -164,6 +164,7 @@ class TimerController extends _$TimerController {
   }
 
   void _onTick() {
+    if (!ref.mounted) return;
     final current = state;
     if (current is! TimerRunning) return;
 
