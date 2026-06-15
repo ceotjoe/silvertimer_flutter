@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculator_input.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/calculator_controller.dart';
+import 'package:silvertimer_flutter/shared/widgets/adaptive_text_field.dart';
 
 class VolumeInput extends ConsumerStatefulWidget {
   const VolumeInput({super.key});
@@ -57,7 +58,7 @@ class _VolumeInputState extends ConsumerState<VolumeInput> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: TextFormField(
+              child: AdaptiveTextFormField(
                 controller: _controller,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [

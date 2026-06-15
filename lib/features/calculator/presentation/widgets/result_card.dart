@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:silvertimer_flutter/core/extensions/duration_extensions.dart';
 import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculation_result.dart';
+import 'package:silvertimer_flutter/shared/widgets/adaptive_button.dart';
 import 'package:silvertimer_flutter/shared/widgets/glass_card.dart';
 
 class ResultCard extends StatelessWidget {
@@ -50,14 +51,10 @@ class ResultCard extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
-            FilledButton.icon(
+            AdaptiveFilledButton(
               onPressed: onStartTimer,
-              icon: const Icon(Icons.timer),
-              label: Text(l10n.startTimer),
-              style: FilledButton.styleFrom(
-                backgroundColor: colorScheme.primary,
-                foregroundColor: colorScheme.onPrimary,
-              ),
+              icon: Icons.timer,
+              label: l10n.startTimer,
             ),
           ],
         ),

@@ -14,6 +14,7 @@ import 'package:silvertimer_flutter/features/timer/domain/models/timer_state.dar
 import 'package:silvertimer_flutter/features/timer/presentation/timer_controller.dart';
 import 'package:silvertimer_flutter/features/timer/presentation/widgets/circular_timer.dart';
 import 'package:silvertimer_flutter/shared/widgets/adaptive_app_bar.dart';
+import 'package:silvertimer_flutter/shared/widgets/adaptive_button.dart';
 
 class TimerScreen extends ConsumerStatefulWidget {
   const TimerScreen({super.key});
@@ -176,15 +177,15 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
     final l10n = context.l10n;
 
     return switch (state) {
-      TimerIdle() => FilledButton.icon(
+      TimerIdle() => AdaptiveFilledButton(
           onPressed: null,
-          icon: const Icon(Icons.play_arrow),
-          label: Text(l10n.noTimerLoaded),
+          icon: Icons.play_arrow,
+          label: l10n.noTimerLoaded,
         ),
       TimerPaused() => Row(
           children: [
             Expanded(
-              child: FilledButton.icon(
+              child: AdaptiveFilledButton(
                 onPressed: () {
                   notifier.start(
                     strings: NotificationStrings(
@@ -196,45 +197,45 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
                     ),
                   );
                 },
-                icon: const Icon(Icons.play_arrow),
-                label: Text(l10n.startButton),
+                icon: Icons.play_arrow,
+                label: l10n.startButton,
               ),
             ),
             const SizedBox(width: 12),
-            OutlinedButton.icon(
+            AdaptiveOutlinedButton(
               onPressed: () {
                 notifier.reset();
                 context.go('/calculator');
               },
-              icon: const Icon(Icons.restart_alt),
-              label: Text(l10n.resetButton),
+              icon: Icons.restart_alt,
+              label: l10n.resetButton,
             ),
           ],
         ),
       TimerRunning() => Row(
           children: [
             Expanded(
-              child: FilledButton.icon(
+              child: AdaptiveFilledButton(
                 onPressed: () => notifier.pause(),
-                icon: const Icon(Icons.pause),
-                label: Text(l10n.pauseButton),
+                icon: Icons.pause,
+                label: l10n.pauseButton,
               ),
             ),
             const SizedBox(width: 12),
-            OutlinedButton.icon(
+            AdaptiveOutlinedButton(
               onPressed: () => _confirmReset(context, notifier),
-              icon: const Icon(Icons.restart_alt),
-              label: Text(l10n.resetButton),
+              icon: Icons.restart_alt,
+              label: l10n.resetButton,
             ),
           ],
         ),
-      TimerCompleted() => FilledButton.icon(
+      TimerCompleted() => AdaptiveFilledButton(
           onPressed: () {
             notifier.reset();
             context.go('/calculator');
           },
-          icon: const Icon(Icons.check),
-          label: Text(l10n.doneButton),
+          icon: Icons.check,
+          label: l10n.doneButton,
         ),
     };
   }

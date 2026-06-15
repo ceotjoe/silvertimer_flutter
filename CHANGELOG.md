@@ -12,6 +12,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - `AppScaffold` now renders a full-bleed body with the glass bar floating on top on Apple platforms; Material `NavigationBar` unchanged on Android/web
 - Liquid Glass Step 3: `adaptiveAppBar` factory returns `CupertinoNavigationBar` on iOS/macOS and Material `AppBar` on all other platforms; applied to all five screens
 - Liquid Glass Step 4: `GlassCard` widget with `BackdropFilter` blur and semi-transparent tint on iOS/macOS; falls back to Material `Card` elsewhere; applied to `ResultCard`
+- Liquid Glass Step 5: `AdaptiveFilledButton` and `AdaptiveOutlinedButton` render `CupertinoButton` on iOS/macOS; `AdaptiveTextFormField` and `AdaptiveTextField` render Cupertino-styled filled inputs on iOS/macOS; applied to calculator, timer, and settings screens
 
 ### Changed
 - macOS window opens in portrait mode (390×844) with iPhone-sized min/max constraints for a phone-like experience

@@ -9,6 +9,7 @@ import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculator_input.dart';
 import 'package:silvertimer_flutter/features/settings/presentation/settings_controller.dart';
 import 'package:silvertimer_flutter/shared/widgets/adaptive_app_bar.dart';
+import 'package:silvertimer_flutter/shared/widgets/adaptive_text_field.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -248,7 +249,7 @@ class _PpmFieldState extends State<_PpmField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return AdaptiveTextField(
       controller: _controller,
       focusNode: _focusNode,
       keyboardType: TextInputType.number,
@@ -300,7 +301,7 @@ class _CurrentMaFieldState extends State<_CurrentMaField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return AdaptiveTextField(
       controller: _controller,
       focusNode: _focusNode,
       keyboardType: TextInputType.number,
