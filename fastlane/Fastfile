@@ -112,6 +112,7 @@ platform :ios do
     # frameit outputs RGBA even when a background colour is set in Framefile.json,
     # so flatten every framed screenshot onto its own background pixels here.
     sh("find '#{ROOT}/fastlane/screenshots' -name '*.png' -exec mogrify -flatten {} \\;")
+  end
 
   desc "Build and deploy to TestFlight"
   lane :deploy do
