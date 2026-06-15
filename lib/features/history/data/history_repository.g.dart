@@ -6,23 +6,52 @@ part of 'history_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$historyRepositoryHash() => r'e7148e96aa98bf382474b1dfe1eb83f9ff7b26f8';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [historyRepository].
 @ProviderFor(historyRepository)
-final historyRepositoryProvider =
-    AutoDisposeProvider<HistoryRepository>.internal(
-      historyRepository,
-      name: r'historyRepositoryProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$historyRepositoryHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+final historyRepositoryProvider = HistoryRepositoryProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef HistoryRepositoryRef = AutoDisposeProviderRef<HistoryRepository>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class HistoryRepositoryProvider
+    extends
+        $FunctionalProvider<
+          HistoryRepository,
+          HistoryRepository,
+          HistoryRepository
+        >
+    with $Provider<HistoryRepository> {
+  HistoryRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'historyRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$historyRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<HistoryRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  HistoryRepository create(Ref ref) {
+    return historyRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(HistoryRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<HistoryRepository>(value),
+    );
+  }
+}
+
+String _$historyRepositoryHash() => r'e7148e96aa98bf382474b1dfe1eb83f9ff7b26f8';

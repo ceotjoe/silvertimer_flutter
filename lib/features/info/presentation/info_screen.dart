@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
+import 'package:silvertimer_flutter/shared/widgets/adaptive_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InfoScreen extends StatefulWidget {
@@ -42,7 +43,7 @@ class _InfoScreenState extends State<InfoScreen> {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.infoTitle)),
+      appBar: adaptiveAppBar(title: l10n.infoTitle),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 48),

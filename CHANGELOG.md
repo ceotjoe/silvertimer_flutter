@@ -6,6 +6,35 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.1.1] - 2026-06-15
+
+### Fixed
+- Alarm could not be dismissed when the timer completed while the user was on a different tab: `WidgetsBindingObserver` moved from `TimerScreen` to `AppScaffold` so `onAppResumed()` fires regardless of the active tab
+- Added a global `MaterialBanner` in `AppScaffold` that appears on timer completion and provides a "Done" button visible from any tab, stopping the looping alarm without requiring navigation to the Timer tab
+- Completion dialog changed to `barrierDismissible: true` so it can be dismissed even if its navigator context becomes stale after a tab switch
+
+### Added
+- Liquid Glass support (Steps 1 & 2): platform detection helper and frosted glass navigation bar for iOS and macOS
+- `GlassNavigationBar` widget: `BackdropFilter` blur + semi-transparent surface, animated icon/label switching, dark mode aware
+- `AppScaffold` now renders a full-bleed body with the glass bar floating on top on Apple platforms; Material `NavigationBar` unchanged on Android/web
+- Liquid Glass Step 3: `adaptiveAppBar` factory returns `CupertinoNavigationBar` on iOS/macOS and Material `AppBar` on all other platforms; applied to all five screens
+- Liquid Glass Step 4: `GlassCard` widget with `BackdropFilter` blur and semi-transparent tint on iOS/macOS; falls back to Material `Card` elsewhere; applied to `ResultCard`
+- Liquid Glass Step 5: `AdaptiveFilledButton` and `AdaptiveOutlinedButton` render `CupertinoButton` on iOS/macOS; `AdaptiveTextFormField` and `AdaptiveTextField` render Cupertino-styled filled inputs on iOS/macOS; applied to calculator, timer, and settings screens
+- Liquid Glass Step 6: `AppCupertinoColors` with `CupertinoDynamicColor` constants replace all hardcoded brightness checks in glass widgets; colors now resolve automatically for light/dark mode via the system semantic color system
+
+### Changed
+- macOS window opens in portrait mode (390×844) with iPhone-sized min/max constraints for a phone-like experience
+- Removed CocoaPods integration from macOS and iOS; all plugins now use Swift Package Manager (faster builds)
+- Fixed Dependabot security alerts: bumped jwt (→3.2.0) and addressable (→2.9.0) in Gemfile.lock; activesupport alerts resolved by CocoaPods removal
+
+### Changed
+- Bumped 25 transitive and direct dependencies to latest compatible versions (Tier 1 patch/minor upgrades): audioplayers 6.7.1, cupertino_icons 1.0.9, shared_preferences 2.5.5, and assorted transitive packages
+- Upgraded all Tier 2 major dependencies: drift 2.34, drift_flutter 0.3, freezed 3.x, json_annotation 4.12, json_serializable 6.14, flutter_riverpod 3.x, riverpod_annotation/generator 4.x, go_router 17.x, flutter_local_notifications 22.x, timezone 0.11, package_info_plus 10.x, build_runner 2.15, sqlite3_flutter_libs 0.6
+- Migrated notification_service.dart to flutter_local_notifications v22 named-parameter API (show/zonedSchedule/initialize); removed deprecated UILocalNotificationDateInterpretation
+- Replaced StateProvider with NotifierProvider in timer_controller.dart (StateProvider removed in Riverpod v3)
+- Removed redundant flutter_riverpod imports in files that already import riverpod_annotation
+- Removed explicit kotlin-android Gradle plugin from app/build.gradle.kts; Kotlin is now provided by the Flutter Gradle Plugin (built-in Kotlin migration)
+
 ## [2.1.0] - 2026-03-18
 
 ### Added
@@ -107,7 +136,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - GitHub Actions workflow deploying Flutter web to GitHub Pages on every push
   to `main`
 
-[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.0...v2.1.1
 [2.0.1]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/ceotjoe/silvertimer_flutter/releases/tag/v1.0.0

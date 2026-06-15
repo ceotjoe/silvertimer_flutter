@@ -747,22 +747,47 @@ class $HistoryDatabaseManager {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$historyDatabaseHash() => r'adcd2a372642895805e38834d1dc43232b7a6bc2';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [historyDatabase].
 @ProviderFor(historyDatabase)
-final historyDatabaseProvider = AutoDisposeProvider<HistoryDatabase>.internal(
-  historyDatabase,
-  name: r'historyDatabaseProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$historyDatabaseHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final historyDatabaseProvider = HistoryDatabaseProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef HistoryDatabaseRef = AutoDisposeProviderRef<HistoryDatabase>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class HistoryDatabaseProvider
+    extends
+        $FunctionalProvider<HistoryDatabase, HistoryDatabase, HistoryDatabase>
+    with $Provider<HistoryDatabase> {
+  HistoryDatabaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'historyDatabaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$historyDatabaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<HistoryDatabase> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  HistoryDatabase create(Ref ref) {
+    return historyDatabase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(HistoryDatabase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<HistoryDatabase>(value),
+    );
+  }
+}
+
+String _$historyDatabaseHash() => r'adcd2a372642895805e38834d1dc43232b7a6bc2';

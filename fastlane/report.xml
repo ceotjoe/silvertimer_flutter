@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000292">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: cd /Volumes/Crucial_X9/Development/silvertimer_flutter &amp;&amp; flutter pub get" time="1.267351">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: cd /Volumes/Crucial_X9/Development/silvertimer_flutter &amp;&amp; dart run build_runner build --delete-conflicting-outputs" time="2.647998">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: shell command" time="0.144749">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="4: shell command" time="0.136625">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="5: shell command" time="0.139633">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="6: frame_screenshots" time="0.002009">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

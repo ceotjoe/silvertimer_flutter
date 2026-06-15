@@ -6,22 +6,51 @@ part of 'silver_calculator.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$silverCalculatorHash() => r'bc53ecb68a6123dfc879675c160d1f7dff811aa8';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [silverCalculator].
 @ProviderFor(silverCalculator)
-final silverCalculatorProvider = AutoDisposeProvider<SilverCalculator>.internal(
-  silverCalculator,
-  name: r'silverCalculatorProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$silverCalculatorHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final silverCalculatorProvider = SilverCalculatorProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef SilverCalculatorRef = AutoDisposeProviderRef<SilverCalculator>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class SilverCalculatorProvider
+    extends
+        $FunctionalProvider<
+          SilverCalculator,
+          SilverCalculator,
+          SilverCalculator
+        >
+    with $Provider<SilverCalculator> {
+  SilverCalculatorProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'silverCalculatorProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$silverCalculatorHash();
+
+  @$internal
+  @override
+  $ProviderElement<SilverCalculator> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  SilverCalculator create(Ref ref) {
+    return silverCalculator(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SilverCalculator value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SilverCalculator>(value),
+    );
+  }
+}
+
+String _$silverCalculatorHash() => r'bc53ecb68a6123dfc879675c160d1f7dff811aa8';

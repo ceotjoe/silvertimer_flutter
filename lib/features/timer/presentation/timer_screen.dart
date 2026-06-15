@@ -13,6 +13,8 @@ import 'package:silvertimer_flutter/features/timer/data/notification_strings.dar
 import 'package:silvertimer_flutter/features/timer/domain/models/timer_state.dart';
 import 'package:silvertimer_flutter/features/timer/presentation/timer_controller.dart';
 import 'package:silvertimer_flutter/features/timer/presentation/widgets/circular_timer.dart';
+import 'package:silvertimer_flutter/shared/widgets/adaptive_app_bar.dart';
+import 'package:silvertimer_flutter/shared/widgets/adaptive_button.dart';
 
 class TimerScreen extends ConsumerStatefulWidget {
   const TimerScreen({super.key});
@@ -21,12 +23,10 @@ class TimerScreen extends ConsumerStatefulWidget {
   ConsumerState<TimerScreen> createState() => _TimerScreenState();
 }
 
-class _TimerScreenState extends ConsumerState<TimerScreen>
-    with WidgetsBindingObserver {
+class _TimerScreenState extends ConsumerState<TimerScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     // Auto-load calculation when navigating to the timer screen.
     // If the timer is idle but a calculation result exists, load it.
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -36,22 +36,6 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
         ref.read(timerControllerProvider.notifier).loadCalculation(calcResult);
       }
     });
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    final notifier = ref.read(timerControllerProvider.notifier);
-    if (state == AppLifecycleState.paused) {
-      notifier.onAppPaused();
-    } else if (state == AppLifecycleState.resumed) {
-      notifier.onAppResumed();
-    }
   }
 
   @override
@@ -99,13 +83,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
     });
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.timerTitle),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.go('/calculator'),
-        ),
-      ),
+      appBar: adaptiveAppBar(title: l10n.timerTitle),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -181,15 +159,15 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
     final l10n = context.l10n;
 
     return switch (state) {
-      TimerIdle() => FilledButton.icon(
+      TimerIdle() => AdaptiveFilledButton(
           onPressed: null,
-          icon: const Icon(Icons.play_arrow),
-          label: Text(l10n.noTimerLoaded),
+          icon: Icons.play_arrow,
+          label: l10n.noTimerLoaded,
         ),
       TimerPaused() => Row(
           children: [
             Expanded(
-              child: FilledButton.icon(
+              child: AdaptiveFilledButton(
                 onPressed: () {
                   notifier.start(
                     strings: NotificationStrings(
@@ -201,45 +179,45 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
                     ),
                   );
                 },
-                icon: const Icon(Icons.play_arrow),
-                label: Text(l10n.startButton),
+                icon: Icons.play_arrow,
+                label: l10n.startButton,
               ),
             ),
             const SizedBox(width: 12),
-            OutlinedButton.icon(
+            AdaptiveOutlinedButton(
               onPressed: () {
                 notifier.reset();
                 context.go('/calculator');
               },
-              icon: const Icon(Icons.restart_alt),
-              label: Text(l10n.resetButton),
+              icon: Icons.restart_alt,
+              label: l10n.resetButton,
             ),
           ],
         ),
       TimerRunning() => Row(
           children: [
             Expanded(
-              child: FilledButton.icon(
+              child: AdaptiveFilledButton(
                 onPressed: () => notifier.pause(),
-                icon: const Icon(Icons.pause),
-                label: Text(l10n.pauseButton),
+                icon: Icons.pause,
+                label: l10n.pauseButton,
               ),
             ),
             const SizedBox(width: 12),
-            OutlinedButton.icon(
+            AdaptiveOutlinedButton(
               onPressed: () => _confirmReset(context, notifier),
-              icon: const Icon(Icons.restart_alt),
-              label: Text(l10n.resetButton),
+              icon: Icons.restart_alt,
+              label: l10n.resetButton,
             ),
           ],
         ),
-      TimerCompleted() => FilledButton.icon(
+      TimerCompleted() => AdaptiveFilledButton(
           onPressed: () {
             notifier.reset();
             context.go('/calculator');
           },
-          icon: const Icon(Icons.check),
-          label: Text(l10n.doneButton),
+          icon: Icons.check,
+          label: l10n.doneButton,
         ),
     };
   }
@@ -275,7 +253,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
     final l10n = context.l10n;
     showDialog<void>(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: true,
       builder: (ctx) => AlertDialog(
         icon: const Icon(Icons.check_circle, size: 64, color: Colors.green),
         title: Text(l10n.electrolysisCompleteTitle),
@@ -287,6 +265,8 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
+              // Also clear the global completion banner shown by AppScaffold.
+              ScaffoldMessenger.of(context).clearMaterialBanners();
               ref.read(timerControllerProvider.notifier).reset();
               context.go('/calculator');
             },

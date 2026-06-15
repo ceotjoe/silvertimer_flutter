@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,249 +9,278 @@ part of 'calculator_input.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
-CalculatorInput _$CalculatorInputFromJson(Map<String, dynamic> json) {
-  return _CalculatorInput.fromJson(json);
-}
 
 /// @nodoc
 mixin _$CalculatorInput {
-  double get volumeValue => throw _privateConstructorUsedError;
-  VolumeUnit get volumeUnit => throw _privateConstructorUsedError;
-  double get currentMilliamps => throw _privateConstructorUsedError;
-  double get targetPpm => throw _privateConstructorUsedError;
+
+ double get volumeValue; VolumeUnit get volumeUnit; double get currentMilliamps; double get targetPpm;
+/// Create a copy of CalculatorInput
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CalculatorInputCopyWith<CalculatorInput> get copyWith => _$CalculatorInputCopyWithImpl<CalculatorInput>(this as CalculatorInput, _$identity);
 
   /// Serializes this CalculatorInput to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of CalculatorInput
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $CalculatorInputCopyWith<CalculatorInput> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalculatorInput&&(identical(other.volumeValue, volumeValue) || other.volumeValue == volumeValue)&&(identical(other.volumeUnit, volumeUnit) || other.volumeUnit == volumeUnit)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.targetPpm, targetPpm) || other.targetPpm == targetPpm));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,volumeValue,volumeUnit,currentMilliamps,targetPpm);
+
+@override
+String toString() {
+  return 'CalculatorInput(volumeValue: $volumeValue, volumeUnit: $volumeUnit, currentMilliamps: $currentMilliamps, targetPpm: $targetPpm)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $CalculatorInputCopyWith<$Res> {
-  factory $CalculatorInputCopyWith(
-    CalculatorInput value,
-    $Res Function(CalculatorInput) then,
-  ) = _$CalculatorInputCopyWithImpl<$Res, CalculatorInput>;
-  @useResult
-  $Res call({
-    double volumeValue,
-    VolumeUnit volumeUnit,
-    double currentMilliamps,
-    double targetPpm,
-  });
-}
+abstract mixin class $CalculatorInputCopyWith<$Res>  {
+  factory $CalculatorInputCopyWith(CalculatorInput value, $Res Function(CalculatorInput) _then) = _$CalculatorInputCopyWithImpl;
+@useResult
+$Res call({
+ double volumeValue, VolumeUnit volumeUnit, double currentMilliamps, double targetPpm
+});
 
+
+
+
+}
 /// @nodoc
-class _$CalculatorInputCopyWithImpl<$Res, $Val extends CalculatorInput>
+class _$CalculatorInputCopyWithImpl<$Res>
     implements $CalculatorInputCopyWith<$Res> {
-  _$CalculatorInputCopyWithImpl(this._value, this._then);
+  _$CalculatorInputCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final CalculatorInput _self;
+  final $Res Function(CalculatorInput) _then;
 
-  /// Create a copy of CalculatorInput
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? volumeValue = null,
-    Object? volumeUnit = null,
-    Object? currentMilliamps = null,
-    Object? targetPpm = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            volumeValue: null == volumeValue
-                ? _value.volumeValue
-                : volumeValue // ignore: cast_nullable_to_non_nullable
-                      as double,
-            volumeUnit: null == volumeUnit
-                ? _value.volumeUnit
-                : volumeUnit // ignore: cast_nullable_to_non_nullable
-                      as VolumeUnit,
-            currentMilliamps: null == currentMilliamps
-                ? _value.currentMilliamps
-                : currentMilliamps // ignore: cast_nullable_to_non_nullable
-                      as double,
-            targetPpm: null == targetPpm
-                ? _value.targetPpm
-                : targetPpm // ignore: cast_nullable_to_non_nullable
-                      as double,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of CalculatorInput
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? volumeValue = null,Object? volumeUnit = null,Object? currentMilliamps = null,Object? targetPpm = null,}) {
+  return _then(_self.copyWith(
+volumeValue: null == volumeValue ? _self.volumeValue : volumeValue // ignore: cast_nullable_to_non_nullable
+as double,volumeUnit: null == volumeUnit ? _self.volumeUnit : volumeUnit // ignore: cast_nullable_to_non_nullable
+as VolumeUnit,currentMilliamps: null == currentMilliamps ? _self.currentMilliamps : currentMilliamps // ignore: cast_nullable_to_non_nullable
+as double,targetPpm: null == targetPpm ? _self.targetPpm : targetPpm // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
 }
 
-/// @nodoc
-abstract class _$$CalculatorInputImplCopyWith<$Res>
-    implements $CalculatorInputCopyWith<$Res> {
-  factory _$$CalculatorInputImplCopyWith(
-    _$CalculatorInputImpl value,
-    $Res Function(_$CalculatorInputImpl) then,
-  ) = __$$CalculatorInputImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    double volumeValue,
-    VolumeUnit volumeUnit,
-    double currentMilliamps,
-    double targetPpm,
-  });
 }
 
-/// @nodoc
-class __$$CalculatorInputImplCopyWithImpl<$Res>
-    extends _$CalculatorInputCopyWithImpl<$Res, _$CalculatorInputImpl>
-    implements _$$CalculatorInputImplCopyWith<$Res> {
-  __$$CalculatorInputImplCopyWithImpl(
-    _$CalculatorInputImpl _value,
-    $Res Function(_$CalculatorInputImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of CalculatorInput
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? volumeValue = null,
-    Object? volumeUnit = null,
-    Object? currentMilliamps = null,
-    Object? targetPpm = null,
-  }) {
-    return _then(
-      _$CalculatorInputImpl(
-        volumeValue: null == volumeValue
-            ? _value.volumeValue
-            : volumeValue // ignore: cast_nullable_to_non_nullable
-                  as double,
-        volumeUnit: null == volumeUnit
-            ? _value.volumeUnit
-            : volumeUnit // ignore: cast_nullable_to_non_nullable
-                  as VolumeUnit,
-        currentMilliamps: null == currentMilliamps
-            ? _value.currentMilliamps
-            : currentMilliamps // ignore: cast_nullable_to_non_nullable
-                  as double,
-        targetPpm: null == targetPpm
-            ? _value.targetPpm
-            : targetPpm // ignore: cast_nullable_to_non_nullable
-                  as double,
-      ),
-    );
-  }
+/// Adds pattern-matching-related methods to [CalculatorInput].
+extension CalculatorInputPatterns on CalculatorInput {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CalculatorInput value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _CalculatorInput() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CalculatorInput value)  $default,){
+final _that = this;
+switch (_that) {
+case _CalculatorInput():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CalculatorInput value)?  $default,){
+final _that = this;
+switch (_that) {
+case _CalculatorInput() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double volumeValue,  VolumeUnit volumeUnit,  double currentMilliamps,  double targetPpm)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _CalculatorInput() when $default != null:
+return $default(_that.volumeValue,_that.volumeUnit,_that.currentMilliamps,_that.targetPpm);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double volumeValue,  VolumeUnit volumeUnit,  double currentMilliamps,  double targetPpm)  $default,) {final _that = this;
+switch (_that) {
+case _CalculatorInput():
+return $default(_that.volumeValue,_that.volumeUnit,_that.currentMilliamps,_that.targetPpm);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double volumeValue,  VolumeUnit volumeUnit,  double currentMilliamps,  double targetPpm)?  $default,) {final _that = this;
+switch (_that) {
+case _CalculatorInput() when $default != null:
+return $default(_that.volumeValue,_that.volumeUnit,_that.currentMilliamps,_that.targetPpm);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$CalculatorInputImpl extends _CalculatorInput {
-  const _$CalculatorInputImpl({
-    this.volumeValue = 500.0,
-    this.volumeUnit = VolumeUnit.ml,
-    this.currentMilliamps = 0.0,
-    this.targetPpm = 25.0,
-  }) : super._();
 
-  factory _$CalculatorInputImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CalculatorInputImplFromJson(json);
+class _CalculatorInput extends CalculatorInput {
+  const _CalculatorInput({this.volumeValue = 500.0, this.volumeUnit = VolumeUnit.ml, this.currentMilliamps = 0.0, this.targetPpm = 25.0}): super._();
+  factory _CalculatorInput.fromJson(Map<String, dynamic> json) => _$CalculatorInputFromJson(json);
 
-  @override
-  @JsonKey()
-  final double volumeValue;
-  @override
-  @JsonKey()
-  final VolumeUnit volumeUnit;
-  @override
-  @JsonKey()
-  final double currentMilliamps;
-  @override
-  @JsonKey()
-  final double targetPpm;
+@override@JsonKey() final  double volumeValue;
+@override@JsonKey() final  VolumeUnit volumeUnit;
+@override@JsonKey() final  double currentMilliamps;
+@override@JsonKey() final  double targetPpm;
 
-  @override
-  String toString() {
-    return 'CalculatorInput(volumeValue: $volumeValue, volumeUnit: $volumeUnit, currentMilliamps: $currentMilliamps, targetPpm: $targetPpm)';
-  }
+/// Create a copy of CalculatorInput
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CalculatorInputCopyWith<_CalculatorInput> get copyWith => __$CalculatorInputCopyWithImpl<_CalculatorInput>(this, _$identity);
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CalculatorInputImpl &&
-            (identical(other.volumeValue, volumeValue) ||
-                other.volumeValue == volumeValue) &&
-            (identical(other.volumeUnit, volumeUnit) ||
-                other.volumeUnit == volumeUnit) &&
-            (identical(other.currentMilliamps, currentMilliamps) ||
-                other.currentMilliamps == currentMilliamps) &&
-            (identical(other.targetPpm, targetPpm) ||
-                other.targetPpm == targetPpm));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    volumeValue,
-    volumeUnit,
-    currentMilliamps,
-    targetPpm,
-  );
-
-  /// Create a copy of CalculatorInput
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$CalculatorInputImplCopyWith<_$CalculatorInputImpl> get copyWith =>
-      __$$CalculatorInputImplCopyWithImpl<_$CalculatorInputImpl>(
-        this,
-        _$identity,
-      );
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$CalculatorInputImplToJson(this);
-  }
+@override
+Map<String, dynamic> toJson() {
+  return _$CalculatorInputToJson(this, );
 }
 
-abstract class _CalculatorInput extends CalculatorInput {
-  const factory _CalculatorInput({
-    final double volumeValue,
-    final VolumeUnit volumeUnit,
-    final double currentMilliamps,
-    final double targetPpm,
-  }) = _$CalculatorInputImpl;
-  const _CalculatorInput._() : super._();
-
-  factory _CalculatorInput.fromJson(Map<String, dynamic> json) =
-      _$CalculatorInputImpl.fromJson;
-
-  @override
-  double get volumeValue;
-  @override
-  VolumeUnit get volumeUnit;
-  @override
-  double get currentMilliamps;
-  @override
-  double get targetPpm;
-
-  /// Create a copy of CalculatorInput
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CalculatorInputImplCopyWith<_$CalculatorInputImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalculatorInput&&(identical(other.volumeValue, volumeValue) || other.volumeValue == volumeValue)&&(identical(other.volumeUnit, volumeUnit) || other.volumeUnit == volumeUnit)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.targetPpm, targetPpm) || other.targetPpm == targetPpm));
 }
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,volumeValue,volumeUnit,currentMilliamps,targetPpm);
+
+@override
+String toString() {
+  return 'CalculatorInput(volumeValue: $volumeValue, volumeUnit: $volumeUnit, currentMilliamps: $currentMilliamps, targetPpm: $targetPpm)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$CalculatorInputCopyWith<$Res> implements $CalculatorInputCopyWith<$Res> {
+  factory _$CalculatorInputCopyWith(_CalculatorInput value, $Res Function(_CalculatorInput) _then) = __$CalculatorInputCopyWithImpl;
+@override @useResult
+$Res call({
+ double volumeValue, VolumeUnit volumeUnit, double currentMilliamps, double targetPpm
+});
+
+
+
+
+}
+/// @nodoc
+class __$CalculatorInputCopyWithImpl<$Res>
+    implements _$CalculatorInputCopyWith<$Res> {
+  __$CalculatorInputCopyWithImpl(this._self, this._then);
+
+  final _CalculatorInput _self;
+  final $Res Function(_CalculatorInput) _then;
+
+/// Create a copy of CalculatorInput
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? volumeValue = null,Object? volumeUnit = null,Object? currentMilliamps = null,Object? targetPpm = null,}) {
+  return _then(_CalculatorInput(
+volumeValue: null == volumeValue ? _self.volumeValue : volumeValue // ignore: cast_nullable_to_non_nullable
+as double,volumeUnit: null == volumeUnit ? _self.volumeUnit : volumeUnit // ignore: cast_nullable_to_non_nullable
+as VolumeUnit,currentMilliamps: null == currentMilliamps ? _self.currentMilliamps : currentMilliamps // ignore: cast_nullable_to_non_nullable
+as double,targetPpm: null == targetPpm ? _self.targetPpm : targetPpm // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
+}
+
+
+}
+
+// dart format on
