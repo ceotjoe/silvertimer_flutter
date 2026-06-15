@@ -9,6 +9,16 @@ import 'package:integration_test/integration_test.dart';
 
 import 'package:silvertimer_flutter/main.dart' as app;
 
+/// Pumps enough frames for LiveTestWidgetsFlutterBinding's tap-crosshair
+/// indicator to fully decay. pumpAndSettle handles this automatically (it keeps
+/// pumping until the crosshair repaints stop), but on the timer screen we
+/// cannot use pumpAndSettle because the running ticker emits frames forever.
+Future<void> _decayCrosshair(WidgetTester tester) async {
+  for (var i = 0; i < 8; i++) {
+    await tester.pump();
+  }
+}
+
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -47,10 +57,11 @@ void main() {
     if (startTimerBtn.evaluate().isNotEmpty) {
       await tester.tap(startTimerBtn);
       // Cannot use pumpAndSettle here: the running timer's Ticker emits
-      // frames continuously and would cause a timeout. Pump enough time for
-      // the go_router navigation animation to complete instead.
+      // frames continuously and would cause a timeout. Pump through the
+      // navigation animation then decay the tap crosshair manually.
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 400));
+      await _decayCrosshair(tester);
     }
     await binding.takeScreenshot('02_timer');
 
