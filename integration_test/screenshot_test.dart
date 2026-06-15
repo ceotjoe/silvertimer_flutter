@@ -16,9 +16,7 @@ void main() {
     // Make every AnimationController finish near-instantly so pumpAndSettle
     // always returns a fully settled frame with no mid-animation content.
     // This does not affect wall-clock based logic (e.g. the timer countdown).
-    // The test framework asserts timeDilation is restored to 1.0 after the test.
     timeDilation = 0.01;
-    addTearDown(() => timeDilation = 1.0);
 
     app.main();
 
@@ -77,5 +75,9 @@ void main() {
       await tester.pumpAndSettle();
     }
     await binding.takeScreenshot('04_settings');
+
+    // _verifyInvariants runs before tearDown callbacks, so timeDilation must
+    // be reset inside the test body or the framework throws an assertion.
+    timeDilation = 1.0;
   });
 }
