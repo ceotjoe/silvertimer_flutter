@@ -9,6 +9,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ### Changed
 - macOS window opens in portrait mode (390×844) with iPhone-sized min/max constraints for a phone-like experience
 - Removed CocoaPods integration from macOS and iOS; all plugins now use Swift Package Manager (faster builds)
+- Fixed Dependabot security alerts: bumped jwt (→3.2.0) and addressable (→2.9.0) in Gemfile.lock; activesupport alerts resolved by CocoaPods removal
 
 ### Changed
 - Bumped 25 transitive and direct dependencies to latest compatible versions (Tier 1 patch/minor upgrades): audioplayers 6.7.1, cupertino_icons 1.0.9, shared_preferences 2.5.5, and assorted transitive packages
