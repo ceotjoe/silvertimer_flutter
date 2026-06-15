@@ -47,6 +47,7 @@ void main() {
       // pumpAndSettle is safe here — flutter_animate controllers stop after
       // their duration completes and timeDilation makes them finish instantly.
       await tester.pumpAndSettle();
+      await _decayCrosshair(tester);
     }
     await binding.takeScreenshot('01_calculator');
 
@@ -70,6 +71,7 @@ void main() {
     if (historyTab.evaluate().isNotEmpty) {
       await tester.tap(historyTab);
       await tester.pumpAndSettle();
+      await _decayCrosshair(tester);
     }
     await binding.takeScreenshot('03_history');
 
@@ -84,6 +86,7 @@ void main() {
     if (settingsIcon.evaluate().isNotEmpty) {
       await tester.tap(settingsIcon);
       await tester.pumpAndSettle();
+      await _decayCrosshair(tester);
     }
     await binding.takeScreenshot('04_settings');
 
