@@ -29,6 +29,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 'latest-stable'
+
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -39,7 +44,7 @@ jobs:
           ruby-version: "3.2"
           bundler-cache: true
 
-      - name: Expose bundler gems (CocoaPods) to PATH
+      - name: Expose bundler bin to PATH
         run: echo "$(bundle exec ruby -e 'puts Gem.bindir')" >> $GITHUB_PATH
 
       - name: Create required iPhone simulators
@@ -88,6 +93,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 'latest-stable'
+
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -98,7 +108,7 @@ jobs:
           ruby-version: "3.2"
           bundler-cache: true
 
-      - name: Expose bundler gems (CocoaPods) to PATH
+      - name: Expose bundler bin to PATH
         run: echo "$(bundle exec ruby -e 'puts Gem.bindir')" >> $GITHUB_PATH
 
       - name: Create required iPad simulators
