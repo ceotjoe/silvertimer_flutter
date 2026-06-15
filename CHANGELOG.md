@@ -6,6 +6,11 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Liquid Glass support (Steps 1 & 2): platform detection helper and frosted glass navigation bar for iOS and macOS
+- `GlassNavigationBar` widget: `BackdropFilter` blur + semi-transparent surface, animated icon/label switching, dark mode aware
+- `AppScaffold` now renders a full-bleed body with the glass bar floating on top on Apple platforms; Material `NavigationBar` unchanged on Android/web
+
 ### Changed
 - macOS window opens in portrait mode (390×844) with iPhone-sized min/max constraints for a phone-like experience
 - Removed CocoaPods integration from macOS and iOS; all plugins now use Swift Package Manager (faster builds)
