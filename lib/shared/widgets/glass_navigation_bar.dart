@@ -4,6 +4,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:silvertimer_flutter/core/theme/app_cupertino_colors.dart';
 
 /// A bottom navigation bar with a Liquid Glass–style frosted glass effect.
 /// Used on iOS and macOS in place of the standard Material NavigationBar.
@@ -21,16 +22,8 @@ class GlassNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final isDark = brightness == Brightness.dark;
-
-    // Glass surface colours — subtle white/black tint over the blur.
-    final fillColor = isDark
-        ? const Color(0xFF1C1C1E).withValues(alpha: 0.72)
-        : const Color(0xFFFFFFFF).withValues(alpha: 0.72);
-    final borderColor = isDark
-        ? const Color(0xFFFFFFFF).withValues(alpha: 0.12)
-        : const Color(0xFF000000).withValues(alpha: 0.08);
+    final fillColor = AppCupertinoColors.glassFill.resolveFrom(context);
+    final borderColor = AppCupertinoColors.glassBorder.resolveFrom(context);
 
     return ClipRect(
       child: BackdropFilter(
@@ -52,7 +45,6 @@ class GlassNavigationBar extends StatelessWidget {
                         destination: destinations[i],
                         selected: i == selectedIndex,
                         onTap: () => onDestinationSelected(i),
-                        isDark: isDark,
                       ),
                     ),
                 ],
@@ -70,13 +62,11 @@ class _GlassNavItem extends StatelessWidget {
     required this.destination,
     required this.selected,
     required this.onTap,
-    required this.isDark,
   });
 
   final GlassNavDestination destination;
   final bool selected;
   final VoidCallback onTap;
-  final bool isDark;
 
   @override
   Widget build(BuildContext context) {

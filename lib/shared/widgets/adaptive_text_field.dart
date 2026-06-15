@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:silvertimer_flutter/core/theme/app_cupertino_colors.dart';
 import 'package:silvertimer_flutter/core/utils/platform_utils.dart';
 
 /// A text field that uses Cupertino-style decoration (filled, no outline) on
@@ -38,12 +39,8 @@ class AdaptiveTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     if (isApplePlatform) {
-      final fillColor = isDark
-          ? const Color(0xFF2C2C2E)
-          : const Color(0xFFEFEFF0);
+      final fillColor = AppCupertinoColors.inputFill.resolveFrom(context);
 
       return TextFormField(
         controller: controller,
@@ -117,12 +114,8 @@ class AdaptiveTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     if (isApplePlatform) {
-      final fillColor = isDark
-          ? const Color(0xFF2C2C2E)
-          : const Color(0xFFEFEFF0);
+      final fillColor = AppCupertinoColors.inputFill.resolveFrom(context);
 
       return TextField(
         controller: controller,

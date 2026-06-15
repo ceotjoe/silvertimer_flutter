@@ -4,6 +4,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:silvertimer_flutter/core/theme/app_cupertino_colors.dart';
 import 'package:silvertimer_flutter/core/utils/platform_utils.dart';
 
 /// A card that renders with a frosted-glass blur effect on iOS/macOS and
@@ -50,12 +51,8 @@ class GlassCard extends StatelessWidget {
       );
     }
 
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     final resolvedTint = tintColor ?? Theme.of(context).colorScheme.primaryContainer;
-
-    final borderColor = isDark
-        ? const Color(0xFFFFFFFF).withValues(alpha: 0.15)
-        : const Color(0xFF000000).withValues(alpha: 0.08);
+    final borderColor = AppCupertinoColors.glassCardBorder.resolveFrom(context);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
