@@ -77,6 +77,7 @@
   "notifCleanTitle": "Nettoyer les électrodes",
   "notifCleanBody": "Il est temps de nettoyer vos électrodes (alarme #{alarmNumber}).",
   "notifChannelDescription": "Notifications de fin d''électrolyse SilverTimer",
+  "notifAlarmStop": "Arrêter l''alarme",
 
   "navInfo": "Infos",
   "infoTitle": "Infos",

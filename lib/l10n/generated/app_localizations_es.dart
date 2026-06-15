@@ -249,6 +249,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Notificaciones de finalización de electrólisis SilverTimer';
 
   @override
+  String get notifAlarmStop => 'Detener alarma';
+
+  @override
   String get navInfo => 'Info';
 
   @override

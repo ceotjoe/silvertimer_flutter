@@ -411,6 +411,11 @@
     "description": "Android notification channel description string (registered once by the OS on first install)."
   },
 
+  "notifAlarmStop": "Stop Alarm",
+  "@notifAlarmStop": {
+    "description": "Label for the stop button shown on the alarm notification on the lock screen."
+  },
+
   "navInfo": "Info",
   "@navInfo": {
     "description": "Label for the Info tab in the bottom navigation bar."

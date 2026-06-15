@@ -556,6 +556,12 @@ abstract class AppLocalizations {
   /// **'SilverTimer electrolysis completion notifications'**
   String get notifChannelDescription;
 
+  /// Label for the stop button shown on the alarm notification on the lock screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop Alarm'**
+  String get notifAlarmStop;
+
   /// Label for the Info tab in the bottom navigation bar.
   ///
   /// In en, this message translates to:
