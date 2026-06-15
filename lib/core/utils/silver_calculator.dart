@@ -1,7 +1,6 @@
 // Copyright (C) 2026 Jörg Holzapfel
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:silvertimer_flutter/core/constants/physics_constants.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculation_result.dart';

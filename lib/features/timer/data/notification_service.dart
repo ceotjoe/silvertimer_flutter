@@ -4,7 +4,6 @@
 import 'dart:typed_data';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:silvertimer_flutter/core/constants/app_constants.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -42,7 +41,7 @@ class NotificationService {
     );
 
     await _plugin.initialize(
-      const InitializationSettings(
+      settings: const InitializationSettings(
         android: androidSettings,
         iOS: darwinSettings,
         macOS: darwinSettings,
@@ -171,10 +170,10 @@ class NotificationService {
     );
 
     await _plugin.show(
-      AppConstants.timerCompleteNotificationId,
-      title,
-      body,
-      NotificationDetails(
+      id: AppConstants.timerCompleteNotificationId,
+      title: title,
+      body: body,
+      notificationDetails: NotificationDetails(
         android: _androidAlarmDetails(channelDescription),
         iOS: darwinDetails,
         macOS: darwinDetails,
@@ -204,17 +203,16 @@ class NotificationService {
     );
 
     await _plugin.zonedSchedule(
-      AppConstants.timerScheduledNotificationId,
-      title,
-      body,
-      tzFireAt,
-      NotificationDetails(
+      id: AppConstants.timerScheduledNotificationId,
+      title: title,
+      body: body,
+      scheduledDate: tzFireAt,
+      notificationDetails: NotificationDetails(
         android: _androidAlarmDetails(channelDescription),
         iOS: darwinDetails,
         macOS: darwinDetails,
       ),
       androidScheduleMode: _alarmScheduleMode,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
 
@@ -239,10 +237,10 @@ class NotificationService {
     );
 
     await _plugin.show(
-      AppConstants.cleaningAlarmBaseNotificationId + alarmNumber,
-      title,
-      body,
-      NotificationDetails(
+      id: AppConstants.cleaningAlarmBaseNotificationId + alarmNumber,
+      title: title,
+      body: body,
+      notificationDetails: NotificationDetails(
         android: _androidDetails(channelDescription),
         iOS: darwinDetails,
         macOS: darwinDetails,
@@ -271,17 +269,16 @@ class NotificationService {
     );
 
     await _plugin.zonedSchedule(
-      notifId,
-      title,
-      body,
-      tzFireAt,
-      NotificationDetails(
+      id: notifId,
+      title: title,
+      body: body,
+      scheduledDate: tzFireAt,
+      notificationDetails: NotificationDetails(
         android: _androidDetails(channelDescription),
         iOS: darwinDetails,
         macOS: darwinDetails,
       ),
       androidScheduleMode: _scheduleMode,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
 

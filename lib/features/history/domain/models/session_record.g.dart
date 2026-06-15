@@ -6,8 +6,8 @@ part of 'session_record.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SessionRecordImpl _$$SessionRecordImplFromJson(Map<String, dynamic> json) =>
-    _$SessionRecordImpl(
+_SessionRecord _$SessionRecordFromJson(Map<String, dynamic> json) =>
+    _SessionRecord(
       id: (json['id'] as num).toInt(),
       volumeLiters: (json['volumeLiters'] as num).toDouble(),
       currentMilliamps: (json['currentMilliamps'] as num).toDouble(),
@@ -17,7 +17,7 @@ _$SessionRecordImpl _$$SessionRecordImplFromJson(Map<String, dynamic> json) =>
       completed: json['completed'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$SessionRecordImplToJson(_$SessionRecordImpl instance) =>
+Map<String, dynamic> _$SessionRecordToJson(_SessionRecord instance) =>
     <String, dynamic>{
       'id': instance.id,
       'volumeLiters': instance.volumeLiters,

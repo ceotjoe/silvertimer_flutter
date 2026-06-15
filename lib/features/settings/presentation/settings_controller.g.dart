@@ -6,41 +6,104 @@ part of 'settings_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$themeModeHash() => r'feb72bb60ec0de22ff6f2053aa0e316c3a2ee89b';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// Derived provider — consumed directly by MaterialApp for live theme switching.
-///
-/// Copied from [themeMode].
-@ProviderFor(themeMode)
-final themeModeProvider = AutoDisposeProvider<ThemeMode>.internal(
-  themeMode,
-  name: r'themeModeProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$themeModeHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+@ProviderFor(SettingsController)
+final settingsControllerProvider = SettingsControllerProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef ThemeModeRef = AutoDisposeProviderRef<ThemeMode>;
+final class SettingsControllerProvider
+    extends $NotifierProvider<SettingsController, AppSettings> {
+  SettingsControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'settingsControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$settingsControllerHash();
+
+  @$internal
+  @override
+  SettingsController create() => SettingsController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AppSettings value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AppSettings>(value),
+    );
+  }
+}
+
 String _$settingsControllerHash() =>
     r'bf585e8c77a75da6de07df79b471f20496e50e54';
 
-/// See also [SettingsController].
-@ProviderFor(SettingsController)
-final settingsControllerProvider =
-    AutoDisposeNotifierProvider<SettingsController, AppSettings>.internal(
-      SettingsController.new,
-      name: r'settingsControllerProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$settingsControllerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+abstract class _$SettingsController extends $Notifier<AppSettings> {
+  AppSettings build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<AppSettings, AppSettings>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AppSettings, AppSettings>,
+              AppSettings,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
 
-typedef _$SettingsController = AutoDisposeNotifier<AppSettings>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+/// Derived provider — consumed directly by MaterialApp for live theme switching.
+
+@ProviderFor(themeMode)
+final themeModeProvider = ThemeModeProvider._();
+
+/// Derived provider — consumed directly by MaterialApp for live theme switching.
+
+final class ThemeModeProvider
+    extends $FunctionalProvider<ThemeMode, ThemeMode, ThemeMode>
+    with $Provider<ThemeMode> {
+  /// Derived provider — consumed directly by MaterialApp for live theme switching.
+  ThemeModeProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'themeModeProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$themeModeHash();
+
+  @$internal
+  @override
+  $ProviderElement<ThemeMode> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  ThemeMode create(Ref ref) {
+    return themeMode(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ThemeMode value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ThemeMode>(value),
+    );
+  }
+}
+
+String _$themeModeHash() => r'feb72bb60ec0de22ff6f2053aa0e316c3a2ee89b';

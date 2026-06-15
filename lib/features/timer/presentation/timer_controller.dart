@@ -127,7 +127,7 @@ class TimerController extends _$TimerController {
     _cleaningAlarmsFiredAt.clear();
     _nextCleaningIndex = 0;
     // Also reset the alarm counter so a new session starts from 0
-    ref.read(_cleaningAlarmCountProvider.notifier).state = 0;
+    ref.read(_cleaningAlarmCountProvider.notifier).set(0);
     state = const TimerState.idle();
   }
 
@@ -306,7 +306,7 @@ class TimerController extends _$TimerController {
     }
 
     // Signal the TimerScreen SnackBar by setting the current alarm number
-    ref.read(_cleaningAlarmCountProvider.notifier).state = alarmNumber;
+    ref.read(_cleaningAlarmCountProvider.notifier).set(alarmNumber);
   }
 }
 
@@ -316,9 +316,15 @@ class TimerController extends _$TimerController {
 
 /// Private counter — set to the 1-based alarm number each time one fires.
 /// Kept alive to match the TimerController lifetime.
-final _cleaningAlarmCountProvider = StateProvider<int>(
-  (ref) => 0,
-  name: '_cleaningAlarmCount',
+class _CleaningAlarmCount extends Notifier<int> {
+  @override
+  int build() => 0;
+
+  void set(int value) => state = value;
+}
+
+final _cleaningAlarmCountProvider = NotifierProvider<_CleaningAlarmCount, int>(
+  _CleaningAlarmCount.new,
 );
 
 /// Public provider: the 1-based number of the most recently fired cleaning alarm
