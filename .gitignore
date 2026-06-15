@@ -71,3 +71,7 @@ web/drift_worker.dart.js.deps
 web/drift_worker.dart.js.map
 
 .claude/
+
+# Fastlane local secrets (values are in CI secrets)
+fastlane/.env
+fastlane/.env.*
