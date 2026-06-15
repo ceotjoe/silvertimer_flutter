@@ -146,22 +146,29 @@ platform :ios do
     # (Xcode will apply signing during the archive step below)
     sh("cd #{ROOT} && flutter build ios --release --no-codesign")
 
-    # Archive and export a signed IPA
-    # codesigning_identity and xcargs supply PROVISIONING_PROFILE_SPECIFIER to the
-    # xcodebuild archive step (export_options only applies to the later export step)
+    # Set signing settings only on the Runner target.
+    # PROVISIONING_PROFILE_SPECIFIER must NOT be passed via xcargs because
+    # xcargs applies to every target — SPM package targets (frameworks) do
+    # not support provisioning profiles and will error if one is specified.
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: "#{ROOT}/ios/Runner.xcodeproj",
+      team_id: ENV.fetch("APPLE_TEAM_ID"),
+      profile_uuid: profile_uuid,
+      targets: ["Runner"]
+    )
+
+    # Archive and export a signed IPA.
+    # xcargs only carries settings that are safe to apply globally:
+    #   DEVELOPMENT_TEAM  — required by Xcode 15+ for every SPM package target
+    #   CODE_SIGN_STYLE   — puts SPM targets in manual mode so they don't
+    #                       conflict with the profile set on Runner above
     build_app(
       workspace: "#{ROOT}/ios/Runner.xcworkspace",
       scheme: "Runner",
       configuration: "Release",
       codesigning_identity: "Apple Distribution",
-      # All three settings are passed globally so they apply to every target
-      # including SPM package dependencies:
-      #   DEVELOPMENT_TEAM      — satisfies Xcode 15+ "requires a team" check
-      #   CODE_SIGN_STYLE       — switches SPM packages to manual signing so
-      #                           they don't conflict with PROVISIONING_PROFILE_SPECIFIER
-      #   PROVISIONING_PROFILE_SPECIFIER — tells the archive step which profile
-      #                           to use for the Runner target specifically
-      xcargs: "PROVISIONING_PROFILE_SPECIFIER='#{profile_uuid}' DEVELOPMENT_TEAM=#{ENV.fetch('APPLE_TEAM_ID')} CODE_SIGN_STYLE=Manual",
+      xcargs: "DEVELOPMENT_TEAM=#{ENV.fetch('APPLE_TEAM_ID')} CODE_SIGN_STYLE=Manual",
       export_method: "app-store",
       export_options: {
         teamID: ENV.fetch("APPLE_TEAM_ID"),
