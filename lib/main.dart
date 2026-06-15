@@ -32,12 +32,17 @@ void main() async {
     ),
   );
 
-  // Request notification + exact-alarm permissions after the first frame so the
-  // system dialogs appear on top of the fully rendered UI.
-  // On Android 13+ this shows the POST_NOTIFICATIONS dialog.
-  // On Android 12+ this opens "Alarms & Reminders" settings if not yet granted.
-  // On iOS this shows the standard notification permission prompt.
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    notificationService.requestPermission();
-  });
+  // Skip permission dialogs during screenshot captures so they don't appear
+  // in store imagery. Set via --dart-define=SCREENSHOT_MODE=true at build time.
+  const screenshotMode = bool.fromEnvironment('SCREENSHOT_MODE');
+  if (!screenshotMode) {
+    // Request notification + exact-alarm permissions after the first frame so
+    // the system dialogs appear on top of the fully rendered UI.
+    // On Android 13+ this shows the POST_NOTIFICATIONS dialog.
+    // On Android 12+ this opens "Alarms & Reminders" settings if not yet granted.
+    // On iOS this shows the standard notification permission prompt.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notificationService.requestPermission();
+    });
+  }
 }
