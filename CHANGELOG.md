@@ -6,6 +6,18 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.1.2] - 2026-06-15
+
+### Fixed
+- `SettingsController` async setters now guard state writes with `ref.mounted` check, preventing `UnmountedRefException` after provider disposal (visible during screenshot test teardown)
+- Notification permission dialog suppressed during screenshot captures via `--dart-define=SCREENSHOT_MODE=true`
+
+### Changed
+- Screenshot lane updated to current hardware: iPhone 17 Pro Max, iPad Pro 13-inch (M5), Pixel 10 Pro; iPhone 14 Plus and Android tablet device removed
+- Android locale switching replaced with rootless per-app locale API (`cmd locale set-app-locales`) — works on Play Store system images
+- Added `scripts/take_screenshots.sh` as a single local entry point for both iOS and Android screenshot generation
+- Generated screenshot images excluded from version control (`.gitignore`); `Framefile.json` and `title.strings` retained
+
 ## [2.1.1] - 2026-06-15
 
 ### Fixed
@@ -136,7 +148,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - GitHub Actions workflow deploying Flutter web to GitHub Pages on every push
   to `main`
 
-[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.1...HEAD
+[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.2...HEAD
+[2.1.2]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.0...v2.1.1
 [2.0.1]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v1.0.0...v2.0.0

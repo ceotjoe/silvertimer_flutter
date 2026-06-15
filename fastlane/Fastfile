@@ -25,12 +25,11 @@ platform :ios do
     # IntegrationTestWidgetsFlutterBinding.ensureInitialized() and the driver
     # hangs waiting for a VM service extension that never appears.
     app_path = "#{ROOT}/build/ios/iphonesimulator/Runner.app"
-    sh("cd #{ROOT} && flutter build ios --debug --simulator --target=integration_test/screenshot_test.dart")
+    sh("cd #{ROOT} && flutter build ios --debug --simulator --target=integration_test/screenshot_test.dart --dart-define=SCREENSHOT_MODE=true")
 
     all_devices = [
-      { sim: "iPhone 16 Pro Max",     dir: "iPhone_16_Pro_Max", type: "iphone" },
-      { sim: "iPhone 14 Plus",         dir: "iPhone_14_Plus",    type: "iphone" },
-      { sim: "iPad Pro 13-inch (M4)", dir: "iPad_Pro_13",       type: "ipad"   },
+      { sim: "iPhone 17 Pro Max",     dir: "iPhone_17_Pro_Max", type: "iphone" },
+      { sim: "iPad Pro 13-inch (M5)", dir: "iPad_Pro_13",       type: "ipad"   },
     ]
     # SCREENSHOT_DEVICE_TYPE=iphone runs only iPhones (CI iphone job).
     # SCREENSHOT_DEVICE_TYPE=ipad   runs only iPads   (CI ipad job).
@@ -212,8 +211,7 @@ platform :android do
     # and ubuntu-latest has only 7 GB RAM — not enough for two concurrent instances.
     # Locally, all devices run in sequence.
     all_devices = [
-      { avd: "Pixel_7_API_34",       dir: "Phone"  },
-      { avd: "Pixel_Tablet_API_34",  dir: "Tablet" },
+      { avd: "Pixel_10_Pro", dir: "Phone" },
     ]
     avd_filter   = ENV["SCREENSHOT_AVD"]
     active_devices = avd_filter \
@@ -229,7 +227,7 @@ platform :android do
     # Must use --target=integration_test/screenshot_test.dart so the binary
     # contains IntegrationTestWidgetsFlutterBinding — same reason as iOS.
     apk_path = "#{ROOT}/build/app/outputs/flutter-apk/app-debug.apk"
-    sh("cd #{ROOT} && flutter build apk --debug --target=integration_test/screenshot_test.dart")
+    sh("cd #{ROOT} && flutter build apk --debug --target=integration_test/screenshot_test.dart --dart-define=SCREENSHOT_MODE=true")
 
     active_devices.each do |device|
       unless in_ci
@@ -240,34 +238,21 @@ platform :android do
       # Wait for the emulator to be fully booted (CI emulator is pre-started by
       # reactivecircus/android-emulator-runner; local emulator just launched above).
       sh("adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'", log: false)
+      sleep(3) # allow system services to settle after boot
 
-      # `adb shell stop/start` requires a root shell.
-      # `adb root` restarts the adb daemon as root — must be called once per
-      # emulator session before any stop/start locale switch.
-      sh("adb root", log: false)
-      sleep(3) # wait for adb daemon to restart as root
+      package = "com.it_web_service.silvertimer"
 
       locales.each do |loc|
         UI.message("📸  #{device[:avd]} · #{loc[:locale]}")
 
-        # Switch locale reliably via Android runtime soft-restart.
-        #
-        # `settings put system system_locales` writes to the database, but
-        # Zygote caches the Configuration at startup and won't re-read it
-        # until the Android runtime is restarted. Without a restart the app
-        # process forks with the old locale still cached.
-        #
-        # `adb shell stop` stops system_server + Zygote while leaving the
-        # Linux kernel and adb daemon running (no full emulator reboot).
-        # `adb shell start` brings the runtime back up reading the new locale.
-        # This adds ~15-20 s per locale switch but is guaranteed correct.
-        # `adb root` (called once above) is required for stop/start to succeed.
-        sh("adb shell settings put system system_locales #{loc[:lang]}", log: false)
-        sh("adb shell stop", log: false)
-        sleep(3)
-        sh("adb shell start", log: false)
-        sh("adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'", log: false)
-        sleep(5) # allow system services to fully settle before app launch
+        # Switch locale using the Android 13+ per-app locale API — no root required.
+        # `cmd locale set-app-locales` writes the locale for this package into
+        # PackageManager; Flutter reads it on next launch via the system Configuration.
+        # `am force-stop` ensures the app process is dead so flutter drive gets a
+        # cold start with the new locale already in effect.
+        sh("adb shell cmd locale set-app-locales #{package} --locales #{loc[:lang]}", log: false)
+        sh("adb shell am force-stop #{package}", log: false)
+        sleep(2)
 
         out_dir = "#{ROOT}/fastlane/screenshots/#{loc[:locale]}/#{device[:dir]}"
         sh("mkdir -p #{out_dir}")
@@ -291,8 +276,8 @@ platform :android do
     end
 
     # NOTE: frame_screenshots is intentionally omitted for Android.
-    # frameit only recognises exact real-device resolutions; the Pixel 7
-    # emulator produces 1080×2337 which is not in the frameit catalogue.
+    # frameit only recognises exact real-device resolutions and the Pixel 10 Pro
+    # emulator resolution is not in the frameit catalogue.
     # Google Play Store does not require framed screenshots — raw
     # screenshots are uploaded and reviewed as-is.
   end

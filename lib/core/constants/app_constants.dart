@@ -12,7 +12,6 @@ class AppConstants {
   static const String notificationChannelName = 'SilverTimer';
 
   /// Notification channel ID for Android — high-priority alarm (timer done).
-  /// Separate channel so it can use AudioAttributesUsage.alarm and Importance.max.
   static const String alarmChannelId = 'silvertimer_alarm';
 
   /// Notification channel name for Android — alarm.
@@ -24,10 +23,10 @@ class AppConstants {
   /// Android res/raw filename (without extension) for the alarm notification sound.
   static const String alarmSoundRaw = 'alarm';
 
-  /// Notification ID used for the timer completion notification
+  /// Notification ID used for the timer completion notification.
   static const int timerCompleteNotificationId = 1;
 
-  /// Notification ID used for the scheduled fallback notification
+  /// Notification ID used for the scheduled fallback notification.
   static const int timerScheduledNotificationId = 2;
 
   /// Maximum safe current in milliamps

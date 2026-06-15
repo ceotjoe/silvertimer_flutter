@@ -2,7 +2,7 @@ name: silvertimer_flutter
 description: "Colloidal silver electrolysis timer calculator"
 publish_to: 'none'
 
-version: 2.1.1+37
+version: 2.1.2+38
 
 environment:
   sdk: ^3.11.0

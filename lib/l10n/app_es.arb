@@ -77,6 +77,7 @@
   "notifCleanTitle": "Limpiar electrodos",
   "notifCleanBody": "Es hora de limpiar sus electrodos (alarma #{alarmNumber}).",
   "notifChannelDescription": "Notificaciones de finalización de electrólisis SilverTimer",
+  "notifAlarmStop": "Detener alarma",
 
   "navInfo": "Info",
   "infoTitle": "Información",

@@ -23,8 +23,9 @@ class TimerController extends _$TimerController {
   CalculationResult? _lastResult;
   NotificationStrings? _notificationStrings;
 
-  /// Audio player used to sound the alarm in-app (foreground).
-  /// Kept alive for the lifetime of the controller so it can be stopped on reset.
+  /// Audio player for the looping completion alarm.
+  /// Configured with an iOS background audio session so it keeps playing
+  /// when the phone is locked (requires UIBackgroundModes:audio in Info.plist).
   final AudioPlayer _alarmPlayer = AudioPlayer();
 
   // --- Electrode cleaning alarm state ---
@@ -184,14 +185,13 @@ class TimerController extends _$TimerController {
   void _complete(Duration total) {
     _cancelTicker();
 
-    // Play the alarm sound directly — works even when the app is in the
-    // foreground where OS notifications may be suppressed or quieter.
-    // Also fires when the app resumes after being backgrounded (onAppResumed).
+    // Loop alarm audio via audioplayers. With UIBackgroundModes:audio declared,
+    // iOS keeps this playing even when the phone is locked. On Android the
+    // foreground service keeps the process alive.
     _playAlarm();
 
-    // Fire OS notification as well so the sound plays on the lock screen /
-    // notification shade (guarded: strings may be null if the app was killed
-    // and restarted mid-session).
+    // Also fire an OS notification so the sound plays on the lock screen /
+    // notification shade when the app is backgrounded or killed.
     final strings = _notificationStrings;
     if (strings != null) {
       ref.read(notificationServiceProvider).showCompletionNotification(
@@ -225,14 +225,31 @@ class TimerController extends _$TimerController {
     _tickerSub = null;
   }
 
-  /// Plays the alarm sound on a loop so the user is notified even when the
-  /// app is in the foreground. Stopped by [_stopAlarm] via reset().
+  /// Plays the alarm on loop. Configures the iOS audio session for background
+  /// playback so the sound continues when the phone is locked.
   Future<void> _playAlarm() async {
+    await _alarmPlayer.setAudioContext(
+      AudioContext(
+        iOS: AudioContextIOS(
+          category: AVAudioSessionCategory.playback,
+          options: const {AVAudioSessionOptions.mixWithOthers},
+        ),
+        android: AudioContextAndroid(
+          audioFocus: AndroidAudioFocus.gain,
+          isSpeakerphoneOn: false,
+          stayAwake: true,
+          contentType: AndroidContentType.music,
+          usageType: AndroidUsageType.alarm,
+          audioMode: AndroidAudioMode.normal,
+        ),
+      ),
+    );
     await _alarmPlayer.setReleaseMode(ReleaseMode.loop);
-    await _alarmPlayer.play(AssetSource(AppConstants.alarmSoundAsset.replaceFirst('assets/', '')));
+    await _alarmPlayer.play(
+      AssetSource(AppConstants.alarmSoundAsset.replaceFirst('assets/', '')),
+    );
   }
 
-  /// Stops the looping alarm sound.
   Future<void> _stopAlarm() async {
     await _alarmPlayer.stop();
   }

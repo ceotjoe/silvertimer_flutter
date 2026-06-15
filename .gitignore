@@ -75,3 +75,8 @@ web/drift_worker.dart.js.map
 # Fastlane local secrets (values are in CI secrets)
 fastlane/.env
 fastlane/.env.*
+
+# Generated screenshots — keep only config files
+fastlane/screenshots/**
+!fastlane/screenshots/Framefile.json
+!fastlane/screenshots/**/title.strings

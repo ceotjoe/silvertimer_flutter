@@ -250,6 +250,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifChannelDescription => 'Notifications de fin d\'\'électrolyse SilverTimer';
 
   @override
+  String get notifAlarmStop => 'Arrêter l\'\'alarme';
+
+  @override
   String get navInfo => 'Infos';
 
   @override

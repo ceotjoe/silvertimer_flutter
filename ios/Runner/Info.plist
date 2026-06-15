@@ -4,6 +4,10 @@
 <dict>
 	<key>NSUserNotificationUsageDescription</key>
 	<string>SilverTimer sends a notification when your colloidal silver electrolysis process is complete.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

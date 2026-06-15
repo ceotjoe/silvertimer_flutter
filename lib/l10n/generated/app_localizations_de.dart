@@ -249,6 +249,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get notifChannelDescription => 'SilverTimer Elektrolyse-Abschlussbenachrichtigungen';
 
   @override
+  String get notifAlarmStop => 'Alarm stoppen';
+
+  @override
   String get navInfo => 'Info';
 
   @override

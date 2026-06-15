@@ -10,6 +10,7 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:universal_platform/universal_platform.dart';
 
+
 part 'notification_service.g.dart';
 
 /// Vibration pattern for the alarm: 0 ms delay, then 600/200/600/200/600 ms on/off.
@@ -138,8 +139,7 @@ class NotificationService {
   // ---------------------------------------------------------------------------
 
   /// For the completion alarm: use alarmClock (AlarmManager.setAlarmClock) which
-  /// bypasses Doze/battery optimisation entirely. Falls back to inexact if the
-  /// exact-alarm permission was not granted.
+  /// bypasses Doze/battery optimisation entirely.
   AndroidScheduleMode get _alarmScheduleMode =>
       _canScheduleExact ? AndroidScheduleMode.alarmClock : AndroidScheduleMode.inexactAllowWhileIdle;
 
@@ -161,7 +161,6 @@ class NotificationService {
   }) async {
     if (UniversalPlatform.isWeb || !_initialized) return;
 
-    // timeSensitive: breaks through Focus/DND on iOS.
     const darwinDetails = DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: true,
@@ -182,7 +181,6 @@ class NotificationService {
   }
 
   /// Schedules an alarm-level OS notification at [fireAt].
-  /// Fires even if the app is backgrounded or killed.
   /// Uses AndroidScheduleMode.alarmClock — bypasses all Android battery
   /// optimisations and Doze mode, identical to the system alarm clock.
   Future<void> scheduleCompletionNotification(
