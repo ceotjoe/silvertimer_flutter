@@ -37,13 +37,16 @@ void main() {
     await binding.takeScreenshot('01_calculator');
 
     // ── 2 · Timer ───────────────────────────────────────────────────────────
-    // The "Start Timer" button is inside the result card.
-    final startTimerBtn = find.widgetWithIcon(FilledButton, Icons.timer);
+    // Find by Key so this works on both Material (FilledButton) and Cupertino
+    // (CupertinoButton) renderings — AdaptiveFilledButton uses the platform
+    // widget, so widgetWithIcon(FilledButton, ...) misses it on iOS.
+    final startTimerBtn = find.byKey(const Key('start_timer_button'));
     if (startTimerBtn.evaluate().isNotEmpty) {
       await tester.tap(startTimerBtn);
-      // Give the timer screen time to paint its first frame; avoid
-      // pumpAndSettle here because the running timer emits continuous frames.
-      await tester.pump(const Duration(seconds: 1));
+      // Pump through the go_router navigation animation, then give the running
+      // timer one frame. Avoid pumpAndSettle — the ticker emits continuous frames.
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump(const Duration(milliseconds: 500));
     }
     await binding.takeScreenshot('02_timer');
 
