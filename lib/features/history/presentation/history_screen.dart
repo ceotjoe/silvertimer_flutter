@@ -8,6 +8,7 @@ import 'package:silvertimer_flutter/core/extensions/duration_extensions.dart';
 import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/features/history/domain/models/session_record.dart';
 import 'package:silvertimer_flutter/features/history/presentation/history_controller.dart';
+import 'package:silvertimer_flutter/shared/widgets/adaptive_app_bar.dart';
 
 class HistoryScreen extends ConsumerWidget {
   const HistoryScreen({super.key});
@@ -18,9 +19,9 @@ class HistoryScreen extends ConsumerWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.historyTitle),
-        actions: [
+      appBar: adaptiveAppBar(
+        title: l10n.historyTitle,
+        trailingActions: [
           historyAsync.whenOrNull(
             data: (sessions) => sessions.isEmpty
                 ? null

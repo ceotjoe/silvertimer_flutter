@@ -13,6 +13,7 @@ import 'package:silvertimer_flutter/features/timer/data/notification_strings.dar
 import 'package:silvertimer_flutter/features/timer/domain/models/timer_state.dart';
 import 'package:silvertimer_flutter/features/timer/presentation/timer_controller.dart';
 import 'package:silvertimer_flutter/features/timer/presentation/widgets/circular_timer.dart';
+import 'package:silvertimer_flutter/shared/widgets/adaptive_app_bar.dart';
 
 class TimerScreen extends ConsumerStatefulWidget {
   const TimerScreen({super.key});
@@ -99,13 +100,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen>
     });
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.timerTitle),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.go('/calculator'),
-        ),
-      ),
+      appBar: adaptiveAppBar(title: l10n.timerTitle),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(

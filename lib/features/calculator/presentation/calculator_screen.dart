@@ -12,6 +12,7 @@ import 'package:silvertimer_flutter/features/calculator/presentation/widgets/res
 import 'package:silvertimer_flutter/features/calculator/presentation/widgets/volume_input.dart';
 import 'package:silvertimer_flutter/features/timer/data/notification_strings.dart';
 import 'package:silvertimer_flutter/features/timer/presentation/timer_controller.dart';
+import 'package:silvertimer_flutter/shared/widgets/adaptive_app_bar.dart';
 
 class CalculatorScreen extends ConsumerStatefulWidget {
   const CalculatorScreen({super.key});
@@ -49,9 +50,9 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.calculatorTitle),
-        actions: [
+      appBar: adaptiveAppBar(
+        title: l10n.calculatorTitle,
+        trailingActions: [
           IconButton(
             icon: const Icon(Icons.settings_outlined),
             onPressed: () => context.push('/settings'),
