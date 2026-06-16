@@ -52,6 +52,7 @@ class ResultCard extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             AdaptiveFilledButton(
+              key: const Key('start_timer_button'),
               onPressed: onStartTimer,
               icon: Icons.timer,
               label: l10n.startTimer,

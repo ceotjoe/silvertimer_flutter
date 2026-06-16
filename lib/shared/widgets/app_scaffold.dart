@@ -54,7 +54,7 @@ class _AppScaffoldState extends ConsumerState<AppScaffold>
       if (next is TimerCompleted && prev is! TimerCompleted) {
         messenger.showMaterialBanner(
           MaterialBanner(
-            leading: const Icon(Icons.check_circle, color: Colors.green),
+            leading: Icon(Icons.check_circle, color: Theme.of(context).colorScheme.primary),
             content: Text(l10n.electrolysisCompleteTitle),
             actions: [
               TextButton(

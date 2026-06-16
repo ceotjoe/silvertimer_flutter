@@ -60,7 +60,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
             SnackBar(
               content: Row(
                 children: [
-                  const Icon(Icons.cleaning_services, color: Colors.white),
+                  const Icon(Icons.cleaning_services),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
@@ -255,7 +255,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
       context: context,
       barrierDismissible: true,
       builder: (ctx) => AlertDialog(
-        icon: const Icon(Icons.check_circle, size: 64, color: Colors.green),
+        icon: Icon(Icons.check_circle, size: 64, color: Theme.of(ctx).colorScheme.primary),
         title: Text(l10n.electrolysisCompleteTitle),
         content: Text(
           l10n.electrolysisCompleteBody(duration.toReadable()),
