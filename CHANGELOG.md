@@ -6,6 +6,18 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.1.3] - 2026-06-16
+
+### Fixed
+- `CupertinoNavigationBar` now respects dark mode via `_CupertinoAdaptiveNavigationBar` wrapper that reads `Theme.of(context).colorScheme`
+- Hardcoded colours in timer screen causing low contrast in dark mode: progress ring background uses `surfaceContainerHighest`, cleaning countdown uses `colorScheme.tertiary`, tick marks use theme-aware light/dark colours
+- Completion dialog icon and MaterialBanner icon now use `colorScheme.primary` instead of hardcoded white
+- iOS timer screenshot was missing because `find.widgetWithIcon(FilledButton)` does not match `CupertinoButton`; fixed with `Key('start_timer_button')` + `find.byKey()`
+- Tap crosshair visible in screenshots; `_decayCrosshair()` pumps 8 frames before each capture
+- `timeDilation` reset to `1.0` at end of test body to satisfy `_verifyInvariants` assertion
+- `TimerController._onTick` guards `ref.mounted` before state writes, preventing `UnmountedRefException` after provider disposal
+- frameit `_framed.png` files now replace originals; PNG alpha removed with correct dark background colour via ImageMagick
+
 ## [2.1.2] - 2026-06-15
 
 ### Fixed
@@ -148,7 +160,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - GitHub Actions workflow deploying Flutter web to GitHub Pages on every push
   to `main`
 
-[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.2...HEAD
+[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.3...HEAD
+[2.1.3]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.0...v2.1.1
 [2.0.1]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.0.0...v2.0.1
