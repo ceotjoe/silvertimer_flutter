@@ -6,6 +6,9 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Android edge-to-edge display now works correctly on all devices (resolves Play Store warning): updated launch/normal theme parents to `Theme.AppCompat` and added explicit `WindowCompat.setDecorFitsSystemWindows` call in `MainActivity`
+
 ## [2.1.3] - 2026-06-16
 
 ### Fixed
