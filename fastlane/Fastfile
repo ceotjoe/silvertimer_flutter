@@ -1,5 +1,4 @@
 require "base64"
-require "fileutils"
 
 # Absolute path to the Flutter project root (one level above fastlane/)
 ROOT = File.expand_path("..", __dir__)
@@ -106,23 +105,9 @@ platform :ios do
       end
     end
 
-    # Apply device frames + marketing text from title.strings.
-    # frameit creates {name}_framed.png alongside the original {name}.png
-    # for every device it recognises (iPhone 17 Pro Max is supported).
-    # Unsupported sizes (iPad Pro 13 M5) are skipped silently.
-    frame_screenshots(path: "#{ROOT}/fastlane/screenshots")
-
-    # Replace each original with its framed version where frameit succeeded.
-    Dir.glob("#{ROOT}/fastlane/screenshots/**/*_framed.png").each do |framed|
-      original = framed.sub("_framed.png", ".png")
-      FileUtils.mv(framed, original)
-    end
-
     # App Store Connect rejects PNGs with an alpha channel.
-    # Use -alpha remove with the same background colour as Framefile.json so
-    # that both framed images (which already carry the dark background) and
-    # unframed images (iPad, whose resolution is unsupported by frameit) are
-    # composited onto a solid fill rather than grey or white.
+    # Composite all screenshots onto a solid dark background to ensure
+    # transparency is removed without altering the screenshot content.
     sh("find '#{ROOT}/fastlane/screenshots' -name '*.png' -exec mogrify -background '#0D1B2A' -alpha remove -alpha off {} \\;")
   end
 
@@ -292,11 +277,9 @@ platform :android do
       end
     end
 
-    # NOTE: frame_screenshots is intentionally omitted for Android.
-    # frameit only recognises exact real-device resolutions and the Pixel 10 Pro
-    # emulator resolution is not in the frameit catalogue.
-    # Google Play Store does not require framed screenshots — raw
-    # screenshots are uploaded and reviewed as-is.
+    # Remove alpha from all Android screenshots so Play Store upload doesn't
+    # reject them for transparency.
+    sh("find '#{ROOT}/fastlane/screenshots' -name '*.png' -exec mogrify -background '#0D1B2A' -alpha remove -alpha off {} \\;")
   end
 
   desc "Build and deploy to Play Store internal track"
