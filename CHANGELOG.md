@@ -6,6 +6,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.1.4] - 2026-06-19
+
 ### Fixed
 - Android edge-to-edge display now works correctly on all devices (resolves Play Store warning): updated launch/normal theme parents to `Theme.AppCompat` and added explicit `WindowCompat.setDecorFitsSystemWindows` call in `MainActivity`
 - Black screen on startup on Android 14 (API 34): `WindowCompat.setDecorFitsSystemWindows` was called after `super.onCreate()`, causing a window re-layout after Flutter attached its view; moved to before `super.onCreate()`
@@ -164,7 +166,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - GitHub Actions workflow deploying Flutter web to GitHub Pages on every push
   to `main`
 
-[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.3...HEAD
+[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.4...HEAD
+[2.1.4]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.3...v2.1.4
 [2.1.3]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.0...v2.1.1
