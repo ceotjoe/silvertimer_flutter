@@ -76,6 +76,9 @@ web/drift_worker.dart.js.map
 fastlane/.env
 fastlane/.env.*
 
+# Fastlane run report — regenerated on every run, not useful to track
+fastlane/report.xml
+
 # Generated screenshots — keep only config files
 fastlane/screenshots/**
 !fastlane/screenshots/Framefile.json
