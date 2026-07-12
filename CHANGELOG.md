@@ -6,6 +6,11 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.1.5] - 2026-07-12
+
+### Fixed
+- App failed to start on release builds (2.1.4/40): AGP's resource shrinker stripped `ic_notification` since it's only referenced from Dart, causing `NotificationService.initialize()` to throw `PlatformException(invalid_icon)` before `runApp()` — added `android/app/src/main/res/raw/keep.xml` with `tools:keep` to protect it
+
 ## [2.1.4] - 2026-06-19
 
 ### Fixed
@@ -166,7 +171,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - GitHub Actions workflow deploying Flutter web to GitHub Pages on every push
   to `main`
 
-[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.4...HEAD
+[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.5...HEAD
+[2.1.5]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.4...v2.1.5
 [2.1.4]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.3...v2.1.4
 [2.1.3]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.1...v2.1.2

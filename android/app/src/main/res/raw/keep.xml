@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ic_notification is only referenced from Dart (AndroidInitializationSettings string),
+  so AGP's resource shrinker can't see the usage and strips it from release builds,
+  causing flutter_local_notifications to throw PlatformException(invalid_icon) on startup.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/ic_notification" />
