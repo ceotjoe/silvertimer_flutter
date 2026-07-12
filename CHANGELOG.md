@@ -6,6 +6,9 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- App failed to start on release builds (2.1.4/40): AGP's resource shrinker stripped `ic_notification` since it's only referenced from Dart, causing `NotificationService.initialize()` to throw `PlatformException(invalid_icon)` before `runApp()` — added `android/app/src/main/res/raw/keep.xml` with `tools:keep` to protect it
+
 ## [2.1.4] - 2026-06-19
 
 ### Fixed
