@@ -127,7 +127,11 @@ class _SessionTile extends StatelessWidget {
           ),
         ),
         title: Text('$volumeText  •  ${record.targetPpm} PPM'),
-        subtitle: Text('${record.currentMilliamps} mA  •  ${duration.toReadable()}'),
+        subtitle: Text(
+          record.deviceName != null
+              ? '${record.currentMilliamps} mA  •  ${record.deviceName}  •  ${duration.toReadable()}'
+              : '${record.currentMilliamps} mA  •  ${duration.toReadable()}',
+        ),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,

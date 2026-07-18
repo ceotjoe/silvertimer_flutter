@@ -10,10 +10,15 @@ Supports **Android**, **iOS**, and **Web**.
 
 ### Calculator
 - Enter water volume in **mL or liters**
-- Set electrode current in **milliamps** (0–5,000 mA)
+- Pick a saved **device** to set electrode current automatically, or enter it manually via **Custom** (0–5,000 mA)
 - Choose target concentration in **PPM**
 - Quick-select common PPM presets
-- Remembers your last-used values between sessions
+- Remembers your last-used values (including selected device) between sessions
+
+### Devices
+- Maintain a personal library of electrolysis generators: name, current in mA, and whether the device auto-switches electrode polarity
+- Ships with 3 seeded generic devices (5mA/10mA/20mA); add, edit, or delete devices freely
+- Devices with auto polarity switching skip the electrode-cleaning-reminder alarms during a run
 
 ### Timer
 - Circular countdown display with elapsed/remaining time
@@ -24,6 +29,7 @@ Supports **Android**, **iOS**, and **Web**.
 ### History
 - Persistent log of all completed sessions (SQLite via Drift)
 - Shows volume, current, PPM, duration, and completion time
+- Records a snapshot of the device used (name, current, auto polarity), accurate even if the device is later edited or deleted
 
 ### Notifications
 - Push notification when electrolysis completes (works when the app is backgrounded)
@@ -144,9 +150,10 @@ lib/
 │   └── utils/
 │       └── silver_calculator.dart   # Pure calculation service (Faraday's Law)
 ├── features/
-│   ├── calculator/                  # Input form, PPM presets, result card
+│   ├── calculator/                  # Input form, device picker, PPM presets, result card
+│   ├── devices/                     # Device library — model, repository, manage/pick UI
 │   ├── timer/                       # Countdown controller, circular timer widget, notification service
-│   ├── history/                     # Drift/SQLite session log
+│   ├── history/                     # Drift/SQLite session log (also hosts the Devices table)
 │   └── settings/                   # SharedPreferences-backed settings with freezed model
 └── shared/
     └── widgets/
@@ -160,7 +167,7 @@ lib/
 | State management | `flutter_riverpod` + `riverpod_annotation` |
 | Navigation | `go_router` |
 | Immutable models | `freezed` |
-| Persistence (history) | `drift` (SQLite) |
+| Persistence (history, devices) | `drift` (SQLite) |
 | Persistence (settings) | `shared_preferences` |
 | Notifications | `flutter_local_notifications` + `timezone` |
 | Animations | `flutter_animate`, `percent_indicator` |

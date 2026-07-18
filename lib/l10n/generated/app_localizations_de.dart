@@ -262,4 +262,45 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get infoHowToUse => 'So verwendest du SilverTimer';
+
+  @override
+  String get deviceLabel => 'Gerät';
+
+  @override
+  String get customDeviceOption => 'Benutzerdefiniert';
+
+  @override
+  String get manageDevicesTooltip => 'Geräte verwalten';
+
+  @override
+  String get manageDevicesTitle => 'Geräte';
+
+  @override
+  String get deviceNameLabel => 'Name';
+
+  @override
+  String get deviceCurrentLabel => 'Strom';
+
+  @override
+  String get autoPolarityLabel => 'Automatischer Polaritätswechsel';
+
+  @override
+  String get autoPolaritySubtitle =>
+      'Überspringt Elektrodenreinigungserinnerungen während einer Sitzung';
+
+  @override
+  String get addDeviceTitle => 'Gerät hinzufügen';
+
+  @override
+  String get editDeviceTitle => 'Gerät bearbeiten';
+
+  @override
+  String get saveButton => 'Speichern';
+
+  @override
+  String get noDevicesYet => 'Noch keine Geräte';
+
+  @override
+  String get noDevicesSubtitle =>
+      'Fügen Sie ein Gerät hinzu, um dessen Strom im Rechner schnell einzustellen';
 }

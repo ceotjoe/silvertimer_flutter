@@ -261,4 +261,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get infoHowToUse => 'How to use SilverTimer';
+
+  @override
+  String get deviceLabel => 'Device';
+
+  @override
+  String get customDeviceOption => 'Custom';
+
+  @override
+  String get manageDevicesTooltip => 'Manage devices';
+
+  @override
+  String get manageDevicesTitle => 'Devices';
+
+  @override
+  String get deviceNameLabel => 'Name';
+
+  @override
+  String get deviceCurrentLabel => 'Current';
+
+  @override
+  String get autoPolarityLabel => 'Auto Polarity Switching';
+
+  @override
+  String get autoPolaritySubtitle => 'Skips electrode cleaning reminders during a run';
+
+  @override
+  String get addDeviceTitle => 'Add Device';
+
+  @override
+  String get editDeviceTitle => 'Edit Device';
+
+  @override
+  String get saveButton => 'Save';
+
+  @override
+  String get noDevicesYet => 'No devices yet';
+
+  @override
+  String get noDevicesSubtitle => 'Add a device to quickly set its current on the calculator';
 }

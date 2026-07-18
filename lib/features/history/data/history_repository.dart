@@ -31,6 +31,10 @@ class HistoryRepository {
             durationSeconds: record.durationSeconds,
             completedAt: record.completedAt,
             completed: Value(record.completed),
+            deviceId: Value(record.deviceId),
+            deviceName: Value(record.deviceName),
+            deviceCurrentMa: Value(record.deviceCurrentMa),
+            deviceAutoPolarity: Value(record.deviceAutoPolarity),
           ),
         );
   }
@@ -54,6 +58,10 @@ class HistoryRepository {
       durationSeconds: row.durationSeconds,
       completedAt: row.completedAt,
       completed: row.completed,
+      deviceId: row.deviceId,
+      deviceName: row.deviceName,
+      deviceCurrentMa: row.deviceCurrentMa,
+      deviceAutoPolarity: row.deviceAutoPolarity,
     );
   }
 }

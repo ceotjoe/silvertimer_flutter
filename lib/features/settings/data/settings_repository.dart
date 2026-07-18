@@ -67,16 +67,19 @@ class SettingsRepository {
   }
 
   /// Returns the last-used calculator values, or null if never saved.
-  ({double? volumeValue, VolumeUnit? volumeUnit, double? targetPpm}) loadLastCalculatorInput() {
+  ({double? volumeValue, VolumeUnit? volumeUnit, double? targetPpm, int? lastDeviceId})
+      loadLastCalculatorInput() {
     final volumeValue = _prefs.getDouble(AppConstants.prefLastVolumeValue);
     final volumeUnitIndex = _prefs.getInt(AppConstants.prefLastVolumeUnit);
     final targetPpm = _prefs.getDouble(AppConstants.prefLastTargetPpm);
+    final lastDeviceId = _prefs.getInt(AppConstants.prefLastDeviceId);
     return (
       volumeValue: volumeValue,
       volumeUnit: volumeUnitIndex != null
           ? VolumeUnit.values[volumeUnitIndex.clamp(0, VolumeUnit.values.length - 1)]
           : null,
       targetPpm: targetPpm,
+      lastDeviceId: lastDeviceId,
     );
   }
 
@@ -90,6 +93,15 @@ class SettingsRepository {
 
   Future<void> saveLastTargetPpm(double ppm) async {
     await _prefs.setDouble(AppConstants.prefLastTargetPpm, ppm);
+  }
+
+  /// Persists the last-selected device id, or clears it when null ("Custom").
+  Future<void> saveLastDeviceId(int? id) async {
+    if (id == null) {
+      await _prefs.remove(AppConstants.prefLastDeviceId);
+    } else {
+      await _prefs.setInt(AppConstants.prefLastDeviceId, id);
+    }
   }
 }
 

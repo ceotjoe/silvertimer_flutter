@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/calculator_controller.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/calculator_screen.dart';
+import 'package:silvertimer_flutter/features/devices/presentation/devices_screen.dart';
 import 'package:silvertimer_flutter/features/history/presentation/history_screen.dart';
 import 'package:silvertimer_flutter/features/info/presentation/info_screen.dart';
 import 'package:silvertimer_flutter/features/settings/presentation/settings_screen.dart';
@@ -58,6 +59,10 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: '/settings',
         builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: '/devices',
+        builder: (context, state) => const ManageDevicesScreen(),
       ),
     ],
   );

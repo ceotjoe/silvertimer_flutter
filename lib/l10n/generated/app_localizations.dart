@@ -585,6 +585,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'How to use SilverTimer'**
   String get infoHowToUse;
+
+  /// Label for the device picker dropdown on the Calculator screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Device'**
+  String get deviceLabel;
+
+  /// Option in the device picker for manual mA entry instead of a saved device.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get customDeviceOption;
+
+  /// Tooltip for the icon button next to the device picker that opens the devices screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage devices'**
+  String get manageDevicesTooltip;
+
+  /// AppBar title on the Manage Devices screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices'**
+  String get manageDevicesTitle;
+
+  /// Label for the device name field in the add/edit device dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get deviceNameLabel;
+
+  /// Label for the device current (mA) field in the add/edit device dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Current'**
+  String get deviceCurrentLabel;
+
+  /// Switch title for whether a device automatically switches electrode polarity.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Polarity Switching'**
+  String get autoPolarityLabel;
+
+  /// Subtitle explaining the effect of the auto polarity switching flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Skips electrode cleaning reminders during a run'**
+  String get autoPolaritySubtitle;
+
+  /// Title of the dialog for adding a new device, and tooltip for the add button.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Device'**
+  String get addDeviceTitle;
+
+  /// Title of the dialog for editing an existing device.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Device'**
+  String get editDeviceTitle;
+
+  /// Generic save button label used in dialogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveButton;
+
+  /// Heading in the empty state of the Devices screen.
+  ///
+  /// In en, this message translates to:
+  /// **'No devices yet'**
+  String get noDevicesYet;
+
+  /// Subtitle in the empty state of the Devices screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a device to quickly set its current on the calculator'**
+  String get noDevicesSubtitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

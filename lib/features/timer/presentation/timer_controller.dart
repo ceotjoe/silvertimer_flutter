@@ -205,6 +205,7 @@ class TimerController extends _$TimerController {
     // Save session to history
     final result = _lastResult;
     if (result != null) {
+      final device = result.input.selectedDevice;
       ref.read(historyControllerProvider.notifier).addSession(
             SessionRecord(
               id: 0,
@@ -214,6 +215,10 @@ class TimerController extends _$TimerController {
               durationSeconds: total.inSeconds,
               completedAt: DateTime.now(),
               completed: true,
+              deviceId: device?.id,
+              deviceName: device?.name,
+              deviceCurrentMa: device?.currentMilliamps,
+              deviceAutoPolarity: device?.supportsAutoPolarity,
             ),
           );
     }
@@ -265,9 +270,12 @@ class TimerController extends _$TimerController {
     _nextCleaningIndex = 0;
 
     final settings = ref.read(settingsControllerProvider);
+    final deviceSkipsCleaning =
+        _lastResult?.input.selectedDevice?.supportsAutoPolarity ?? false;
     final enabled = settings.cleaningAlarmsEnabled &&
         settings.notificationsEnabled &&
-        settings.cleaningIntervalMinutes > 0;
+        settings.cleaningIntervalMinutes > 0 &&
+        !deviceSkipsCleaning;
 
     if (!enabled) return;
 

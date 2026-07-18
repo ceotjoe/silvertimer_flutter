@@ -14,6 +14,9 @@ _CalculatorInput _$CalculatorInputFromJson(Map<String, dynamic> json) =>
           VolumeUnit.ml,
       currentMilliamps: (json['currentMilliamps'] as num?)?.toDouble() ?? 0.0,
       targetPpm: (json['targetPpm'] as num?)?.toDouble() ?? 25.0,
+      selectedDevice: json['selectedDevice'] == null
+          ? null
+          : Device.fromJson(json['selectedDevice'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CalculatorInputToJson(_CalculatorInput instance) =>
@@ -22,6 +25,7 @@ Map<String, dynamic> _$CalculatorInputToJson(_CalculatorInput instance) =>
       'volumeUnit': _$VolumeUnitEnumMap[instance.volumeUnit]!,
       'currentMilliamps': instance.currentMilliamps,
       'targetPpm': instance.targetPpm,
+      'selectedDevice': instance.selectedDevice,
     };
 
 const _$VolumeUnitEnumMap = {VolumeUnit.ml: 'ml', VolumeUnit.liters: 'liters'};
