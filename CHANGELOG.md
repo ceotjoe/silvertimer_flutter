@@ -14,6 +14,9 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - Devices with auto polarity switching enabled skip the electrode-cleaning-reminder alarms for that timer run.
 - History entries now record a snapshot of the device used (name, current, auto polarity) at completion time, shown in the session list — accurate even if the device is later edited or deleted.
 
+### Security
+- Bumped `faraday` (1.10.5 → 1.10.6) and `excon` (0.112.0 → 1.6.0) in `Gemfile.lock`, fixing Dependabot alerts for [CVE-2026-54297](https://github.com/ceotjoe/silvertimer_flutter/security/dependabot/11) (high — uncontrolled recursion DoS in Faraday's nested query parameter decoder) and [CVE-2026-54171](https://github.com/ceotjoe/silvertimer_flutter/security/dependabot/12) (moderate — Excon's redirect follower failed to redact sensitive headers). Both are transitive `fastlane` dependencies used only for release tooling, not shipped in the app.
+
 ## [2.1.5] - 2026-07-12
 
 ### Fixed
