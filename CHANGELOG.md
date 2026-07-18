@@ -6,6 +6,14 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-07-18
+
+### Added
+- Device database: maintain a personal library of electrolysis generators (name, current in mA, auto polarity switching flag) under a new "Manage Devices" screen (`/devices`), reachable from a device picker on the Calculator screen. Ships with 3 seeded generic devices (5mA/10mA/20mA), fully user-editable/deletable.
+- Selecting a device on the Calculator screen sets its current automatically; a "Custom" option preserves manual mA entry. The last-selected device (or "Custom") is remembered across app restarts.
+- Devices with auto polarity switching enabled skip the electrode-cleaning-reminder alarms for that timer run.
+- History entries now record a snapshot of the device used (name, current, auto polarity) at completion time, shown in the session list — accurate even if the device is later edited or deleted.
+
 ## [2.1.5] - 2026-07-12
 
 ### Fixed
@@ -171,7 +179,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - GitHub Actions workflow deploying Flutter web to GitHub Pages on every push
   to `main`
 
-[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.5...HEAD
+[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.5...v2.2.0
 [2.1.5]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.4...v2.1.5
 [2.1.4]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.3...v2.1.4
 [2.1.3]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.2...v2.1.3
