@@ -41,8 +41,7 @@ final class CalculatorControllerProvider
   }
 }
 
-String _$calculatorControllerHash() =>
-    r'25f6986d55e3627bce5cc8d874aa5f77251bd2f8';
+String _$calculatorControllerHash() => r'3cb959793787fefb00ac2428d921915b2b373129';
 
 abstract class _$CalculatorController extends $Notifier<CalculatorState> {
   CalculatorState build();
