@@ -5,8 +5,7 @@ import 'dart:io';
 
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:silvertimer_flutter/features/history/data/local/history_database.dart'
-    hide Device;
+import 'package:silvertimer_flutter/features/history/data/local/history_database.dart' hide Device;
 import 'package:sqlite3/sqlite3.dart' as raw_sqlite;
 
 /// Builds a real on-disk sqlite file matching the app's original (pre-devices)
@@ -73,11 +72,7 @@ void main() {
 
     // Devices table created and seeded exactly once during the upgrade.
     expect(devices, hasLength(3));
-    expect(devices.map((d) => d.name), [
-      'Generic 5mA',
-      'Generic 10mA',
-      'Generic 20mA',
-    ]);
+    expect(devices.map((d) => d.name), ['Generic 5mA', 'Generic 10mA', 'Generic 20mA']);
     expect(devices.every((d) => d.supportsAutoPolarity == false), isTrue);
   });
 

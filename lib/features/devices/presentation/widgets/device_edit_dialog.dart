@@ -10,11 +10,7 @@ import 'package:silvertimer_flutter/features/devices/presentation/devices_contro
 import 'package:silvertimer_flutter/shared/widgets/adaptive_text_field.dart';
 
 /// Shows a dialog to add a new device, or edit an [existing] one.
-Future<void> showDeviceEditDialog(
-  BuildContext context,
-  WidgetRef ref, {
-  Device? existing,
-}) {
+Future<void> showDeviceEditDialog(BuildContext context, WidgetRef ref, {Device? existing}) {
   return showDialog<void>(
     context: context,
     builder: (ctx) => _DeviceEditDialogContent(existing: existing, ref: ref),
@@ -28,8 +24,7 @@ class _DeviceEditDialogContent extends StatefulWidget {
   final WidgetRef ref;
 
   @override
-  State<_DeviceEditDialogContent> createState() =>
-      _DeviceEditDialogContentState();
+  State<_DeviceEditDialogContent> createState() => _DeviceEditDialogContentState();
 }
 
 class _DeviceEditDialogContentState extends State<_DeviceEditDialogContent> {
@@ -42,9 +37,7 @@ class _DeviceEditDialogContentState extends State<_DeviceEditDialogContent> {
     super.initState();
     _nameController = TextEditingController(text: widget.existing?.name ?? '');
     _currentController = TextEditingController(
-      text: widget.existing != null
-          ? _formatCurrent(widget.existing!.currentMilliamps)
-          : '',
+      text: widget.existing != null ? _formatCurrent(widget.existing!.currentMilliamps) : '',
     );
     _supportsAutoPolarity = widget.existing?.supportsAutoPolarity ?? false;
   }
@@ -67,18 +60,22 @@ class _DeviceEditDialogContentState extends State<_DeviceEditDialogContent> {
     final notifier = widget.ref.read(devicesControllerProvider.notifier);
     final existing = widget.existing;
     if (existing != null) {
-      notifier.updateDevice(existing.copyWith(
-        name: name,
-        currentMilliamps: currentMilliamps,
-        supportsAutoPolarity: _supportsAutoPolarity,
-      ));
+      notifier.updateDevice(
+        existing.copyWith(
+          name: name,
+          currentMilliamps: currentMilliamps,
+          supportsAutoPolarity: _supportsAutoPolarity,
+        ),
+      );
     } else {
-      notifier.addDevice(Device(
-        id: 0,
-        name: name,
-        currentMilliamps: currentMilliamps,
-        supportsAutoPolarity: _supportsAutoPolarity,
-      ));
+      notifier.addDevice(
+        Device(
+          id: 0,
+          name: name,
+          currentMilliamps: currentMilliamps,
+          supportsAutoPolarity: _supportsAutoPolarity,
+        ),
+      );
     }
     Navigator.pop(context);
   }
@@ -117,14 +114,8 @@ class _DeviceEditDialogContentState extends State<_DeviceEditDialogContent> {
         ],
       ),
       actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(l10n.cancelButton),
-        ),
-        FilledButton(
-          onPressed: _save,
-          child: Text(l10n.saveButton),
-        ),
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(l10n.cancelButton)),
+        FilledButton(onPressed: _save, child: Text(l10n.saveButton)),
       ],
     );
   }

@@ -19,8 +19,8 @@ import 'package:integration_test/integration_test_driver_extended.dart';
 /// SCREENSHOT_OUT_DIR environment variable (defaults to
 /// fastlane/screenshots/en-US/screenshots).
 Future<void> main() async {
-  final outDir = Platform.environment['SCREENSHOT_OUT_DIR'] ??
-      'fastlane/screenshots/en-US/screenshots';
+  final outDir =
+      Platform.environment['SCREENSHOT_OUT_DIR'] ?? 'fastlane/screenshots/en-US/screenshots';
 
   await integrationDriver(
     responseDataCallback: (data) async {

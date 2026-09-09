@@ -3,10 +3,8 @@
 
 import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:silvertimer_flutter/features/history/data/local/history_database.dart'
-    as db_lib;
-import 'package:silvertimer_flutter/features/history/domain/models/session_record.dart'
-    as domain;
+import 'package:silvertimer_flutter/features/history/data/local/history_database.dart' as db_lib;
+import 'package:silvertimer_flutter/features/history/domain/models/session_record.dart' as domain;
 
 part 'history_repository.g.dart';
 
@@ -16,14 +14,16 @@ class HistoryRepository {
   final db_lib.HistoryDatabase _db;
 
   Future<List<domain.SessionRecord>> getAllSessions() async {
-    final rows = await (_db.select(_db.sessionRecords)
-          ..orderBy([(t) => OrderingTerm.desc(t.completedAt)]))
-        .get();
+    final rows = await (_db.select(
+      _db.sessionRecords,
+    )..orderBy([(t) => OrderingTerm.desc(t.completedAt)])).get();
     return rows.map(_toModel).toList();
   }
 
   Future<void> insertSession(domain.SessionRecord record) async {
-    await _db.into(_db.sessionRecords).insert(
+    await _db
+        .into(_db.sessionRecords)
+        .insert(
           db_lib.SessionRecordsCompanion.insert(
             volumeLiters: record.volumeLiters,
             currentMilliamps: record.currentMilliamps,
@@ -40,9 +40,7 @@ class HistoryRepository {
   }
 
   Future<void> deleteSession(int id) async {
-    await (_db.delete(_db.sessionRecords)
-          ..where((t) => t.id.equals(id)))
-        .go();
+    await (_db.delete(_db.sessionRecords)..where((t) => t.id.equals(id))).go();
   }
 
   Future<void> clearAll() async {

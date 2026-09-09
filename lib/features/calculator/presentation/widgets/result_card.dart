@@ -21,45 +21,43 @@ class ResultCard extends StatelessWidget {
     final l10n = context.l10n;
 
     return GlassCard(
-      tintColor: colorScheme.primaryContainer,
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              l10n.calculatedDuration,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: colorScheme.onPrimaryContainer,
-                  ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              result.calculatedDuration.toHhMmSs(),
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                    color: colorScheme.onPrimaryContainer,
-                    fontWeight: FontWeight.bold,
-                    fontFeatures: const [FontFeature.tabularFigures()],
-                  ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              result.calculatedDuration.toReadable(),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
-                  ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            AdaptiveFilledButton(
-              key: const Key('start_timer_button'),
-              onPressed: onStartTimer,
-              icon: Icons.timer,
-              label: l10n.startTimer,
-            ),
-          ],
-        ),
-    )
+          tintColor: colorScheme.primaryContainer,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                l10n.calculatedDuration,
+                style: Theme.of(context).textTheme.titleMedium
+                    ?.copyWith(color: colorScheme.onPrimaryContainer),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                result.calculatedDuration.toHhMmSs(),
+                style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  color: colorScheme.onPrimaryContainer,
+                  fontWeight: FontWeight.bold,
+                  fontFeatures: const [FontFeature.tabularFigures()],
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                result.calculatedDuration.toReadable(),
+                style: Theme.of(context).textTheme.bodySmall
+                    ?.copyWith(color: colorScheme.onPrimaryContainer.withValues(alpha: 0.7)),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              AdaptiveFilledButton(
+                key: const Key('start_timer_button'),
+                onPressed: onStartTimer,
+                icon: Icons.timer,
+                label: l10n.startTimer,
+              ),
+            ],
+          ),
+        )
         .animate()
         .fadeIn(duration: 400.ms)
         .slideY(begin: 0.2, end: 0, duration: 400.ms, curve: Curves.easeOut);

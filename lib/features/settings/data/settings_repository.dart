@@ -18,14 +18,11 @@ class SettingsRepository {
   AppSettings load() {
     final themeIndex = _prefs.getInt(AppConstants.prefThemeMode) ?? 0;
     final volumeUnitIndex = _prefs.getInt(AppConstants.prefDefaultVolumeUnit) ?? 0;
-    final notificationsEnabled =
-        _prefs.getBool(AppConstants.prefNotificationsEnabled) ?? true;
+    final notificationsEnabled = _prefs.getBool(AppConstants.prefNotificationsEnabled) ?? true;
     final defaultPpm = _prefs.getDouble(AppConstants.prefDefaultPpm) ?? 25.0;
     final defaultCurrentMa = _prefs.getDouble(AppConstants.prefDefaultCurrentMa) ?? 10.0;
-    final cleaningAlarmsEnabled =
-        _prefs.getBool(AppConstants.prefCleaningAlarmsEnabled) ?? true;
-    final cleaningIntervalMinutes =
-        _prefs.getInt(AppConstants.prefCleaningIntervalMinutes) ?? 10;
+    final cleaningAlarmsEnabled = _prefs.getBool(AppConstants.prefCleaningAlarmsEnabled) ?? true;
+    final cleaningIntervalMinutes = _prefs.getInt(AppConstants.prefCleaningIntervalMinutes) ?? 10;
 
     return AppSettings(
       themeMode: ThemeMode.values[themeIndex.clamp(0, ThemeMode.values.length - 1)],
@@ -68,7 +65,7 @@ class SettingsRepository {
 
   /// Returns the last-used calculator values, or null if never saved.
   ({double? volumeValue, VolumeUnit? volumeUnit, double? targetPpm, int? lastDeviceId})
-      loadLastCalculatorInput() {
+  loadLastCalculatorInput() {
     final volumeValue = _prefs.getDouble(AppConstants.prefLastVolumeValue);
     final volumeUnitIndex = _prefs.getInt(AppConstants.prefLastVolumeUnit);
     final targetPpm = _prefs.getDouble(AppConstants.prefLastTargetPpm);

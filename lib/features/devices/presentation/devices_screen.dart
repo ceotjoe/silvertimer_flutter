@@ -52,9 +52,8 @@ class ManageDevicesScreen extends ConsumerWidget {
                 itemBuilder: (context, i) => _DeviceTile(
                   device: devices[i],
                   onTap: () => showDeviceEditDialog(context, ref, existing: devices[i]),
-                  onDelete: () => ref
-                      .read(devicesControllerProvider.notifier)
-                      .deleteDevice(devices[i].id),
+                  onDelete: () =>
+                      ref.read(devicesControllerProvider.notifier).deleteDevice(devices[i].id),
                 ),
               ),
       ),
@@ -63,11 +62,7 @@ class ManageDevicesScreen extends ConsumerWidget {
 }
 
 class _DeviceTile extends StatelessWidget {
-  const _DeviceTile({
-    required this.device,
-    required this.onTap,
-    required this.onDelete,
-  });
+  const _DeviceTile({required this.device, required this.onTap, required this.onDelete});
 
   final Device device;
   final VoidCallback onTap;

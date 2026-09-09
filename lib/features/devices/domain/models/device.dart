@@ -15,6 +15,5 @@ abstract class Device with _$Device {
     @Default(false) bool supportsAutoPolarity,
   }) = _Device;
 
-  factory Device.fromJson(Map<String, dynamic> json) =>
-      _$DeviceFromJson(json);
+  factory Device.fromJson(Map<String, dynamic> json) => _$DeviceFromJson(json);
 }

@@ -5,8 +5,7 @@ import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:silvertimer_flutter/features/devices/data/device_repository.dart';
 import 'package:silvertimer_flutter/features/devices/domain/models/device.dart';
-import 'package:silvertimer_flutter/features/history/data/local/history_database.dart'
-    hide Device;
+import 'package:silvertimer_flutter/features/history/data/local/history_database.dart' hide Device;
 
 void main() {
   late HistoryDatabase db;
@@ -23,11 +22,7 @@ void main() {
     final devices = await repository.getAllDevices();
 
     expect(devices, hasLength(3));
-    expect(devices.map((d) => d.name), [
-      'Generic 5mA',
-      'Generic 10mA',
-      'Generic 20mA',
-    ]);
+    expect(devices.map((d) => d.name), ['Generic 5mA', 'Generic 10mA', 'Generic 20mA']);
     expect(devices.map((d) => d.currentMilliamps), [5.0, 10.0, 20.0]);
     expect(devices.every((d) => d.supportsAutoPolarity == false), isTrue);
   });

@@ -25,9 +25,7 @@ GoRouter appRouter(Ref ref) {
         routes: [
           GoRoute(
             path: '/calculator',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: CalculatorScreen(),
-            ),
+            pageBuilder: (context, state) => const NoTransitionPage(child: CalculatorScreen()),
           ),
           GoRoute(
             path: '/timer',
@@ -38,32 +36,20 @@ GoRouter appRouter(Ref ref) {
               if (result == null) return '/calculator';
               return null;
             },
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: TimerScreen(),
-            ),
+            pageBuilder: (context, state) => const NoTransitionPage(child: TimerScreen()),
           ),
           GoRoute(
             path: '/history',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: HistoryScreen(),
-            ),
+            pageBuilder: (context, state) => const NoTransitionPage(child: HistoryScreen()),
           ),
           GoRoute(
             path: '/info',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: InfoScreen(),
-            ),
+            pageBuilder: (context, state) => const NoTransitionPage(child: InfoScreen()),
           ),
         ],
       ),
-      GoRoute(
-        path: '/settings',
-        builder: (context, state) => const SettingsScreen(),
-      ),
-      GoRoute(
-        path: '/devices',
-        builder: (context, state) => const ManageDevicesScreen(),
-      ),
+      GoRoute(path: '/settings', builder: (context, state) => const SettingsScreen()),
+      GoRoute(path: '/devices', builder: (context, state) => const ManageDevicesScreen()),
     ],
   );
 }

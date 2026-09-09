@@ -58,11 +58,7 @@ class GlassNavigationBar extends StatelessWidget {
 }
 
 class _GlassNavItem extends StatelessWidget {
-  const _GlassNavItem({
-    required this.destination,
-    required this.selected,
-    required this.onTap,
-  });
+  const _GlassNavItem({required this.destination, required this.selected, required this.onTap});
 
   final GlassNavDestination destination;
   final bool selected;
@@ -109,11 +105,7 @@ class _GlassNavItem extends StatelessWidget {
 
 /// Data class for a single tab destination.
 class GlassNavDestination {
-  const GlassNavDestination({
-    required this.icon,
-    required this.selectedIcon,
-    required this.label,
-  });
+  const GlassNavDestination({required this.icon, required this.selectedIcon, required this.label});
 
   final IconData icon;
   final IconData selectedIcon;
@@ -125,5 +117,4 @@ GlassNavDestination glassDestination({
   required IconData icon,
   required IconData selectedIcon,
   required String label,
-}) =>
-    GlassNavDestination(icon: icon, selectedIcon: selectedIcon, label: label);
+}) => GlassNavDestination(icon: icon, selectedIcon: selectedIcon, label: label);

@@ -74,8 +74,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
               behavior: SnackBarBehavior.floating,
               action: SnackBarAction(
                 label: l10n.dismiss,
-                onPressed: () =>
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+                onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
               ),
             ),
           );
@@ -90,8 +89,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Session summary
-            if (calcState.lastResult != null)
-              _SessionSummary(input: calcState.lastResult!.input),
+            if (calcState.lastResult != null) _SessionSummary(input: calcState.lastResult!.input),
 
             const SizedBox(height: 40),
 
@@ -115,23 +113,20 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
 
   Widget _buildTimerDisplay(TimerState state) {
     return switch (state) {
-      TimerIdle() => CircularTimer(
-          totalDuration: Duration.zero,
-          elapsed: Duration.zero,
-        ),
+      TimerIdle() => CircularTimer(totalDuration: Duration.zero, elapsed: Duration.zero),
       TimerRunning(:final totalDuration, :final elapsed) => CircularTimer(
-          totalDuration: totalDuration,
-          elapsed: elapsed,
-        ),
+        totalDuration: totalDuration,
+        elapsed: elapsed,
+      ),
       TimerPaused(:final totalDuration, :final elapsed) => CircularTimer(
-          totalDuration: totalDuration,
-          elapsed: elapsed,
-        ),
+        totalDuration: totalDuration,
+        elapsed: elapsed,
+      ),
       TimerCompleted(:final totalDuration) => CircularTimer(
-          totalDuration: totalDuration,
-          elapsed: totalDuration,
-          isComplete: true,
-        ),
+        totalDuration: totalDuration,
+        elapsed: totalDuration,
+        isComplete: true,
+      ),
     };
   }
 
@@ -160,65 +155,65 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
 
     return switch (state) {
       TimerIdle() => AdaptiveFilledButton(
-          onPressed: null,
-          icon: Icons.play_arrow,
-          label: l10n.noTimerLoaded,
-        ),
+        onPressed: null,
+        icon: Icons.play_arrow,
+        label: l10n.noTimerLoaded,
+      ),
       TimerPaused() => Row(
-          children: [
-            Expanded(
-              child: AdaptiveFilledButton(
-                onPressed: () {
-                  notifier.start(
-                    strings: NotificationStrings(
-                      completeTitle: l10n.notifCompleteTitle,
-                      completeBody: l10n.notifCompleteBody,
-                      cleanTitle: l10n.notifCleanTitle,
-                      cleanBodyForAlarm: (n) => l10n.notifCleanBody(n),
-                      channelDescription: l10n.notifChannelDescription,
-                    ),
-                  );
-                },
-                icon: Icons.play_arrow,
-                label: l10n.startButton,
-              ),
-            ),
-            const SizedBox(width: 12),
-            AdaptiveOutlinedButton(
+        children: [
+          Expanded(
+            child: AdaptiveFilledButton(
               onPressed: () {
-                notifier.reset();
-                context.go('/calculator');
+                notifier.start(
+                  strings: NotificationStrings(
+                    completeTitle: l10n.notifCompleteTitle,
+                    completeBody: l10n.notifCompleteBody,
+                    cleanTitle: l10n.notifCleanTitle,
+                    cleanBodyForAlarm: (n) => l10n.notifCleanBody(n),
+                    channelDescription: l10n.notifChannelDescription,
+                  ),
+                );
               },
-              icon: Icons.restart_alt,
-              label: l10n.resetButton,
+              icon: Icons.play_arrow,
+              label: l10n.startButton,
             ),
-          ],
-        ),
+          ),
+          const SizedBox(width: 12),
+          AdaptiveOutlinedButton(
+            onPressed: () {
+              notifier.reset();
+              context.go('/calculator');
+            },
+            icon: Icons.restart_alt,
+            label: l10n.resetButton,
+          ),
+        ],
+      ),
       TimerRunning() => Row(
-          children: [
-            Expanded(
-              child: AdaptiveFilledButton(
-                onPressed: () => notifier.pause(),
-                icon: Icons.pause,
-                label: l10n.pauseButton,
-              ),
+        children: [
+          Expanded(
+            child: AdaptiveFilledButton(
+              onPressed: () => notifier.pause(),
+              icon: Icons.pause,
+              label: l10n.pauseButton,
             ),
-            const SizedBox(width: 12),
-            AdaptiveOutlinedButton(
-              onPressed: () => _confirmReset(context, notifier),
-              icon: Icons.restart_alt,
-              label: l10n.resetButton,
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(width: 12),
+          AdaptiveOutlinedButton(
+            onPressed: () => _confirmReset(context, notifier),
+            icon: Icons.restart_alt,
+            label: l10n.resetButton,
+          ),
+        ],
+      ),
       TimerCompleted() => AdaptiveFilledButton(
-          onPressed: () {
-            notifier.reset();
-            context.go('/calculator');
-          },
-          icon: Icons.check,
-          label: l10n.doneButton,
-        ),
+        onPressed: () {
+          notifier.reset();
+          context.go('/calculator');
+        },
+        icon: Icons.check,
+        label: l10n.doneButton,
+      ),
     };
   }
 
@@ -231,14 +226,8 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
         title: Text(l10n.resetTimerTitle),
         content: Text(l10n.resetTimerBody),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(l10n.cancelButton),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: Text(l10n.resetButton),
-          ),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(l10n.cancelButton)),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: Text(l10n.resetButton)),
         ],
       ),
     ).then((confirmed) {
@@ -291,9 +280,8 @@ class _SessionSummary extends StatelessWidget {
 
     return Text(
       '$volumeText  •  ${input.currentMilliamps} mA  •  ${input.targetPpm} PPM',
-      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
-          ),
+      style: Theme.of(context).textTheme.bodyMedium
+          ?.copyWith(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)),
       textAlign: TextAlign.center,
     ).animate().fadeIn(duration: 300.ms);
   }
@@ -314,9 +302,9 @@ class _StatItem extends StatelessWidget {
         Text(
           value,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontFeatures: const [FontFeature.tabularFigures()],
-                fontWeight: FontWeight.w600,
-              ),
+            fontFeatures: const [FontFeature.tabularFigures()],
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ],
     );

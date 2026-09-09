@@ -3,10 +3,8 @@
 
 import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:silvertimer_flutter/features/devices/domain/models/device.dart'
-    as domain;
-import 'package:silvertimer_flutter/features/history/data/local/history_database.dart'
-    as db_lib;
+import 'package:silvertimer_flutter/features/devices/domain/models/device.dart' as domain;
+import 'package:silvertimer_flutter/features/history/data/local/history_database.dart' as db_lib;
 
 part 'device_repository.g.dart';
 
@@ -16,14 +14,14 @@ class DeviceRepository {
   final db_lib.HistoryDatabase _db;
 
   Future<List<domain.Device>> getAllDevices() async {
-    final rows = await (_db.select(_db.devices)
-          ..orderBy([(t) => OrderingTerm.asc(t.id)]))
-        .get();
+    final rows = await (_db.select(_db.devices)..orderBy([(t) => OrderingTerm.asc(t.id)])).get();
     return rows.map(_toModel).toList();
   }
 
   Future<void> insertDevice(domain.Device device) async {
-    await _db.into(_db.devices).insert(
+    await _db
+        .into(_db.devices)
+        .insert(
           db_lib.DevicesCompanion.insert(
             name: device.name,
             currentMilliamps: device.currentMilliamps,
@@ -33,7 +31,9 @@ class DeviceRepository {
   }
 
   Future<void> updateDevice(domain.Device device) async {
-    await _db.update(_db.devices).replace(
+    await _db
+        .update(_db.devices)
+        .replace(
           db_lib.DevicesCompanion(
             id: Value(device.id),
             name: Value(device.name),
