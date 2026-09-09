@@ -67,10 +67,7 @@ class AdaptiveTextFormField extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.primary,
-              width: 1.5,
-            ),
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1.5),
           ),
           isDense: decoration?.isDense,
         ),
@@ -139,10 +136,7 @@ class AdaptiveTextField extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.primary,
-              width: 1.5,
-            ),
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1.5),
           ),
           isDense: decoration?.isDense,
         ),

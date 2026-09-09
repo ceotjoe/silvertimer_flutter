@@ -16,33 +16,22 @@ PreferredSizeWidget adaptiveAppBar({
   List<Widget> trailingActions = const [],
 }) {
   if (isApplePlatform) {
-    return _CupertinoAdaptiveNavigationBar(
-      title: title,
-      trailingActions: trailingActions,
-    );
+    return _CupertinoAdaptiveNavigationBar(title: title, trailingActions: trailingActions);
   }
 
-  return AppBar(
-    title: Text(title),
-    actions: trailingActions,
-  );
+  return AppBar(title: Text(title), actions: trailingActions);
 }
 
 /// [CupertinoNavigationBar] with colours derived from the surrounding
 /// [Theme], so it respects dark mode instead of using hardcoded light values.
-class _CupertinoAdaptiveNavigationBar extends StatelessWidget
-    implements PreferredSizeWidget {
-  const _CupertinoAdaptiveNavigationBar({
-    required this.title,
-    required this.trailingActions,
-  });
+class _CupertinoAdaptiveNavigationBar extends StatelessWidget implements PreferredSizeWidget {
+  const _CupertinoAdaptiveNavigationBar({required this.title, required this.trailingActions});
 
   final String title;
   final List<Widget> trailingActions;
 
   @override
-  Size get preferredSize =>
-      const Size.fromHeight(kMinInteractiveDimensionCupertino);
+  Size get preferredSize => const Size.fromHeight(kMinInteractiveDimensionCupertino);
 
   @override
   Widget build(BuildContext context) {
@@ -52,18 +41,12 @@ class _CupertinoAdaptiveNavigationBar extends StatelessWidget
       // CupertinoNavigationBar draws its own border; remove it so the
       // bar blends with the rest of the surface without a hard line.
       border: null,
-      middle: Text(
-        title,
-        style: TextStyle(color: colorScheme.onSurface),
-      ),
+      middle: Text(title, style: TextStyle(color: colorScheme.onSurface)),
       trailing: trailingActions.isEmpty
           ? null
           : IconTheme(
               data: IconThemeData(color: colorScheme.onSurface),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: trailingActions,
-              ),
+              child: Row(mainAxisSize: MainAxisSize.min, children: trailingActions),
             ),
     );
   }

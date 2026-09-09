@@ -101,10 +101,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                   controller: _maController,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-                  decoration: InputDecoration(
-                    hintText: '10',
-                    suffixText: l10n.maSuffix,
-                  ),
+                  decoration: InputDecoration(hintText: '10', suffixText: l10n.maSuffix),
                   onChanged: (v) => notifier.updateCurrent(double.tryParse(v) ?? 0.0),
                 ),
               ],
@@ -117,10 +114,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 controller: _ppmController,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-                decoration: InputDecoration(
-                  hintText: '10',
-                  suffixText: l10n.ppmSuffix,
-                ),
+                decoration: InputDecoration(hintText: '10', suffixText: l10n.ppmSuffix),
                 onChanged: (v) {
                   final parsed = double.tryParse(v) ?? 0.0;
                   notifier.updateTargetPpm(parsed);
@@ -169,8 +163,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 ResultCard(
                   result: state.lastResult!,
                   onStartTimer: () {
-                    final timerNotifier =
-                        ref.read(timerControllerProvider.notifier);
+                    final timerNotifier = ref.read(timerControllerProvider.notifier);
                     timerNotifier.loadCalculation(state.lastResult!);
                     timerNotifier.start(
                       strings: NotificationStrings(

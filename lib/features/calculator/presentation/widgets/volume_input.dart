@@ -61,9 +61,7 @@ class _VolumeInputState extends ConsumerState<VolumeInput> {
               child: AdaptiveTextFormField(
                 controller: _controller,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-                ],
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
                 decoration: InputDecoration(
                   hintText: '0',
                   suffixText: unit == VolumeUnit.ml ? l10n.unitMl : l10n.unitL,

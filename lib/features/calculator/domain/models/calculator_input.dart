@@ -21,10 +21,8 @@ abstract class CalculatorInput with _$CalculatorInput {
     Device? selectedDevice,
   }) = _CalculatorInput;
 
-  factory CalculatorInput.fromJson(Map<String, dynamic> json) =>
-      _$CalculatorInputFromJson(json);
+  factory CalculatorInput.fromJson(Map<String, dynamic> json) => _$CalculatorInputFromJson(json);
 
   /// Volume normalized to liters for calculation.
-  double get volumeInLiters =>
-      volumeUnit == VolumeUnit.ml ? volumeValue / 1000.0 : volumeValue;
+  double get volumeInLiters => volumeUnit == VolumeUnit.ml ? volumeValue / 1000.0 : volumeValue;
 }

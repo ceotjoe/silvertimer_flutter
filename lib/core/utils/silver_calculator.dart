@@ -26,7 +26,7 @@ class SilverCalculator {
     final currentAmps = input.currentMilliamps / 1000.0;
     final timeSeconds =
         (input.targetPpm * input.volumeInLiters * PhysicsConstants.faradayConstant) /
-            (PhysicsConstants.silverMolarMass * currentAmps * 1000.0);
+        (PhysicsConstants.silverMolarMass * currentAmps * 1000.0);
 
     return CalculationResult(
       input: input,

@@ -29,8 +29,9 @@ class DevicePicker extends ConsumerWidget {
       data: (devices) {
         // If the previously selected device was deleted, fall back to Custom
         // for the dropdown's displayed value (the mA already entered stays).
-        final selectedId =
-            devices.any((d) => d.id == selectedDevice?.id) ? selectedDevice?.id : null;
+        final selectedId = devices.any((d) => d.id == selectedDevice?.id)
+            ? selectedDevice?.id
+            : null;
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -41,9 +42,7 @@ class DevicePicker extends ConsumerWidget {
                 decoration: InputDecoration(labelText: l10n.deviceLabel),
                 items: [
                   DropdownMenuItem(value: null, child: Text(l10n.customDeviceOption)),
-                  ...devices.map(
-                    (d) => DropdownMenuItem(value: d.id, child: Text(d.name)),
-                  ),
+                  ...devices.map((d) => DropdownMenuItem(value: d.id, child: Text(d.name))),
                 ],
                 onChanged: (id) {
                   final device = id == null ? null : devices.firstWhere((d) => d.id == id);

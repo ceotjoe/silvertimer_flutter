@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'calculator_input.dart';
 
 part 'calculation_result.freezed.dart';

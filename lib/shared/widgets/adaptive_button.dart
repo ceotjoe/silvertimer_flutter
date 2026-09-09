@@ -8,12 +8,7 @@ import 'package:silvertimer_flutter/core/utils/platform_utils.dart';
 /// A primary action button. Renders [CupertinoButton.filled] on iOS/macOS
 /// and [FilledButton] on all other platforms.
 class AdaptiveFilledButton extends StatelessWidget {
-  const AdaptiveFilledButton({
-    super.key,
-    required this.onPressed,
-    required this.label,
-    this.icon,
-  });
+  const AdaptiveFilledButton({super.key, required this.onPressed, required this.label, this.icon});
 
   final VoidCallback? onPressed;
   final String label;
@@ -29,11 +24,7 @@ class AdaptiveFilledButton extends StatelessWidget {
     }
 
     if (icon != null) {
-      return FilledButton.icon(
-        onPressed: onPressed,
-        icon: Icon(icon),
-        label: Text(label),
-      );
+      return FilledButton.icon(onPressed: onPressed, icon: Icon(icon), label: Text(label));
     }
     return FilledButton(onPressed: onPressed, child: Text(label));
   }
@@ -66,11 +57,7 @@ class AdaptiveOutlinedButton extends StatelessWidget {
     }
 
     if (icon != null) {
-      return OutlinedButton.icon(
-        onPressed: onPressed,
-        icon: Icon(icon),
-        label: Text(label),
-      );
+      return OutlinedButton.icon(onPressed: onPressed, icon: Icon(icon), label: Text(label));
     }
     return OutlinedButton(onPressed: onPressed, child: Text(label));
   }

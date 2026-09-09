@@ -33,8 +33,7 @@ class Devices extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
   RealColumn get currentMilliamps => real()();
-  BoolColumn get supportsAutoPolarity =>
-      boolean().withDefault(const Constant(false))();
+  BoolColumn get supportsAutoPolarity => boolean().withDefault(const Constant(false))();
 }
 
 @DriftDatabase(tables: [SessionRecords, Devices])
@@ -50,21 +49,21 @@ class HistoryDatabase extends _$HistoryDatabase {
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        onCreate: (m) async {
-          await m.createAll();
-          await _seedGenericDevices(this);
-        },
-        onUpgrade: (m, from, to) async {
-          if (from < 2) {
-            await m.createTable(devices);
-            await m.addColumn(sessionRecords, sessionRecords.deviceId);
-            await m.addColumn(sessionRecords, sessionRecords.deviceName);
-            await m.addColumn(sessionRecords, sessionRecords.deviceCurrentMa);
-            await m.addColumn(sessionRecords, sessionRecords.deviceAutoPolarity);
-            await _seedGenericDevices(this);
-          }
-        },
-      );
+    onCreate: (m) async {
+      await m.createAll();
+      await _seedGenericDevices(this);
+    },
+    onUpgrade: (m, from, to) async {
+      if (from < 2) {
+        await m.createTable(devices);
+        await m.addColumn(sessionRecords, sessionRecords.deviceId);
+        await m.addColumn(sessionRecords, sessionRecords.deviceName);
+        await m.addColumn(sessionRecords, sessionRecords.deviceCurrentMa);
+        await m.addColumn(sessionRecords, sessionRecords.deviceAutoPolarity);
+        await _seedGenericDevices(this);
+      }
+    },
+  );
 
   static QueryExecutor _openConnection() {
     if (UniversalPlatform.isWeb) {

@@ -74,10 +74,12 @@ void main() {
       AppConstants.prefCleaningIntervalMinutes: cleaningIntervalMinutes,
     });
     final prefs = await SharedPreferences.getInstance();
-    final container = ProviderContainer(overrides: [
-      settingsRepositoryProvider.overrideWithValue(SettingsRepository(prefs)),
-      notificationServiceProvider.overrideWithValue(FakeNotificationService()),
-    ]);
+    final container = ProviderContainer(
+      overrides: [
+        settingsRepositoryProvider.overrideWithValue(SettingsRepository(prefs)),
+        notificationServiceProvider.overrideWithValue(FakeNotificationService()),
+      ],
+    );
     addTearDown(container.dispose);
     return container;
   }

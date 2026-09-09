@@ -13,14 +13,14 @@ import 'package:integration_test/integration_test_driver_extended.dart';
 ///   flutter drive \
 ///     --driver=test_driver/integration_test.dart \
 ///     --target=integration_test/screenshot_test.dart \
-///     -d <SIMULATOR_ID>
+///     -d `<SIMULATOR_ID>`
 ///
 /// Screenshots are written to the directory specified by the
 /// SCREENSHOT_OUT_DIR environment variable (defaults to
 /// fastlane/screenshots/en-US/screenshots).
 Future<void> main() async {
-  final outDir = Platform.environment['SCREENSHOT_OUT_DIR'] ??
-      'fastlane/screenshots/en-US/screenshots';
+  final outDir =
+      Platform.environment['SCREENSHOT_OUT_DIR'] ?? 'fastlane/screenshots/en-US/screenshots';
 
   await integrationDriver(
     responseDataCallback: (data) async {

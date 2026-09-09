@@ -22,6 +22,5 @@ abstract class SessionRecord with _$SessionRecord {
     bool? deviceAutoPolarity,
   }) = _SessionRecord;
 
-  factory SessionRecord.fromJson(Map<String, dynamic> json) =>
-      _$SessionRecordFromJson(json);
+  factory SessionRecord.fromJson(Map<String, dynamic> json) => _$SessionRecordFromJson(json);
 }
