@@ -9,6 +9,7 @@ import 'package:silvertimer_flutter/core/routing/app_router.dart';
 import 'package:silvertimer_flutter/core/theme/app_theme.dart';
 import 'package:silvertimer_flutter/features/settings/presentation/settings_controller.dart';
 import 'package:silvertimer_flutter/l10n/generated/app_localizations.dart';
+import 'package:silvertimer_flutter/shared/widgets/app_width_constraint.dart';
 
 class SilverTimerApp extends ConsumerWidget {
   const SilverTimerApp({super.key});
@@ -25,6 +26,7 @@ class SilverTimerApp extends ConsumerWidget {
       themeMode: themeMode,
       routerConfig: router,
       debugShowCheckedModeBanner: false,
+      builder: (context, child) => AppWidthConstraint(child: child),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

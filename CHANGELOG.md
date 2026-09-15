@@ -7,6 +7,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Changed
+- **Web and macOS** now letterbox the app to a phone-width column (max 480 logical px, centered, `colorScheme.surfaceContainer` backdrop) instead of stretching phone-designed layouts to the full browser/window width. Implemented as a single `AppWidthConstraint` wrapper (`lib/shared/widgets/app_width_constraint.dart`) in `MaterialApp.router`'s `builder`, gated on `kIsWeb` / `TargetPlatform.macOS`. iOS, Android, Windows, and Linux are unaffected.
 - **Web/PWA app icon** now matches the Liquid Glass droplet + clock redesign shipped for iOS/macOS in 2.3.0, instead of the old flat rainbow "Ag" icon. Since Icon Composer's `.icon` format has no web equivalent, `web/favicon.png` and `web/icons/*.png` are rasterized from a new flat SVG fallback (`design/app-icon/web-fallback/`) built from the same gradient colors as `AppIcon.icon/icon.json`. Android's launcher icon is still the old flat design.
 - CodeQL workflow now triggers on `pull_request` only (targeting both `main` and `dev`, plus the existing weekly schedule) instead of `push` + `pull_request`. The old config double-ran both scans (one on `ubuntu-latest`, one on the pricier `macos-latest` Swift job) whenever a commit landed on `dev` while a `dev → main` PR was open, and never scanned PRs into `dev` at all. Added a `concurrency` group so repeated pushes to an open PR don't stack up either.
 
