@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SilverTimer app icon — droplet layer, for Icon Composer.
+
+  Flat single fill, transparent background, no gradient/shadow/bevel baked
+  in — Icon Composer applies Liquid Glass lighting, and the fill color can
+  be restyled there (Color inspector) without touching this file.
+
+  Canvas: 1024x1024, matching Icon Composer's iOS/iPad/Mac grid.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <path
+    fill="#2E8FF2"
+    d="M 337,95
+       C 202.25,419.5 92,587 92,685
+       A 245,245 0 1 0 582,685
+       C 582,587 471.75,419.5 337,95
+       Z" />
+</svg>
