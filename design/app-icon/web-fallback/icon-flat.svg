@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Flat rasterization fallback for platforms without Icon Composer (web/PWA/favicon).
+     Colors match design/app-icon/AppIcon.icon/icon.json (Liquid Glass source of truth).
+     Gradients use userSpaceOnUse (not the objectBoundingBox default) so they render
+     correctly on the clock hands, whose <line> bounding boxes have zero area. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+      <stop offset="0" stop-color="#CB30E1"/>
+      <stop offset="1" stop-color="#0088FF"/>
+    </linearGradient>
+    <linearGradient id="drop" gradientUnits="userSpaceOnUse" x1="0" y1="95" x2="0" y2="930">
+      <stop offset="0" stop-color="#00C3D0"/>
+      <stop offset="1" stop-color="#0088FF"/>
+    </linearGradient>
+    <linearGradient id="clock" gradientUnits="userSpaceOnUse" x1="0" y1="205" x2="0" y2="645">
+      <stop offset="0" stop-color="#BFBFBF"/>
+      <stop offset="1" stop-color="#808080"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#bg)"/>
+
+  <g id="content">
+    <path
+      fill="url(#drop)"
+      d="M 337,95
+         C 202.25,419.5 92,587 92,685
+         A 245,245 0 1 0 582,685
+         C 582,587 471.75,419.5 337,95
+         Z" />
+    <g opacity="0.8">
+      <circle cx="675" cy="425" r="220" fill="none" stroke="url(#clock)" stroke-width="40" />
+      <line x1="675" y1="425" x2="675" y2="285" stroke="url(#clock)" stroke-width="34" stroke-linecap="round" />
+      <line x1="675" y1="425" x2="765" y2="425" stroke="url(#clock)" stroke-width="34" stroke-linecap="round" />
+      <circle cx="675" cy="425" r="22" fill="url(#clock)" />
+    </g>
+  </g>
+</svg>

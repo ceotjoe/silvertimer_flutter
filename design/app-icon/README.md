@@ -42,3 +42,23 @@ importing since they stay crisp at every icon size Icon Composer generates.
    `macos/Runner/AppIcon.icon` — Icon Composer supports iOS + macOS in one
    file, so you can point both projects at the same saved file if you'd
    rather maintain one source of truth).
+
+## Web / PWA fallback
+
+Icon Composer's `.icon` bundle (with its Liquid Glass specular/blur/translucency)
+has no equivalent on the web, so `web-fallback/icon-flat.svg` and
+`icon-maskable.svg` recreate the same two layers as a flat, static gradient
+using the exact stop colors from `AppIcon.icon/icon.json` (root fill,
+`01-drop`, `02-clock`). `icon-maskable.svg` additionally scales the content
+to 72% so it survives an OS-applied circle/squircle mask.
+
+Regenerate the web assets after editing either SVG:
+
+```bash
+cd design/app-icon/web-fallback
+rsvg-convert -w 512 -h 512 icon-flat.svg -o ../../../web/icons/Icon-512.png
+rsvg-convert -w 192 -h 192 icon-flat.svg -o ../../../web/icons/Icon-192.png
+rsvg-convert -w 32  -h 32  icon-flat.svg -o ../../../web/favicon.png
+rsvg-convert -w 512 -h 512 icon-maskable.svg -o ../../../web/icons/Icon-maskable-512.png
+rsvg-convert -w 192 -h 192 icon-maskable.svg -o ../../../web/icons/Icon-maskable-192.png
+```
