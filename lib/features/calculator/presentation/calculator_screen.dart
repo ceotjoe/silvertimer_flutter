@@ -10,6 +10,7 @@ import 'package:silvertimer_flutter/features/calculator/presentation/calculator_
 import 'package:silvertimer_flutter/features/calculator/presentation/widgets/ppm_presets.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/widgets/result_card.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/widgets/volume_input.dart';
+import 'package:silvertimer_flutter/features/devices/presentation/widgets/device_picker.dart';
 import 'package:silvertimer_flutter/features/timer/data/notification_strings.dart';
 import 'package:silvertimer_flutter/features/timer/presentation/timer_controller.dart';
 import 'package:silvertimer_flutter/shared/widgets/adaptive_app_bar.dart';
@@ -25,28 +26,48 @@ class CalculatorScreen extends ConsumerStatefulWidget {
 
 class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
   final _ppmController = TextEditingController();
+  final _maController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
     // Seed the PPM text field with the last-used (or default) value.
-    final ppm = ref.read(calculatorControllerProvider).input.targetPpm;
+    final input = ref.read(calculatorControllerProvider).input;
+    final ppm = input.targetPpm;
     if (ppm > 0) {
       _ppmController.text = ppm == ppm.truncateToDouble()
           ? ppm.truncate().toString()
           : ppm.toString();
+    }
+    final mA = input.currentMilliamps;
+    if (mA > 0) {
+      _maController.text = _formatMa(mA);
     }
   }
 
   @override
   void dispose() {
     _ppmController.dispose();
+    _maController.dispose();
     super.dispose();
   }
 
+  String _formatMa(double mA) =>
+      mA == mA.truncateToDouble() ? mA.truncate().toString() : mA.toString();
+
   @override
   Widget build(BuildContext context) {
+    // Re-sync the manual mA field when the picker switches from a device
+    // back to "Custom" — the field was hidden and its text would otherwise
+    // go stale. Typing in the field itself doesn't trigger this (it only
+    // fires on a null->null-with-device-cleared transition).
+    ref.listen<CalculatorState>(calculatorControllerProvider, (previous, next) {
+      if (previous?.input.selectedDevice != null && next.input.selectedDevice == null) {
+        _maController.text = _formatMa(next.input.currentMilliamps);
+      }
+    });
+
     final state = ref.watch(calculatorControllerProvider);
     final notifier = ref.read(calculatorControllerProvider.notifier);
     final l10n = context.l10n;
@@ -72,6 +93,20 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
               const VolumeInput(),
               const SizedBox(height: 20),
 
+              // Device picker (or manual "Custom" mA entry)
+              const DevicePicker(),
+              if (state.input.selectedDevice == null) ...[
+                const SizedBox(height: 8),
+                AdaptiveTextFormField(
+                  controller: _maController,
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
+                  decoration: InputDecoration(hintText: '10', suffixText: l10n.maSuffix),
+                  onChanged: (v) => notifier.updateCurrent(double.tryParse(v) ?? 0.0),
+                ),
+              ],
+              const SizedBox(height: 20),
+
               // Target PPM input
               Text(l10n.targetConcentration, style: Theme.of(context).textTheme.titleSmall),
               const SizedBox(height: 8),
@@ -79,10 +114,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 controller: _ppmController,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-                decoration: InputDecoration(
-                  hintText: '10',
-                  suffixText: l10n.ppmSuffix,
-                ),
+                decoration: InputDecoration(hintText: '10', suffixText: l10n.ppmSuffix),
                 onChanged: (v) {
                   final parsed = double.tryParse(v) ?? 0.0;
                   notifier.updateTargetPpm(parsed);
@@ -131,8 +163,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 ResultCard(
                   result: state.lastResult!,
                   onStartTimer: () {
-                    final timerNotifier =
-                        ref.read(timerControllerProvider.notifier);
+                    final timerNotifier = ref.read(timerControllerProvider.notifier);
                     timerNotifier.loadCalculation(state.lastResult!);
                     timerNotifier.start(
                       strings: NotificationStrings(

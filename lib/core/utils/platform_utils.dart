@@ -5,5 +5,4 @@ import 'package:flutter/foundation.dart';
 
 /// Returns true on iOS and macOS — the platforms that support Liquid Glass.
 bool get isApplePlatform =>
-    defaultTargetPlatform == TargetPlatform.iOS ||
-    defaultTargetPlatform == TargetPlatform.macOS;
+    defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.macOS;

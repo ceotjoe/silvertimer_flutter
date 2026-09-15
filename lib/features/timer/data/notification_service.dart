@@ -10,7 +10,6 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:universal_platform/universal_platform.dart';
 
-
 part 'notification_service.g.dart';
 
 /// Vibration pattern for the alarm: 0 ms delay, then 600/200/600/200/600 ms on/off.
@@ -50,8 +49,8 @@ class NotificationService {
     );
 
     if (UniversalPlatform.isAndroid) {
-      final androidPlugin =
-          _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+      final androidPlugin = _plugin
+          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
       _canScheduleExact = await androidPlugin?.canScheduleExactNotifications() ?? true;
     }
 
@@ -62,8 +61,8 @@ class NotificationService {
     if (UniversalPlatform.isWeb || !_initialized) return false;
 
     if (UniversalPlatform.isAndroid) {
-      final androidPlugin =
-          _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+      final androidPlugin = _plugin
+          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
 
       final granted = await androidPlugin?.requestNotificationsPermission() ?? false;
 
@@ -75,25 +74,15 @@ class NotificationService {
     }
 
     if (UniversalPlatform.isIOS) {
-      final iosPlugin =
-          _plugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
-      return await iosPlugin?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          ) ??
-          false;
+      final iosPlugin = _plugin
+          .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+      return await iosPlugin?.requestPermissions(alert: true, badge: true, sound: true) ?? false;
     }
 
     if (UniversalPlatform.isMacOS) {
-      final macPlugin =
-          _plugin.resolvePlatformSpecificImplementation<MacOSFlutterLocalNotificationsPlugin>();
-      return await macPlugin?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          ) ??
-          false;
+      final macPlugin = _plugin
+          .resolvePlatformSpecificImplementation<MacOSFlutterLocalNotificationsPlugin>();
+      return await macPlugin?.requestPermissions(alert: true, badge: true, sound: true) ?? false;
     }
 
     return false;
@@ -140,14 +129,14 @@ class NotificationService {
 
   /// For the completion alarm: use alarmClock (AlarmManager.setAlarmClock) which
   /// bypasses Doze/battery optimisation entirely.
-  AndroidScheduleMode get _alarmScheduleMode =>
-      _canScheduleExact ? AndroidScheduleMode.alarmClock : AndroidScheduleMode.inexactAllowWhileIdle;
+  AndroidScheduleMode get _alarmScheduleMode => _canScheduleExact
+      ? AndroidScheduleMode.alarmClock
+      : AndroidScheduleMode.inexactAllowWhileIdle;
 
   /// For cleaning reminders: exactAllowWhileIdle is sufficient.
-  AndroidScheduleMode get _scheduleMode =>
-      _canScheduleExact
-          ? AndroidScheduleMode.exactAllowWhileIdle
-          : AndroidScheduleMode.inexactAllowWhileIdle;
+  AndroidScheduleMode get _scheduleMode => _canScheduleExact
+      ? AndroidScheduleMode.exactAllowWhileIdle
+      : AndroidScheduleMode.inexactAllowWhileIdle;
 
   // ---------------------------------------------------------------------------
   // Completion notification (timer done)

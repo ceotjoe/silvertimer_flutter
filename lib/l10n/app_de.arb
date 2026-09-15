@@ -82,5 +82,19 @@
   "navInfo": "Info",
   "infoTitle": "Info",
   "infoAuthor": "von Jörg Holzapfel",
-  "infoHowToUse": "So verwendest du SilverTimer"
+  "infoHowToUse": "So verwendest du SilverTimer",
+
+  "deviceLabel": "Gerät",
+  "customDeviceOption": "Benutzerdefiniert",
+  "manageDevicesTooltip": "Geräte verwalten",
+  "manageDevicesTitle": "Geräte",
+  "deviceNameLabel": "Name",
+  "deviceCurrentLabel": "Strom",
+  "autoPolarityLabel": "Automatischer Polaritätswechsel",
+  "autoPolaritySubtitle": "Überspringt Elektrodenreinigungserinnerungen während einer Sitzung",
+  "addDeviceTitle": "Gerät hinzufügen",
+  "editDeviceTitle": "Gerät bearbeiten",
+  "saveButton": "Speichern",
+  "noDevicesYet": "Noch keine Geräte",
+  "noDevicesSubtitle": "Fügen Sie ein Gerät hinzu, um dessen Strom im Rechner schnell einzustellen"
 }

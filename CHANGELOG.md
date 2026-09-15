@@ -6,6 +6,37 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- CodeQL workflow now triggers on `pull_request` only (targeting both `main` and `dev`, plus the existing weekly schedule) instead of `push` + `pull_request`. The old config double-ran both scans (one on `ubuntu-latest`, one on the pricier `macos-latest` Swift job) whenever a commit landed on `dev` while a `dev → main` PR was open, and never scanned PRs into `dev` at all. Added a `concurrency` group so repeated pushes to an open PR don't stack up either.
+
+## [2.3.0] - 2026-09-15
+
+### Changed
+- Upgraded the Flutter framework from 3.44.6 to **3.47.2** (Dart 3.12.2 → **3.13.2**). Dart SDK constraint raised to `^3.13.0`. `dart format` reflows to the updated `dart_style`; localizations and `build_runner` outputs regenerated under the new toolchain.
+- **Android** toolchain migrated to the Flutter 3.47 verified stack: Android Gradle Plugin 8.11.1 → **9.1.0**, Gradle 8.14 → **9.3.1**, Kotlin Gradle Plugin 2.2.20 → **2.4.0**. The removed `kotlinOptions {}` DSL is replaced by the top-level `kotlin { compilerOptions { jvmTarget } }` block; core-library desugaring and the release signing config are unchanged.
+- **Android** `compileSdk` and `targetSdk` are now **36** (Android 16) — meets Google Play's 2026 target-API requirement — and `minSdk` is now **24** (Android 7.0), up from 21. **Android 5.0–6.0 (API 21–23) is no longer supported.**
+- **iOS** minimum deployment target raised from **13.0 to 15.0** (Flutter 3.47's supported floor). **iOS 13 and 14 are no longer supported.** Built with Xcode 26 / the iOS 26 SDK.
+- **macOS** minimum deployment target raised from **10.15 to 12.0** (Flutter 3.47's supported floor).
+- Dependency bumps within existing constraints: `audioplayers` 6.7.1 → 6.8.1, `drift` 2.34.0 → 2.34.4, `drift_flutter` 0.3.0 → 0.3.1, `flutter_local_notifications` 22.0.1 → 22.3.0, `go_router` 17.3.0 → 17.5.0, `package_info_plus` 10.1.0 → 10.2.1, `json_serializable` 6.14.0 → 6.14.1, plus transitive updates.
+- **App icon** (iOS + macOS) redesigned for Liquid Glass: replaced the flat `AppIcon.appiconset` (rainbow gradient background, "Ag" text, baked-in metallic bevel) with an Icon Composer `AppIcon.icon` — layered droplet + clock glyph with system-applied specular/blur and Default/Dark/Mono appearance variants. Source layers in `design/app-icon/`. Android and web icons are unchanged.
+
+### Removed
+- Deleted the orphaned `lib/core/services/live_activity_service.dart`: it imported the `live_activities` package (never declared in `pubspec.yaml`) and was referenced nowhere, so it only broke `flutter analyze`. Revisit iOS Live Activities from git history when the feature is actually built.
+
+### Known issues
+- `audioplayers_android` and `package_info_plus` still apply the Kotlin Gradle Plugin, so `android.builtInKotlin` stays `false` for now (Flutter warns but builds succeed). Resolving this needs the deferred breaking dependency upgrades (`go_router` 18, `freezed` 4, `flutter_riverpod` 3.4).
+
+## [2.2.0] - 2026-07-18
+
+### Added
+- Device database: maintain a personal library of electrolysis generators (name, current in mA, auto polarity switching flag) under a new "Manage Devices" screen (`/devices`), reachable from a device picker on the Calculator screen. Ships with 3 seeded generic devices (5mA/10mA/20mA), fully user-editable/deletable.
+- Selecting a device on the Calculator screen sets its current automatically; a "Custom" option preserves manual mA entry. The last-selected device (or "Custom") is remembered across app restarts.
+- Devices with auto polarity switching enabled skip the electrode-cleaning-reminder alarms for that timer run.
+- History entries now record a snapshot of the device used (name, current, auto polarity) at completion time, shown in the session list — accurate even if the device is later edited or deleted.
+
+### Security
+- Bumped `faraday` (1.10.5 → 1.10.6) and `excon` (0.112.0 → 1.6.0) in `Gemfile.lock`, fixing Dependabot alerts for [CVE-2026-54297](https://github.com/ceotjoe/silvertimer_flutter/security/dependabot/11) (high — uncontrolled recursion DoS in Faraday's nested query parameter decoder) and [CVE-2026-54171](https://github.com/ceotjoe/silvertimer_flutter/security/dependabot/12) (moderate — Excon's redirect follower failed to redact sensitive headers). Both are transitive `fastlane` dependencies used only for release tooling, not shipped in the app.
+
 ## [2.1.5] - 2026-07-12
 
 ### Fixed
@@ -171,7 +202,9 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - GitHub Actions workflow deploying Flutter web to GitHub Pages on every push
   to `main`
 
-[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.5...HEAD
+[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.3.0...HEAD
+[2.3.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.2.0...v2.3.0
+[2.2.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.5...v2.2.0
 [2.1.5]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.4...v2.1.5
 [2.1.4]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.3...v2.1.4
 [2.1.3]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.2...v2.1.3

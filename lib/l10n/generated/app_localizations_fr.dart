@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -263,4 +264,45 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get infoHowToUse => 'Comment utiliser SilverTimer';
+
+  @override
+  String get deviceLabel => 'Appareil';
+
+  @override
+  String get customDeviceOption => 'Personnalisé';
+
+  @override
+  String get manageDevicesTooltip => 'Gérer les appareils';
+
+  @override
+  String get manageDevicesTitle => 'Appareils';
+
+  @override
+  String get deviceNameLabel => 'Nom';
+
+  @override
+  String get deviceCurrentLabel => 'Courant';
+
+  @override
+  String get autoPolarityLabel => 'Inversion automatique de polarité';
+
+  @override
+  String get autoPolaritySubtitle =>
+      'Ignore les rappels de nettoyage des électrodes pendant une session';
+
+  @override
+  String get addDeviceTitle => 'Ajouter un appareil';
+
+  @override
+  String get editDeviceTitle => 'Modifier l\'\'appareil';
+
+  @override
+  String get saveButton => 'Enregistrer';
+
+  @override
+  String get noDevicesYet => 'Aucun appareil pour l\'\'instant';
+
+  @override
+  String get noDevicesSubtitle =>
+      'Ajoutez un appareil pour définir rapidement son courant dans la calculatrice';
 }

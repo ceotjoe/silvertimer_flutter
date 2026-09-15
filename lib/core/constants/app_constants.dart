@@ -57,4 +57,5 @@ class AppConstants {
   static const String prefLastVolumeValue = 'last_volume_value';
   static const String prefLastVolumeUnit = 'last_volume_unit';
   static const String prefLastTargetPpm = 'last_target_ppm';
+  static const String prefLastDeviceId = 'last_device_id';
 }

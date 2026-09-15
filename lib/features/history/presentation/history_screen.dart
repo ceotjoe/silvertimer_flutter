@@ -23,14 +23,14 @@ class HistoryScreen extends ConsumerWidget {
         title: l10n.historyTitle,
         trailingActions: [
           historyAsync.whenOrNull(
-            data: (sessions) => sessions.isEmpty
-                ? null
-                : IconButton(
-                    icon: const Icon(Icons.delete_sweep_outlined),
-                    onPressed: () => _confirmClearAll(context, ref),
-                    tooltip: l10n.clearAll,
-                  ),
-          ) ??
+                data: (sessions) => sessions.isEmpty
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.delete_sweep_outlined),
+                        onPressed: () => _confirmClearAll(context, ref),
+                        tooltip: l10n.clearAll,
+                      ),
+              ) ??
               const SizedBox.shrink(),
         ],
       ),
@@ -57,9 +57,8 @@ class HistoryScreen extends ConsumerWidget {
                 itemCount: sessions.length,
                 itemBuilder: (context, i) => _SessionTile(
                   record: sessions[i],
-                  onDelete: () => ref
-                      .read(historyControllerProvider.notifier)
-                      .deleteSession(sessions[i].id),
+                  onDelete: () =>
+                      ref.read(historyControllerProvider.notifier).deleteSession(sessions[i].id),
                 ),
               ),
       ),
@@ -74,10 +73,7 @@ class HistoryScreen extends ConsumerWidget {
         title: Text(l10n.clearAllHistoryTitle),
         content: Text(l10n.clearAllHistoryBody),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(l10n.cancelButton),
-          ),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(l10n.cancelButton)),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: FilledButton.styleFrom(backgroundColor: Theme.of(ctx).colorScheme.error),
@@ -121,13 +117,14 @@ class _SessionTile extends StatelessWidget {
       onDismissed: (_) => onDelete(),
       child: ListTile(
         leading: CircleAvatar(
-          child: Icon(
-            record.completed ? Icons.check : Icons.timer_off,
-            size: 20,
-          ),
+          child: Icon(record.completed ? Icons.check : Icons.timer_off, size: 20),
         ),
         title: Text('$volumeText  •  ${record.targetPpm} PPM'),
-        subtitle: Text('${record.currentMilliamps} mA  •  ${duration.toReadable()}'),
+        subtitle: Text(
+          record.deviceName != null
+              ? '${record.currentMilliamps} mA  •  ${record.deviceName}  •  ${duration.toReadable()}'
+              : '${record.currentMilliamps} mA  •  ${duration.toReadable()}',
+        ),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -151,10 +148,7 @@ class _EmptyState extends StatelessWidget {
         children: [
           Icon(Icons.history, size: 80, color: Theme.of(context).colorScheme.outline),
           const SizedBox(height: 16),
-          Text(
-            l10n.noSessionsYet,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
+          Text(l10n.noSessionsYet, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           Text(
             l10n.noSessionsSubtitle,

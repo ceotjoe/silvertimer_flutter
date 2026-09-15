@@ -44,21 +44,16 @@ class TimerController extends _$TimerController {
   TimerState build() => const TimerState.idle();
 
   /// Public read-only view of the full cleaning alarm schedule (for providers).
-  List<Duration> get cleaningAlarmSchedule =>
-      List.unmodifiable(_cleaningAlarmSchedule);
+  List<Duration> get cleaningAlarmSchedule => List.unmodifiable(_cleaningAlarmSchedule);
 
   /// Public read-only view of alarms that have already fired (for providers).
-  List<Duration> get cleaningAlarmsFiredAt =>
-      List.unmodifiable(_cleaningAlarmsFiredAt);
+  List<Duration> get cleaningAlarmsFiredAt => List.unmodifiable(_cleaningAlarmsFiredAt);
 
   /// Load a calculation result and prepare the timer.
   void loadCalculation(CalculationResult result) {
     _cancelTicker();
     _lastResult = result;
-    state = TimerState.paused(
-      totalDuration: result.calculatedDuration,
-      elapsed: Duration.zero,
-    );
+    state = TimerState.paused(totalDuration: result.calculatedDuration, elapsed: Duration.zero);
   }
 
   /// Start or resume the timer.
@@ -72,15 +67,13 @@ class TimerController extends _$TimerController {
     final alreadyElapsed = current.elapsed;
     final startedAt = DateTime.now().subtract(alreadyElapsed);
 
-    state = TimerState.running(
-      totalDuration: total,
-      elapsed: alreadyElapsed,
-      startedAt: startedAt,
-    );
+    state = TimerState.running(totalDuration: total, elapsed: alreadyElapsed, startedAt: startedAt);
 
     // Schedule the OS-level completion notification (fires even when backgrounded/killed).
     final completesAt = startedAt.add(total);
-    ref.read(notificationServiceProvider).scheduleCompletionNotification(
+    ref
+        .read(notificationServiceProvider)
+        .scheduleCompletionNotification(
           completesAt,
           strings.completeTitle,
           strings.completeBody,
@@ -88,11 +81,7 @@ class TimerController extends _$TimerController {
         );
 
     // Build cleaning alarm schedule and pre-schedule all OS notifications
-    _buildCleaningSchedule(
-      total: total,
-      alreadyElapsed: alreadyElapsed,
-      startedAt: startedAt,
-    );
+    _buildCleaningSchedule(total: total, alreadyElapsed: alreadyElapsed, startedAt: startedAt);
 
     // Start the 1-second ticker
     _tickerSub = Stream.periodic(
@@ -111,10 +100,7 @@ class TimerController extends _$TimerController {
     // They are rescheduled on the next start() call.
     ref.read(notificationServiceProvider).cancelAll();
 
-    state = TimerState.paused(
-      totalDuration: current.totalDuration,
-      elapsed: current.elapsed,
-    );
+    state = TimerState.paused(totalDuration: current.totalDuration, elapsed: current.elapsed);
   }
 
   /// Reset the timer back to idle.
@@ -195,7 +181,9 @@ class TimerController extends _$TimerController {
     // notification shade when the app is backgrounded or killed.
     final strings = _notificationStrings;
     if (strings != null) {
-      ref.read(notificationServiceProvider).showCompletionNotification(
+      ref
+          .read(notificationServiceProvider)
+          .showCompletionNotification(
             strings.completeTitle,
             strings.completeBody,
             channelDescription: strings.channelDescription,
@@ -205,7 +193,10 @@ class TimerController extends _$TimerController {
     // Save session to history
     final result = _lastResult;
     if (result != null) {
-      ref.read(historyControllerProvider.notifier).addSession(
+      final device = result.input.selectedDevice;
+      ref
+          .read(historyControllerProvider.notifier)
+          .addSession(
             SessionRecord(
               id: 0,
               volumeLiters: result.input.volumeInLiters,
@@ -214,6 +205,10 @@ class TimerController extends _$TimerController {
               durationSeconds: total.inSeconds,
               completedAt: DateTime.now(),
               completed: true,
+              deviceId: device?.id,
+              deviceName: device?.name,
+              deviceCurrentMa: device?.currentMilliamps,
+              deviceAutoPolarity: device?.supportsAutoPolarity,
             ),
           );
     }
@@ -246,9 +241,7 @@ class TimerController extends _$TimerController {
       ),
     );
     await _alarmPlayer.setReleaseMode(ReleaseMode.loop);
-    await _alarmPlayer.play(
-      AssetSource(AppConstants.alarmSoundAsset.replaceFirst('assets/', '')),
-    );
+    await _alarmPlayer.play(AssetSource(AppConstants.alarmSoundAsset.replaceFirst('assets/', '')));
   }
 
   Future<void> _stopAlarm() async {
@@ -265,9 +258,12 @@ class TimerController extends _$TimerController {
     _nextCleaningIndex = 0;
 
     final settings = ref.read(settingsControllerProvider);
-    final enabled = settings.cleaningAlarmsEnabled &&
+    final deviceSkipsCleaning = _lastResult?.input.selectedDevice?.supportsAutoPolarity ?? false;
+    final enabled =
+        settings.cleaningAlarmsEnabled &&
         settings.notificationsEnabled &&
-        settings.cleaningIntervalMinutes > 0;
+        settings.cleaningIntervalMinutes > 0 &&
+        !deviceSkipsCleaning;
 
     if (!enabled) return;
 
@@ -315,7 +311,9 @@ class TimerController extends _$TimerController {
     // Fire immediate in-app notification (plays sound even when app is in foreground)
     final strings = _notificationStrings;
     if (strings != null) {
-      ref.read(notificationServiceProvider).showCleaningAlarmNotification(
+      ref
+          .read(notificationServiceProvider)
+          .showCleaningAlarmNotification(
             alarmNumber,
             strings.cleanTitle,
             strings.cleanBodyForAlarm(alarmNumber),
@@ -402,8 +400,5 @@ Duration? nextCleaningIn(Ref ref) {
   final firedCount = ctrl.cleaningAlarmsFiredAt.length;
   final allPositions = ctrl.cleaningAlarmSchedule.map(toPos).toList();
 
-  return (
-    passed: allPositions.sublist(0, firedCount),
-    pending: allPositions.sublist(firedCount),
-  );
+  return (passed: allPositions.sublist(0, firedCount), pending: allPositions.sublist(firedCount));
 }

@@ -21,14 +21,11 @@ import 'package:silvertimer_flutter/features/timer/domain/models/timer_state.dar
 ///
 /// All methods are no-ops on non-Android platforms.
 class AndroidTimerService {
-  static const _kMethodChannel =
-      MethodChannel('com.it_web_service.silvertimer/timer_service');
-  static const _kEventChannel =
-      EventChannel('com.it_web_service.silvertimer/timer_events');
+  static const _kMethodChannel = MethodChannel('com.it_web_service.silvertimer/timer_service');
+  static const _kEventChannel = EventChannel('com.it_web_service.silvertimer/timer_events');
 
   StreamSubscription<dynamic>? _eventSub;
-  final StreamController<String> _actionController =
-      StreamController<String>.broadcast();
+  final StreamController<String> _actionController = StreamController<String>.broadcast();
 
   /// Stream of action strings emitted when the user taps a notification button.
   /// Values: `'pause'` or `'resume'`.
@@ -41,12 +38,9 @@ class AndroidTimerService {
   /// Start listening for action events from the native notification buttons.
   void init() {
     if (!Platform.isAndroid) return;
-    _eventSub = _kEventChannel.receiveBroadcastStream().listen(
-      (event) {
-        if (event is String) _actionController.add(event);
-      },
-      onError: (_) {},
-    );
+    _eventSub = _kEventChannel.receiveBroadcastStream().listen((event) {
+      if (event is String) _actionController.add(event);
+    }, onError: (_) {});
   }
 
   void dispose() {
@@ -69,8 +63,7 @@ class AndroidTimerService {
     Duration? nextCleaningIn,
   }) async {
     if (!Platform.isAndroid) return;
-    final endAtMs =
-        state.startedAt.add(state.totalDuration).millisecondsSinceEpoch;
+    final endAtMs = state.startedAt.add(state.totalDuration).millisecondsSinceEpoch;
     await _kMethodChannel.invokeMethod<void>('startTimer', {
       'startedAtMs': state.startedAt.millisecondsSinceEpoch,
       'totalDurationMs': state.totalDuration.inMilliseconds,
@@ -84,10 +77,7 @@ class AndroidTimerService {
   }
 
   /// Pause the Foreground Service notification (shows static remaining time).
-  Future<void> pauseTimer({
-    required Duration remaining,
-    required double targetPpm,
-  }) async {
+  Future<void> pauseTimer({required Duration remaining, required double targetPpm}) async {
     if (!Platform.isAndroid) return;
     await _kMethodChannel.invokeMethod<void>('pauseTimer', {
       'remainingMs': remaining.inMilliseconds,
@@ -101,11 +91,7 @@ class AndroidTimerService {
     required double targetPpm,
     Duration? nextCleaningIn,
   }) async {
-    await startTimer(
-      state: state,
-      targetPpm: targetPpm,
-      nextCleaningIn: nextCleaningIn,
-    );
+    await startTimer(state: state, targetPpm: targetPpm, nextCleaningIn: nextCleaningIn);
   }
 
   /// Update the notification when the next cleaning alarm schedule changes
@@ -116,8 +102,7 @@ class AndroidTimerService {
     required Duration? nextCleaningIn,
   }) async {
     if (!Platform.isAndroid) return;
-    final endAtMs =
-        state.startedAt.add(state.totalDuration).millisecondsSinceEpoch;
+    final endAtMs = state.startedAt.add(state.totalDuration).millisecondsSinceEpoch;
     await _kMethodChannel.invokeMethod<void>('updateTimer', {
       'endAtMs': endAtMs,
       'targetPpm': targetPpm,

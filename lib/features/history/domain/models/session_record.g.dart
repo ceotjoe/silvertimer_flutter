@@ -15,6 +15,10 @@ _SessionRecord _$SessionRecordFromJson(Map<String, dynamic> json) =>
       durationSeconds: (json['durationSeconds'] as num).toInt(),
       completedAt: DateTime.parse(json['completedAt'] as String),
       completed: json['completed'] as bool? ?? false,
+      deviceId: (json['deviceId'] as num?)?.toInt(),
+      deviceName: json['deviceName'] as String?,
+      deviceCurrentMa: (json['deviceCurrentMa'] as num?)?.toDouble(),
+      deviceAutoPolarity: json['deviceAutoPolarity'] as bool?,
     );
 
 Map<String, dynamic> _$SessionRecordToJson(_SessionRecord instance) =>
@@ -26,4 +30,8 @@ Map<String, dynamic> _$SessionRecordToJson(_SessionRecord instance) =>
       'durationSeconds': instance.durationSeconds,
       'completedAt': instance.completedAt.toIso8601String(),
       'completed': instance.completed,
+      'deviceId': instance.deviceId,
+      'deviceName': instance.deviceName,
+      'deviceCurrentMa': instance.deviceCurrentMa,
+      'deviceAutoPolarity': instance.deviceAutoPolarity,
     };

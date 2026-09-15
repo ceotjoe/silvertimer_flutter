@@ -15,12 +15,8 @@ sealed class TimerState with _$TimerState {
     required DateTime startedAt,
   }) = TimerRunning;
 
-  const factory TimerState.paused({
-    required Duration totalDuration,
-    required Duration elapsed,
-  }) = TimerPaused;
+  const factory TimerState.paused({required Duration totalDuration, required Duration elapsed}) =
+      TimerPaused;
 
-  const factory TimerState.completed({
-    required Duration totalDuration,
-  }) = TimerCompleted;
+  const factory TimerState.completed({required Duration totalDuration}) = TimerCompleted;
 }

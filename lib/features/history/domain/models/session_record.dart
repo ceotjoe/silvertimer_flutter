@@ -16,8 +16,11 @@ abstract class SessionRecord with _$SessionRecord {
     required int durationSeconds,
     required DateTime completedAt,
     @Default(false) bool completed,
+    int? deviceId,
+    String? deviceName,
+    double? deviceCurrentMa,
+    bool? deviceAutoPolarity,
   }) = _SessionRecord;
 
-  factory SessionRecord.fromJson(Map<String, dynamic> json) =>
-      _$SessionRecordFromJson(json);
+  factory SessionRecord.fromJson(Map<String, dynamic> json) => _$SessionRecordFromJson(json);
 }

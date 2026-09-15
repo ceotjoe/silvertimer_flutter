@@ -15,9 +15,7 @@ class PpmPresets extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentPpm = ref.watch(
-      calculatorControllerProvider.select((s) => s.input.targetPpm),
-    );
+    final currentPpm = ref.watch(calculatorControllerProvider.select((s) => s.input.targetPpm));
     final l10n = context.l10n;
 
     return Wrap(

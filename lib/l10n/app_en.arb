@@ -434,5 +434,70 @@
   "infoHowToUse": "How to use SilverTimer",
   "@infoHowToUse": {
     "description": "Tappable link label that opens the instructions page in the browser."
+  },
+
+  "deviceLabel": "Device",
+  "@deviceLabel": {
+    "description": "Label for the device picker dropdown on the Calculator screen."
+  },
+
+  "customDeviceOption": "Custom",
+  "@customDeviceOption": {
+    "description": "Option in the device picker for manual mA entry instead of a saved device."
+  },
+
+  "manageDevicesTooltip": "Manage devices",
+  "@manageDevicesTooltip": {
+    "description": "Tooltip for the icon button next to the device picker that opens the devices screen."
+  },
+
+  "manageDevicesTitle": "Devices",
+  "@manageDevicesTitle": {
+    "description": "AppBar title on the Manage Devices screen."
+  },
+
+  "deviceNameLabel": "Name",
+  "@deviceNameLabel": {
+    "description": "Label for the device name field in the add/edit device dialog."
+  },
+
+  "deviceCurrentLabel": "Current",
+  "@deviceCurrentLabel": {
+    "description": "Label for the device current (mA) field in the add/edit device dialog."
+  },
+
+  "autoPolarityLabel": "Auto Polarity Switching",
+  "@autoPolarityLabel": {
+    "description": "Switch title for whether a device automatically switches electrode polarity."
+  },
+
+  "autoPolaritySubtitle": "Skips electrode cleaning reminders during a run",
+  "@autoPolaritySubtitle": {
+    "description": "Subtitle explaining the effect of the auto polarity switching flag."
+  },
+
+  "addDeviceTitle": "Add Device",
+  "@addDeviceTitle": {
+    "description": "Title of the dialog for adding a new device, and tooltip for the add button."
+  },
+
+  "editDeviceTitle": "Edit Device",
+  "@editDeviceTitle": {
+    "description": "Title of the dialog for editing an existing device."
+  },
+
+  "saveButton": "Save",
+  "@saveButton": {
+    "description": "Generic save button label used in dialogs."
+  },
+
+  "noDevicesYet": "No devices yet",
+  "@noDevicesYet": {
+    "description": "Heading in the empty state of the Devices screen."
+  },
+
+  "noDevicesSubtitle": "Add a device to quickly set its current on the calculator",
+  "@noDevicesSubtitle": {
+    "description": "Subtitle in the empty state of the Devices screen."
   }
 }

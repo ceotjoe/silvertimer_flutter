@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/calculator_controller.dart';
 import 'package:silvertimer_flutter/features/calculator/presentation/calculator_screen.dart';
+import 'package:silvertimer_flutter/features/devices/presentation/devices_screen.dart';
 import 'package:silvertimer_flutter/features/history/presentation/history_screen.dart';
 import 'package:silvertimer_flutter/features/info/presentation/info_screen.dart';
 import 'package:silvertimer_flutter/features/settings/presentation/settings_screen.dart';
@@ -24,9 +25,7 @@ GoRouter appRouter(Ref ref) {
         routes: [
           GoRoute(
             path: '/calculator',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: CalculatorScreen(),
-            ),
+            pageBuilder: (context, state) => const NoTransitionPage(child: CalculatorScreen()),
           ),
           GoRoute(
             path: '/timer',
@@ -37,28 +36,20 @@ GoRouter appRouter(Ref ref) {
               if (result == null) return '/calculator';
               return null;
             },
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: TimerScreen(),
-            ),
+            pageBuilder: (context, state) => const NoTransitionPage(child: TimerScreen()),
           ),
           GoRoute(
             path: '/history',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: HistoryScreen(),
-            ),
+            pageBuilder: (context, state) => const NoTransitionPage(child: HistoryScreen()),
           ),
           GoRoute(
             path: '/info',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: InfoScreen(),
-            ),
+            pageBuilder: (context, state) => const NoTransitionPage(child: InfoScreen()),
           ),
         ],
       ),
-      GoRoute(
-        path: '/settings',
-        builder: (context, state) => const SettingsScreen(),
-      ),
+      GoRoute(path: '/settings', builder: (context, state) => const SettingsScreen()),
+      GoRoute(path: '/devices', builder: (context, state) => const ManageDevicesScreen()),
     ],
   );
 }

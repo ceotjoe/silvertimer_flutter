@@ -1,13 +1,18 @@
 name: CodeQL Analysis
 
 on:
-  push:
-    branches: [main, dev]
   pull_request:
-    branches: [main]
+    branches: [main, dev]
   schedule:
-    # Weekly scan every Monday at 08:00 UTC
+    # Weekly scan every Monday at 08:00 UTC — backstop for the rare direct
+    # push that doesn't go through a PR.
     - cron: '0 8 * * 1'
+
+concurrency:
+  # Cancel a stale scan when the PR gets a new push before the old one
+  # finishes — only the latest commit's result matters.
+  group: codeql-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read

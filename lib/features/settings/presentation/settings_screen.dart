@@ -87,10 +87,7 @@ class SettingsScreen extends ConsumerWidget {
                 ),
                 SizedBox(
                   width: 80,
-                  child: _PpmField(
-                    value: settings.defaultPpm,
-                    onChanged: notifier.setDefaultPpm,
-                  ),
+                  child: _PpmField(value: settings.defaultPpm, onChanged: notifier.setDefaultPpm),
                 ),
               ],
             ),
@@ -200,9 +197,8 @@ class _SectionHeader extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
       child: Text(
         title,
-        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
-            ),
+        style: Theme.of(context).textTheme.labelMedium
+            ?.copyWith(color: Theme.of(context).colorScheme.primary),
       ),
     );
   }

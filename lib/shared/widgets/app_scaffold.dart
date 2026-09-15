@@ -19,8 +19,7 @@ class AppScaffold extends ConsumerStatefulWidget {
   ConsumerState<AppScaffold> createState() => _AppScaffoldState();
 }
 
-class _AppScaffoldState extends ConsumerState<AppScaffold>
-    with WidgetsBindingObserver {
+class _AppScaffoldState extends ConsumerState<AppScaffold> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -125,10 +124,14 @@ class _AppScaffoldState extends ConsumerState<AppScaffold>
 
   void _indexToLocation(BuildContext context, int index) {
     switch (index) {
-      case 0: context.go('/calculator');
-      case 1: context.go('/timer');
-      case 2: context.go('/history');
-      case 3: context.go('/info');
+      case 0:
+        context.go('/calculator');
+      case 1:
+        context.go('/timer');
+      case 2:
+        context.go('/history');
+      case 3:
+        context.go('/info');
     }
   }
 }
@@ -136,11 +139,7 @@ class _AppScaffoldState extends ConsumerState<AppScaffold>
 /// Scaffold variant for iOS/macOS: body extends to the bottom edge so content
 /// can scroll under the glass bar, which floats on top via a Stack.
 class _AppleScaffold extends StatelessWidget {
-  const _AppleScaffold({
-    required this.child,
-    required this.selectedIndex,
-    required this.onSelect,
-  });
+  const _AppleScaffold({required this.child, required this.selectedIndex, required this.onSelect});
 
   final Widget child;
   final int selectedIndex;
@@ -154,12 +153,7 @@ class _AppleScaffold extends StatelessWidget {
           // Content fills the whole screen including under the glass bar.
           child,
           // Glass bar pinned to the bottom.
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: _buildGlassBar(context),
-          ),
+          Positioned(left: 0, right: 0, bottom: 0, child: _buildGlassBar(context)),
         ],
       ),
     );
@@ -186,11 +180,7 @@ class _AppleScaffold extends StatelessWidget {
           selectedIcon: Icons.history,
           label: l10n.navHistory,
         ),
-        glassDestination(
-          icon: Icons.info_outline,
-          selectedIcon: Icons.info,
-          label: l10n.navInfo,
-        ),
+        glassDestination(icon: Icons.info_outline, selectedIcon: Icons.info, label: l10n.navInfo),
       ],
     );
   }

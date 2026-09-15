@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SessionRecord {
 
- int get id; double get volumeLiters; double get currentMilliamps; double get targetPpm; int get durationSeconds; DateTime get completedAt; bool get completed;
+ int get id; double get volumeLiters; double get currentMilliamps; double get targetPpm; int get durationSeconds; DateTime get completedAt; bool get completed; int? get deviceId; String? get deviceName; double? get deviceCurrentMa; bool? get deviceAutoPolarity;
 /// Create a copy of SessionRecord
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SessionRecordCopyWith<SessionRecord> get copyWith => _$SessionRecordCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.volumeLiters, volumeLiters) || other.volumeLiters == volumeLiters)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.targetPpm, targetPpm) || other.targetPpm == targetPpm)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt)&&(identical(other.completed, completed) || other.completed == completed));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.volumeLiters, volumeLiters) || other.volumeLiters == volumeLiters)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.targetPpm, targetPpm) || other.targetPpm == targetPpm)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt)&&(identical(other.completed, completed) || other.completed == completed)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.deviceName, deviceName) || other.deviceName == deviceName)&&(identical(other.deviceCurrentMa, deviceCurrentMa) || other.deviceCurrentMa == deviceCurrentMa)&&(identical(other.deviceAutoPolarity, deviceAutoPolarity) || other.deviceAutoPolarity == deviceAutoPolarity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,volumeLiters,currentMilliamps,targetPpm,durationSeconds,completedAt,completed);
+int get hashCode => Object.hash(runtimeType,id,volumeLiters,currentMilliamps,targetPpm,durationSeconds,completedAt,completed,deviceId,deviceName,deviceCurrentMa,deviceAutoPolarity);
 
 @override
 String toString() {
-  return 'SessionRecord(id: $id, volumeLiters: $volumeLiters, currentMilliamps: $currentMilliamps, targetPpm: $targetPpm, durationSeconds: $durationSeconds, completedAt: $completedAt, completed: $completed)';
+  return 'SessionRecord(id: $id, volumeLiters: $volumeLiters, currentMilliamps: $currentMilliamps, targetPpm: $targetPpm, durationSeconds: $durationSeconds, completedAt: $completedAt, completed: $completed, deviceId: $deviceId, deviceName: $deviceName, deviceCurrentMa: $deviceCurrentMa, deviceAutoPolarity: $deviceAutoPolarity)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SessionRecordCopyWith<$Res>  {
   factory $SessionRecordCopyWith(SessionRecord value, $Res Function(SessionRecord) _then) = _$SessionRecordCopyWithImpl;
 @useResult
 $Res call({
- int id, double volumeLiters, double currentMilliamps, double targetPpm, int durationSeconds, DateTime completedAt, bool completed
+ int id, double volumeLiters, double currentMilliamps, double targetPpm, int durationSeconds, DateTime completedAt, bool completed, int? deviceId, String? deviceName, double? deviceCurrentMa, bool? deviceAutoPolarity
 });
 
 
@@ -65,7 +65,7 @@ class _$SessionRecordCopyWithImpl<$Res>
 
 /// Create a copy of SessionRecord
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? volumeLiters = null,Object? currentMilliamps = null,Object? targetPpm = null,Object? durationSeconds = null,Object? completedAt = null,Object? completed = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? volumeLiters = null,Object? currentMilliamps = null,Object? targetPpm = null,Object? durationSeconds = null,Object? completedAt = null,Object? completed = null,Object? deviceId = freezed,Object? deviceName = freezed,Object? deviceCurrentMa = freezed,Object? deviceAutoPolarity = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,volumeLiters: null == volumeLiters ? _self.volumeLiters : volumeLiters // ignore: cast_nullable_to_non_nullable
@@ -74,7 +74,11 @@ as double,targetPpm: null == targetPpm ? _self.targetPpm : targetPpm // ignore: 
 as double,durationSeconds: null == durationSeconds ? _self.durationSeconds : durationSeconds // ignore: cast_nullable_to_non_nullable
 as int,completedAt: null == completedAt ? _self.completedAt : completedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,completed: null == completed ? _self.completed : completed // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,deviceId: freezed == deviceId ? _self.deviceId : deviceId // ignore: cast_nullable_to_non_nullable
+as int?,deviceName: freezed == deviceName ? _self.deviceName : deviceName // ignore: cast_nullable_to_non_nullable
+as String?,deviceCurrentMa: freezed == deviceCurrentMa ? _self.deviceCurrentMa : deviceCurrentMa // ignore: cast_nullable_to_non_nullable
+as double?,deviceAutoPolarity: freezed == deviceAutoPolarity ? _self.deviceAutoPolarity : deviceAutoPolarity // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 
@@ -159,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  double volumeLiters,  double currentMilliamps,  double targetPpm,  int durationSeconds,  DateTime completedAt,  bool completed)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  double volumeLiters,  double currentMilliamps,  double targetPpm,  int durationSeconds,  DateTime completedAt,  bool completed,  int? deviceId,  String? deviceName,  double? deviceCurrentMa,  bool? deviceAutoPolarity)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SessionRecord() when $default != null:
-return $default(_that.id,_that.volumeLiters,_that.currentMilliamps,_that.targetPpm,_that.durationSeconds,_that.completedAt,_that.completed);case _:
+return $default(_that.id,_that.volumeLiters,_that.currentMilliamps,_that.targetPpm,_that.durationSeconds,_that.completedAt,_that.completed,_that.deviceId,_that.deviceName,_that.deviceCurrentMa,_that.deviceAutoPolarity);case _:
   return orElse();
 
 }
@@ -180,10 +184,10 @@ return $default(_that.id,_that.volumeLiters,_that.currentMilliamps,_that.targetP
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  double volumeLiters,  double currentMilliamps,  double targetPpm,  int durationSeconds,  DateTime completedAt,  bool completed)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  double volumeLiters,  double currentMilliamps,  double targetPpm,  int durationSeconds,  DateTime completedAt,  bool completed,  int? deviceId,  String? deviceName,  double? deviceCurrentMa,  bool? deviceAutoPolarity)  $default,) {final _that = this;
 switch (_that) {
 case _SessionRecord():
-return $default(_that.id,_that.volumeLiters,_that.currentMilliamps,_that.targetPpm,_that.durationSeconds,_that.completedAt,_that.completed);case _:
+return $default(_that.id,_that.volumeLiters,_that.currentMilliamps,_that.targetPpm,_that.durationSeconds,_that.completedAt,_that.completed,_that.deviceId,_that.deviceName,_that.deviceCurrentMa,_that.deviceAutoPolarity);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +204,10 @@ return $default(_that.id,_that.volumeLiters,_that.currentMilliamps,_that.targetP
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  double volumeLiters,  double currentMilliamps,  double targetPpm,  int durationSeconds,  DateTime completedAt,  bool completed)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  double volumeLiters,  double currentMilliamps,  double targetPpm,  int durationSeconds,  DateTime completedAt,  bool completed,  int? deviceId,  String? deviceName,  double? deviceCurrentMa,  bool? deviceAutoPolarity)?  $default,) {final _that = this;
 switch (_that) {
 case _SessionRecord() when $default != null:
-return $default(_that.id,_that.volumeLiters,_that.currentMilliamps,_that.targetPpm,_that.durationSeconds,_that.completedAt,_that.completed);case _:
+return $default(_that.id,_that.volumeLiters,_that.currentMilliamps,_that.targetPpm,_that.durationSeconds,_that.completedAt,_that.completed,_that.deviceId,_that.deviceName,_that.deviceCurrentMa,_that.deviceAutoPolarity);case _:
   return null;
 
 }
@@ -215,7 +219,7 @@ return $default(_that.id,_that.volumeLiters,_that.currentMilliamps,_that.targetP
 @JsonSerializable()
 
 class _SessionRecord implements SessionRecord {
-  const _SessionRecord({required this.id, required this.volumeLiters, required this.currentMilliamps, required this.targetPpm, required this.durationSeconds, required this.completedAt, this.completed = false});
+  const _SessionRecord({required this.id, required this.volumeLiters, required this.currentMilliamps, required this.targetPpm, required this.durationSeconds, required this.completedAt, this.completed = false, this.deviceId, this.deviceName, this.deviceCurrentMa, this.deviceAutoPolarity});
   factory _SessionRecord.fromJson(Map<String, dynamic> json) => _$SessionRecordFromJson(json);
 
 @override final  int id;
@@ -225,6 +229,10 @@ class _SessionRecord implements SessionRecord {
 @override final  int durationSeconds;
 @override final  DateTime completedAt;
 @override@JsonKey() final  bool completed;
+@override final  int? deviceId;
+@override final  String? deviceName;
+@override final  double? deviceCurrentMa;
+@override final  bool? deviceAutoPolarity;
 
 /// Create a copy of SessionRecord
 /// with the given fields replaced by the non-null parameter values.
@@ -239,16 +247,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.volumeLiters, volumeLiters) || other.volumeLiters == volumeLiters)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.targetPpm, targetPpm) || other.targetPpm == targetPpm)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt)&&(identical(other.completed, completed) || other.completed == completed));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.volumeLiters, volumeLiters) || other.volumeLiters == volumeLiters)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.targetPpm, targetPpm) || other.targetPpm == targetPpm)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt)&&(identical(other.completed, completed) || other.completed == completed)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.deviceName, deviceName) || other.deviceName == deviceName)&&(identical(other.deviceCurrentMa, deviceCurrentMa) || other.deviceCurrentMa == deviceCurrentMa)&&(identical(other.deviceAutoPolarity, deviceAutoPolarity) || other.deviceAutoPolarity == deviceAutoPolarity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,volumeLiters,currentMilliamps,targetPpm,durationSeconds,completedAt,completed);
+int get hashCode => Object.hash(runtimeType,id,volumeLiters,currentMilliamps,targetPpm,durationSeconds,completedAt,completed,deviceId,deviceName,deviceCurrentMa,deviceAutoPolarity);
 
 @override
 String toString() {
-  return 'SessionRecord(id: $id, volumeLiters: $volumeLiters, currentMilliamps: $currentMilliamps, targetPpm: $targetPpm, durationSeconds: $durationSeconds, completedAt: $completedAt, completed: $completed)';
+  return 'SessionRecord(id: $id, volumeLiters: $volumeLiters, currentMilliamps: $currentMilliamps, targetPpm: $targetPpm, durationSeconds: $durationSeconds, completedAt: $completedAt, completed: $completed, deviceId: $deviceId, deviceName: $deviceName, deviceCurrentMa: $deviceCurrentMa, deviceAutoPolarity: $deviceAutoPolarity)';
 }
 
 
@@ -259,7 +267,7 @@ abstract mixin class _$SessionRecordCopyWith<$Res> implements $SessionRecordCopy
   factory _$SessionRecordCopyWith(_SessionRecord value, $Res Function(_SessionRecord) _then) = __$SessionRecordCopyWithImpl;
 @override @useResult
 $Res call({
- int id, double volumeLiters, double currentMilliamps, double targetPpm, int durationSeconds, DateTime completedAt, bool completed
+ int id, double volumeLiters, double currentMilliamps, double targetPpm, int durationSeconds, DateTime completedAt, bool completed, int? deviceId, String? deviceName, double? deviceCurrentMa, bool? deviceAutoPolarity
 });
 
 
@@ -276,7 +284,7 @@ class __$SessionRecordCopyWithImpl<$Res>
 
 /// Create a copy of SessionRecord
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? volumeLiters = null,Object? currentMilliamps = null,Object? targetPpm = null,Object? durationSeconds = null,Object? completedAt = null,Object? completed = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? volumeLiters = null,Object? currentMilliamps = null,Object? targetPpm = null,Object? durationSeconds = null,Object? completedAt = null,Object? completed = null,Object? deviceId = freezed,Object? deviceName = freezed,Object? deviceCurrentMa = freezed,Object? deviceAutoPolarity = freezed,}) {
   return _then(_SessionRecord(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,volumeLiters: null == volumeLiters ? _self.volumeLiters : volumeLiters // ignore: cast_nullable_to_non_nullable
@@ -285,7 +293,11 @@ as double,targetPpm: null == targetPpm ? _self.targetPpm : targetPpm // ignore: 
 as double,durationSeconds: null == durationSeconds ? _self.durationSeconds : durationSeconds // ignore: cast_nullable_to_non_nullable
 as int,completedAt: null == completedAt ? _self.completedAt : completedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,completed: null == completed ? _self.completed : completed // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,deviceId: freezed == deviceId ? _self.deviceId : deviceId // ignore: cast_nullable_to_non_nullable
+as int?,deviceName: freezed == deviceName ? _self.deviceName : deviceName // ignore: cast_nullable_to_non_nullable
+as String?,deviceCurrentMa: freezed == deviceCurrentMa ? _self.deviceCurrentMa : deviceCurrentMa // ignore: cast_nullable_to_non_nullable
+as double?,deviceAutoPolarity: freezed == deviceAutoPolarity ? _self.deviceAutoPolarity : deviceAutoPolarity // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 

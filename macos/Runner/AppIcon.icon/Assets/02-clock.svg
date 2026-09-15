@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SilverTimer app icon — clock/timer glyph layer, for Icon Composer.
+
+  Flat ring + hands, single fill, transparent background, no metallic
+  bevel/gradient baked in — Icon Composer's Liquid Glass specular replaces
+  the fake shine the old flat icon had painted on.
+
+  Canvas: 1024x1024, matching Icon Composer's iOS/iPad/Mac grid.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <circle cx="675" cy="425" r="220" fill="none" stroke="#AEB4BD" stroke-width="40" />
+  <line x1="675" y1="425" x2="675" y2="285" stroke="#AEB4BD" stroke-width="34" stroke-linecap="round" />
+  <line x1="675" y1="425" x2="765" y2="425" stroke="#AEB4BD" stroke-width="34" stroke-linecap="round" />
+  <circle cx="675" cy="425" r="22" fill="#AEB4BD" />
+</svg>

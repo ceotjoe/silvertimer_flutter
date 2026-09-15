@@ -82,5 +82,19 @@
   "navInfo": "Info",
   "infoTitle": "Información",
   "infoAuthor": "por Jörg Holzapfel",
-  "infoHowToUse": "Cómo usar SilverTimer"
+  "infoHowToUse": "Cómo usar SilverTimer",
+
+  "deviceLabel": "Dispositivo",
+  "customDeviceOption": "Personalizado",
+  "manageDevicesTooltip": "Gestionar dispositivos",
+  "manageDevicesTitle": "Dispositivos",
+  "deviceNameLabel": "Nombre",
+  "deviceCurrentLabel": "Corriente",
+  "autoPolarityLabel": "Cambio automático de polaridad",
+  "autoPolaritySubtitle": "Omite los recordatorios de limpieza de electrodos durante una sesión",
+  "addDeviceTitle": "Añadir dispositivo",
+  "editDeviceTitle": "Editar dispositivo",
+  "saveButton": "Guardar",
+  "noDevicesYet": "Aún no hay dispositivos",
+  "noDevicesSubtitle": "Añade un dispositivo para ajustar rápidamente su corriente en la calculadora"
 }

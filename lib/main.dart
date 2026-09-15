@@ -22,9 +22,7 @@ void main() async {
     ProviderScope(
       overrides: [
         // Provide SharedPreferences instance to SettingsRepository
-        settingsRepositoryProvider.overrideWithValue(
-          SettingsRepository(prefs),
-        ),
+        settingsRepositoryProvider.overrideWithValue(SettingsRepository(prefs)),
         // Provide initialized NotificationService
         notificationServiceProvider.overrideWithValue(notificationService),
       ],

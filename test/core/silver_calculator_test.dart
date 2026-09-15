@@ -144,18 +144,12 @@ void main() {
 
   group('CalculatorInput.volumeInLiters', () {
     test('converts ml to liters correctly', () {
-      const input = CalculatorInput(
-        volumeValue: 250,
-        volumeUnit: VolumeUnit.ml,
-      );
+      const input = CalculatorInput(volumeValue: 250, volumeUnit: VolumeUnit.ml);
       expect(input.volumeInLiters, equals(0.25));
     });
 
     test('returns value unchanged for liters', () {
-      const input = CalculatorInput(
-        volumeValue: 1.5,
-        volumeUnit: VolumeUnit.liters,
-      );
+      const input = CalculatorInput(volumeValue: 1.5, volumeUnit: VolumeUnit.liters);
       expect(input.volumeInLiters, equals(1.5));
     });
   });

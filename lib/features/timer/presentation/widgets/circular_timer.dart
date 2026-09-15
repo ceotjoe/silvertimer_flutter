@@ -32,8 +32,7 @@ class CircularTimer extends ConsumerStatefulWidget {
   ConsumerState<CircularTimer> createState() => _CircularTimerState();
 }
 
-class _CircularTimerState extends ConsumerState<CircularTimer>
-    with SingleTickerProviderStateMixin {
+class _CircularTimerState extends ConsumerState<CircularTimer> with SingleTickerProviderStateMixin {
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
 
@@ -52,10 +51,7 @@ class _CircularTimerState extends ConsumerState<CircularTimer>
       vsync: this,
       duration: const Duration(milliseconds: 700),
     );
-    _pulseAnimation = CurvedAnimation(
-      parent: _pulseController,
-      curve: Curves.easeOut,
-    );
+    _pulseAnimation = CurvedAnimation(parent: _pulseController, curve: Curves.easeOut);
   }
 
   @override
@@ -77,11 +73,9 @@ class _CircularTimerState extends ConsumerState<CircularTimer>
     }
 
     final remaining = widget.totalDuration - widget.elapsed;
-    final clampedRemaining =
-        remaining.isNegative ? Duration.zero : remaining;
+    final clampedRemaining = remaining.isNegative ? Duration.zero : remaining;
     final percent = widget.totalDuration.inSeconds > 0
-        ? (widget.elapsed.inSeconds / widget.totalDuration.inSeconds)
-            .clamp(0.0, 1.0)
+        ? (widget.elapsed.inSeconds / widget.totalDuration.inSeconds).clamp(0.0, 1.0)
         : 0.0;
 
     final colorScheme = Theme.of(context).colorScheme;
@@ -101,8 +95,9 @@ class _CircularTimerState extends ConsumerState<CircularTimer>
     final tickPendingColor = isDark
         ? Colors.white.withValues(alpha: 0.85)
         : Colors.black.withValues(alpha: 0.75);
-    final tickPassedColor =
-        isDark ? Colors.white.withValues(alpha: 0.35) : Colors.black.withValues(alpha: 0.30);
+    final tickPassedColor = isDark
+        ? Colors.white.withValues(alpha: 0.35)
+        : Colors.black.withValues(alpha: 0.30);
 
     return SizedBox(
       width: _radius * 2,
@@ -121,30 +116,25 @@ class _CircularTimerState extends ConsumerState<CircularTimer>
                 Text(
                   clampedRemaining.toHhMmSs(),
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontFeatures: const [FontFeature.tabularFigures()],
-                      ),
+                    fontWeight: FontWeight.bold,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  ),
                 ),
-                Text(
-                  context.l10n.remaining,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
+                Text(context.l10n.remaining, style: Theme.of(context).textTheme.bodySmall),
                 // ── Next cleaning countdown ─────────────────────────────
                 if (nextCleaningIn != null && !widget.isComplete) ...[
                   const SizedBox(height: 6),
                   Text(
                     nextCleaningIn.toHhMmSs(),
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: cleanColor,
-                          fontWeight: FontWeight.w600,
-                          fontFeatures: const [FontFeature.tabularFigures()],
-                        ),
+                      color: cleanColor,
+                      fontWeight: FontWeight.w600,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                    ),
                   ),
                   Text(
                     context.l10n.nextClean,
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: cleanColor,
-                        ),
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(color: cleanColor),
                   ),
                 ],
               ],

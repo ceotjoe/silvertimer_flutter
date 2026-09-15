@@ -29,9 +29,8 @@ class _InfoScreenState extends State<InfoScreen> {
     final uri = Uri.parse('https://ceotjoe.github.io/silvertimer_flutter/help/');
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not open link')),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Could not open link')));
       }
     }
   }

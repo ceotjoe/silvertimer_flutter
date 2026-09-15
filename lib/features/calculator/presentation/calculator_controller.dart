@@ -5,6 +5,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:silvertimer_flutter/core/utils/silver_calculator.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculation_result.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculator_input.dart';
+import 'package:silvertimer_flutter/features/devices/domain/models/device.dart';
+import 'package:silvertimer_flutter/features/devices/presentation/devices_controller.dart';
 import 'package:silvertimer_flutter/features/settings/data/settings_repository.dart';
 import 'package:silvertimer_flutter/features/settings/presentation/settings_controller.dart';
 
@@ -44,12 +46,25 @@ class CalculatorController extends _$CalculatorController {
     final repo = ref.read(settingsRepositoryProvider);
     final last = repo.loadLastCalculatorInput();
 
+    // Devices load asynchronously; once they resolve, this rebuilds and
+    // restores the last-selected device by id (or stays "Custom" if none
+    // was saved, or the saved device was since deleted).
+    final devices = ref.watch(devicesControllerProvider).value ?? const [];
+    Device? selectedDevice;
+    for (final device in devices) {
+      if (device.id == last.lastDeviceId) {
+        selectedDevice = device;
+        break;
+      }
+    }
+
     return CalculatorState(
       input: CalculatorInput(
         volumeValue: last.volumeValue ?? 500.0,
         volumeUnit: last.volumeUnit ?? settings.defaultVolumeUnit,
         targetPpm: last.targetPpm ?? settings.defaultPpm,
-        currentMilliamps: settings.defaultCurrentMa,
+        currentMilliamps: selectedDevice?.currentMilliamps ?? settings.defaultCurrentMa,
+        selectedDevice: selectedDevice,
       ),
     );
   }
@@ -90,12 +105,28 @@ class CalculatorController extends _$CalculatorController {
     toggleVolumeUnit();
   }
 
+  /// Manual mA entry — switches the input back to "Custom" so the stored
+  /// device selection never disagrees with the displayed/used mA value.
   void updateCurrent(double mA) {
     state = state.copyWith(
-      input: state.input.copyWith(currentMilliamps: mA),
+      input: state.input.copyWith(currentMilliamps: mA, selectedDevice: null),
       clearResult: true,
       clearError: true,
     );
+    ref.read(settingsRepositoryProvider).saveLastDeviceId(null);
+  }
+
+  /// Selects a saved device, or clears back to "Custom" manual entry when null.
+  void selectDevice(Device? device) {
+    state = state.copyWith(
+      input: state.input.copyWith(
+        selectedDevice: device,
+        currentMilliamps: device?.currentMilliamps ?? state.input.currentMilliamps,
+      ),
+      clearResult: true,
+      clearError: true,
+    );
+    ref.read(settingsRepositoryProvider).saveLastDeviceId(device?.id);
   }
 
   void updateTargetPpm(double ppm) {
