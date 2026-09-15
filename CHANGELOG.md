@@ -10,6 +10,9 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - **Web/PWA app icon** now matches the Liquid Glass droplet + clock redesign shipped for iOS/macOS in 2.3.0, instead of the old flat rainbow "Ag" icon. Since Icon Composer's `.icon` format has no web equivalent, `web/favicon.png` and `web/icons/*.png` are rasterized from a new flat SVG fallback (`design/app-icon/web-fallback/`) built from the same gradient colors as `AppIcon.icon/icon.json`. Android's launcher icon is still the old flat design.
 - CodeQL workflow now triggers on `pull_request` only (targeting both `main` and `dev`, plus the existing weekly schedule) instead of `push` + `pull_request`. The old config double-ran both scans (one on `ubuntu-latest`, one on the pricier `macos-latest` Swift job) whenever a commit landed on `dev` while a `dev → main` PR was open, and never scanned PRs into `dev` at all. Added a `concurrency` group so repeated pushes to an open PR don't stack up either.
 
+### Security
+- Bumped the transitive `json` gem (via `fastlane`) from 2.19.2 to 2.21.2, fixing [GHSA-x2f5-4prf-w687](https://github.com/advisories/GHSA-x2f5-4prf-w687) (CVE-2026-54696, low severity): a heap out-of-bounds write in `JSON.dump(obj, io)`'s IO-streaming path. `fastlane` only runs in CI/local release tooling, not in the shipped app.
+
 ## [2.3.0] - 2026-09-15
 
 ### Changed
