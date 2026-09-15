@@ -6,6 +6,9 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- CodeQL workflow now triggers on `pull_request` only (targeting both `main` and `dev`, plus the existing weekly schedule) instead of `push` + `pull_request`. The old config double-ran both scans (one on `ubuntu-latest`, one on the pricier `macos-latest` Swift job) whenever a commit landed on `dev` while a `dev → main` PR was open, and never scanned PRs into `dev` at all. Added a `concurrency` group so repeated pushes to an open PR don't stack up either.
+
 ## [2.3.0] - 2026-09-15
 
 ### Changed
