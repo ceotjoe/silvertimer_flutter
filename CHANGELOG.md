@@ -6,6 +6,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.4.0] - 2026-09-15
+
 ### Changed
 - **Web and macOS** now letterbox the app to a phone-width column (max 480 logical px, centered, `colorScheme.surfaceContainer` backdrop) instead of stretching phone-designed layouts to the full browser/window width. Implemented as a single `AppWidthConstraint` wrapper (`lib/shared/widgets/app_width_constraint.dart`) in `MaterialApp.router`'s `builder`, gated on `kIsWeb` / `TargetPlatform.macOS`. iOS, Android, Windows, and Linux are unaffected.
 - **Web/PWA app icon** now matches the Liquid Glass droplet + clock redesign shipped for iOS/macOS in 2.3.0, instead of the old flat rainbow "Ag" icon. Since Icon Composer's `.icon` format has no web equivalent, `web/favicon.png` and `web/icons/*.png` are rasterized from a new flat SVG fallback (`design/app-icon/web-fallback/`) built from the same gradient colors as `AppIcon.icon/icon.json`. Android's launcher icon is still the old flat design.
@@ -207,7 +209,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - GitHub Actions workflow deploying Flutter web to GitHub Pages on every push
   to `main`
 
-[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.3.0...HEAD
+[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.4.0...HEAD
+[2.4.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.5...v2.2.0
 [2.1.5]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.4...v2.1.5
