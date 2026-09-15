@@ -6,6 +6,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-09-15
+
 ### Changed
 - Upgraded the Flutter framework from 3.44.6 to **3.47.2** (Dart 3.12.2 → **3.13.2**). Dart SDK constraint raised to `^3.13.0`. `dart format` reflows to the updated `dart_style`; localizations and `build_runner` outputs regenerated under the new toolchain.
 - **Android** toolchain migrated to the Flutter 3.47 verified stack: Android Gradle Plugin 8.11.1 → **9.1.0**, Gradle 8.14 → **9.3.1**, Kotlin Gradle Plugin 2.2.20 → **2.4.0**. The removed `kotlinOptions {}` DSL is replaced by the top-level `kotlin { compilerOptions { jvmTarget } }` block; core-library desugaring and the release signing config are unchanged.
@@ -197,7 +199,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - GitHub Actions workflow deploying Flutter web to GitHub Pages on every push
   to `main`
 
-[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.2.0...HEAD
+[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.3.0...HEAD
+[2.3.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.5...v2.2.0
 [2.1.5]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.4...v2.1.5
 [2.1.4]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.3...v2.1.4
