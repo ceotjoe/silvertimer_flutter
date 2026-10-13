@@ -6,6 +6,9 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Security
+- Bumped `fastlane` from 2.237.0 to 2.241.0, which lifts its `rubyzip` pin and lets the transitive `rubyzip` gem move from 2.4.1 to 3.7.0, fixing a path traversal vulnerability (Dependabot alert #14, high severity, patched in 3.4.0). `fastlane` only runs in CI/local release tooling, not in the shipped app. Other gems in `Gemfile.lock` (e.g. `aws-sdk-*`) were updated transitively.
+
 ## [2.4.0] - 2026-09-15
 
 ### Changed
