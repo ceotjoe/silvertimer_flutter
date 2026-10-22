@@ -48,7 +48,7 @@ dependencies:
   percent_indicator: ^4.2.3
 
   # Icons
-  cupertino_icons: ^1.0.8
+  cupertino_icons: ^2.0.0
 
   # Info screen
   package_info_plus: ^10.1.0
