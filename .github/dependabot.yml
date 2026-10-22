@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: pub
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      dart-minor-and-patch:
+        update-types: [minor, patch]
+  - package-ecosystem: github-actions
+    # Workflows plus the local composite action (its pinned SHAs too).
+    directories:
+      - "/"
+      - "/.github/actions/*"
+    schedule:
+      interval: weekly
+  - package-ecosystem: gradle
+    directory: "/android"
+    schedule:
+      interval: weekly
+  # fastlane and its transitive gems (CI/release tooling only).
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: monthly
