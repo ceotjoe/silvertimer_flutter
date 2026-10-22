@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FLUTTER_VERSION: "3.47.7"
+
+jobs:
+  analyze-and-test:
+    name: Analyze & test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-flutter
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+      - name: Resolve dependencies
+        run: flutter pub get --enforce-lockfile
+      - name: Check generated code is up to date
+        run: tool/check_generated.sh
+      - name: Check formatting
+        run: tool/check_format.sh
+      - name: Analyze (zero warnings, zero infos)
+        run: flutter analyze --fatal-infos --fatal-warnings
+      - name: Test
+        run: flutter test

@@ -10,9 +10,7 @@ void main() {
   testWidgets('constrains width on macOS', (tester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.macOS;
     try {
-      await tester.pumpWidget(
-        const MaterialApp(home: AppWidthConstraint(child: Text('content'))),
-      );
+      await tester.pumpWidget(const MaterialApp(home: AppWidthConstraint(child: Text('content'))));
 
       expect(
         find.byWidgetPredicate((w) => w is ConstrainedBox && w.constraints.maxWidth == 480),
@@ -26,9 +24,7 @@ void main() {
   testWidgets('does not constrain width on other native platforms', (tester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
     try {
-      await tester.pumpWidget(
-        const MaterialApp(home: AppWidthConstraint(child: Text('content'))),
-      );
+      await tester.pumpWidget(const MaterialApp(home: AppWidthConstraint(child: Text('content'))));
 
       expect(
         find.byWidgetPredicate((w) => w is ConstrainedBox && w.constraints.maxWidth == 480),
