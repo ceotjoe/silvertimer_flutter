@@ -3,7 +3,7 @@
 # take_screenshots.sh — Generate App Store and Play Store screenshots locally.
 #
 # Usage:
-#   bash scripts/take_screenshots.sh [ios|android|both]
+#   bash tool/take_screenshots.sh [ios|android|both]
 #
 # Defaults to "both" when no argument is given.
 #

@@ -12,9 +12,14 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - Local composite action `.github/actions/setup-flutter` that installs a pinned Flutter release (3.47.7) with SDK and pub caches, shared with the sibling Tideline project's setup.
 
 ### Changed
+- **Release automation consolidated** into a single `.github/workflows/release.yml`, started by pushing a `vX.Y.Z` tag. It checks the tag against the `pubspec.yaml` version and the `CHANGELOG.md` section, then builds and publishes web (GitHub Pages), Android (Play Store internal track) and iOS (TestFlight), and finally creates the GitHub release with the CHANGELOG section as notes. Running it manually (*Run workflow*) is a dry run: it builds everything, publishes nothing, and never waits for approval (fastlane skips uploads when `DRY_RUN=true`). On tag runs the store jobs use the `production` environment, so a required reviewer there gates each release. Process and secrets: new `docs/release.md`.
+- `scripts/` renamed to `tool/` (`bump_version.sh`, `take_screenshots.sh`), matching the sibling projects. `bump_version.sh` now prints the PR-then-tag steps.
 - All GitHub Actions in every workflow are now pinned to full commit SHAs (with the version in a trailing comment), so a moved tag cannot change what runs. `actions/checkout` moves from v4 to v7.0.1 to match CI.
 - Deploy, CodeQL and screenshot workflows install Flutter through the local `setup-flutter` action at the pinned version (`FLUTTER_VERSION` in each workflow's `env`, currently 3.47.7) instead of `subosito/flutter-action` on the moving `stable` channel. When bumping Flutter, update that value in all workflows.
 - Reformatted `test/shared/widgets/app_width_constraint_test.dart`, the only hand-written file that was not `dart format` clean.
+
+### Removed
+- `bump-version.yml`, `create-release-tag.yml`, `deploy-web.yml`, `deploy-ios.yml` and `deploy-android.yml`, replaced by `release.yml`. The auto-tag workflow is gone because a tag pushed with `GITHUB_TOKEN` never started the deploy workflows (they were being run by hand); tag releases yourself as described in `docs/release.md`.
 
 ### Security
 - Bumped `fastlane` from 2.237.0 to 2.241.0, which lifts its `rubyzip` pin and lets the transitive `rubyzip` gem move from 2.4.1 to 3.7.0, fixing a path traversal vulnerability (Dependabot alert #14, high severity, patched in 3.4.0). `fastlane` only runs in CI/local release tooling, not in the shipped app. Other gems in `Gemfile.lock` (e.g. `aws-sdk-*`) were updated transitively.

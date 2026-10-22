@@ -1,0 +1,160 @@
+# Builds and publishes a release when a version tag (v*) is pushed:
+# web (GitHub Pages), Android (Play Store internal track), iOS (TestFlight)
+# and a GitHub release with the version's CHANGELOG section as notes.
+#
+# Run workflow (workflow_dispatch) on any branch is a dry run: it builds all
+# three targets and publishes nothing.
+#
+# Store credentials are repository secrets; the store upload jobs run in the
+# `production` environment, so adding a required reviewer there makes every
+# tag release wait for one approval. Setup and process: docs/release.md
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  FLUTTER_VERSION: "3.47.7"
+
+jobs:
+  meta:
+    name: Check version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Read the version and check it against the tag and CHANGELOG
+        id: version
+        run: |
+          version="$(sed -n 's/^version:[[:space:]]*\([0-9][0-9.]*\)+.*/\1/p' pubspec.yaml)"
+          [ -n "$version" ] || { echo "::error::No version in pubspec.yaml"; exit 1; }
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            if [ "$GITHUB_REF_NAME" != "v$version" ]; then
+              echo "::error::Tag $GITHUB_REF_NAME does not match pubspec.yaml version $version"
+              exit 1
+            fi
+            if ! grep -q "^## \[$version\]" CHANGELOG.md; then
+              echo "::error::CHANGELOG.md has no '## [$version]' section"
+              exit 1
+            fi
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+  web:
+    name: Web (GitHub Pages)
+    needs: meta
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # pushes the gh-pages branch
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-flutter
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+      - run: flutter pub get --enforce-lockfile
+      - name: Compile Drift web worker
+        # web/drift_worker.dart is committed source; the compiled JS is gitignored
+        # and must be generated here so flutter build web picks it up from web/.
+        run: dart compile js web/drift_worker.dart -o web/drift_worker.dart.js
+      - name: Build web
+        run: flutter build web --release --base-href /silvertimer_flutter/
+      - name: Deploy to GitHub Pages
+        if: github.ref_type == 'tag'
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/web
+          publish_branch: gh-pages
+          keep_files: false
+
+  android:
+    name: Android (Play Store)
+    needs: meta
+    runs-on: ubuntu-latest
+    # Only tag runs use the environment (and so wait for its approval);
+    # dry runs have none.
+    environment: ${{ github.ref_type == 'tag' && 'production' || '' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-flutter
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+      - uses: ruby/setup-ruby@e1bd6146574da5e0795075b5319b300edb30c5b0 # v1.333.0
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+      - name: Build and upload to the Play Store internal track
+        env:
+          DRY_RUN: ${{ github.ref_type != 'tag' }}
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          PLAY_STORE_JSON_KEY: ${{ secrets.PLAY_STORE_JSON_KEY }}
+        run: bundle exec fastlane android deploy
+
+  ios:
+    name: iOS (TestFlight)
+    needs: meta
+    runs-on: macos-latest
+    environment: ${{ github.ref_type == 'tag' && 'production' || '' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Select Xcode 26
+        uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1.7.0
+        with:
+          xcode-version: latest-stable
+      - uses: ./.github/actions/setup-flutter
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+      - uses: ruby/setup-ruby@e1bd6146574da5e0795075b5319b300edb30c5b0 # v1.333.0
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+      - name: Build and upload to TestFlight
+        env:
+          DRY_RUN: ${{ github.ref_type != 'tag' }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          IOS_DISTRIBUTION_CERT_BASE64: ${{ secrets.IOS_DISTRIBUTION_CERT_BASE64 }}
+          IOS_DISTRIBUTION_CERT_PASSWORD: ${{ secrets.IOS_DISTRIBUTION_CERT_PASSWORD }}
+          IOS_PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE_BASE64 }}
+          APPSTORE_API_KEY_ID: ${{ secrets.APPSTORE_API_KEY_ID }}
+          APPSTORE_ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
+          APPSTORE_API_KEY_BASE64: ${{ secrets.APPSTORE_API_KEY_BASE64 }}
+        run: bundle exec fastlane ios deploy
+
+  github-release:
+    name: GitHub release
+    # Last, so a failed build never leaves a release behind.
+    needs: [meta, web, android, ios]
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Create the release from the CHANGELOG section
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.meta.outputs.version }}
+        run: |
+          # Notes: everything under "## [VERSION]" up to the next "## [" heading.
+          awk -v v="$VERSION" '
+            $0 ~ "^## \\[" v "\\]" { found = 1; next }
+            found && /^## \[/ { exit }
+            found { print }
+          ' CHANGELOG.md > notes.md
+          [ -s notes.md ] || { echo "::error::Empty CHANGELOG section for $VERSION"; exit 1; }
+          gh release create "$GITHUB_REF_NAME" --title "SilverTimer $VERSION" \
+            --notes-file notes.md --verify-tag

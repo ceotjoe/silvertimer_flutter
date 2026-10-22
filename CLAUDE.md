@@ -88,16 +88,16 @@ Never instruct the user to `git push origin main` directly; always create a PR i
 
 ```bash
 # Bump patch (e.g. 2.0.0 → 2.0.1)
-bash /Volumes/Crucial_X9/Development/silvertimer_flutter/scripts/bump_version.sh patch
+bash /Volumes/Crucial_X9/Development/silvertimer_flutter/tool/bump_version.sh patch
 
 # Bump minor (e.g. 2.0.0 → 2.1.0)
-bash /Volumes/Crucial_X9/Development/silvertimer_flutter/scripts/bump_version.sh minor
+bash /Volumes/Crucial_X9/Development/silvertimer_flutter/tool/bump_version.sh minor
 
 # Bump major (e.g. 2.0.0 → 3.0.0)
-bash /Volumes/Crucial_X9/Development/silvertimer_flutter/scripts/bump_version.sh major
+bash /Volumes/Crucial_X9/Development/silvertimer_flutter/tool/bump_version.sh major
 ```
 
-The script updates `pubspec.yaml` (version + build number) and must be run before every release commit.
+The script updates `pubspec.yaml` (version + build number) and must be run before every release commit. Releases are published by pushing a `vX.Y.Z` tag, which runs `.github/workflows/release.yml`; the full process is in `docs/release.md`.
 
 ## Documentation
 
