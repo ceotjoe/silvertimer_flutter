@@ -11,6 +11,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - Local composite action `.github/actions/setup-flutter` that installs a pinned Flutter release (3.47.7) with SDK and pub caches, shared with the sibling Tideline project's setup.
 
 ### Changed
+- All GitHub Actions in every workflow are now pinned to full commit SHAs (with the version in a trailing comment), so a moved tag cannot change what runs. `actions/checkout` moves from v4 to v7.0.1 to match CI.
+- Deploy, CodeQL and screenshot workflows install Flutter through the local `setup-flutter` action at the pinned version (`FLUTTER_VERSION` in each workflow's `env`, currently 3.47.7) instead of `subosito/flutter-action` on the moving `stable` channel. When bumping Flutter, update that value in all workflows.
 - Reformatted `test/shared/widgets/app_width_constraint_test.dart`, the only hand-written file that was not `dart format` clean.
 
 ### Security
