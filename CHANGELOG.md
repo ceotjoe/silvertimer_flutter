@@ -7,6 +7,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- `.github/dependabot.yml`: weekly updates for pub (minor/patch grouped), GitHub Actions (workflows and the local `setup-flutter` action) and Gradle, monthly for the Bundler/fastlane gems. The Flutter version pinned in `FLUTTER_VERSION` is not covered and must still be bumped by hand.
 - **CI workflow** (`.github/workflows/ci.yml`) running on every pull request and push to `main`: dependency resolution with `--enforce-lockfile`, a generated-code freshness check (`tool/check_generated.sh`: `build_runner` + `flutter gen-l10n` must leave no diff), a formatting check of hand-written Dart files (`tool/check_format.sh`), `flutter analyze --fatal-infos --fatal-warnings`, and `flutter test`.
 - Local composite action `.github/actions/setup-flutter` that installs a pinned Flutter release (3.47.7) with SDK and pub caches, shared with the sibling Tideline project's setup.
 
