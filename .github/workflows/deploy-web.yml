@@ -12,6 +12,7 @@ permissions:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  FLUTTER_VERSION: "3.47.7"
 
 jobs:
   build-and-deploy:
@@ -19,13 +20,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+        uses: ./.github/actions/setup-flutter
         with:
-          channel: stable
-          cache: true
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Install dependencies
         run: flutter pub get
@@ -41,7 +41,7 @@ jobs:
             --base-href /silvertimer_flutter/
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/web

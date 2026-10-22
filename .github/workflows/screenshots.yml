@@ -17,6 +17,7 @@ permissions:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  FLUTTER_VERSION: "3.47.7"
 
 jobs:
   # ─── iOS iPhone ─────────────────────────────────────────────────────────────
@@ -27,19 +28,18 @@ jobs:
     if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' }}
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Select Xcode
-        uses: maxim-lobanov/setup-xcode@v1
+        uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1.7.0
         with:
           xcode-version: 'latest-stable'
 
-      - uses: subosito/flutter-action@v2
+      - uses: ./.github/actions/setup-flutter
         with:
-          channel: stable
-          cache: true
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@e1bd6146574da5e0795075b5319b300edb30c5b0 # v1.333.0
         with:
           ruby-version: "3.2"
           bundler-cache: true
@@ -78,7 +78,7 @@ jobs:
         run: SCREENSHOT_DEVICE_TYPE=iphone bundle exec fastlane ios screenshots
 
       - name: Upload iPhone screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: screenshots-ios-iphone
           path: fastlane/screenshots/
@@ -89,19 +89,18 @@ jobs:
     if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' }}
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Select Xcode
-        uses: maxim-lobanov/setup-xcode@v1
+        uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1.7.0
         with:
           xcode-version: 'latest-stable'
 
-      - uses: subosito/flutter-action@v2
+      - uses: ./.github/actions/setup-flutter
         with:
-          channel: stable
-          cache: true
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@e1bd6146574da5e0795075b5319b300edb30c5b0 # v1.333.0
         with:
           ruby-version: "3.2"
           bundler-cache: true
@@ -140,7 +139,7 @@ jobs:
         run: SCREENSHOT_DEVICE_TYPE=ipad bundle exec fastlane ios screenshots
 
       - name: Upload iPad screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: screenshots-ios-ipad
           path: fastlane/screenshots/
@@ -151,14 +150,13 @@ jobs:
     if: ${{ github.event.inputs.platform == 'android' || github.event.inputs.platform == 'both' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: subosito/flutter-action@v2
+      - uses: ./.github/actions/setup-flutter
         with:
-          channel: stable
-          cache: true
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@e1bd6146574da5e0795075b5319b300edb30c5b0 # v1.333.0
         with:
           ruby-version: "3.2"
           bundler-cache: true
@@ -171,7 +169,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
 
       - name: Capture Android Phone screenshots
-        uses: reactivecircus/android-emulator-runner@v2
+        uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2.38.0
         with:
           api-level: 35
           target: google_apis
@@ -184,7 +182,7 @@ jobs:
           script: SCREENSHOT_AVD=Pixel_10_Pro bundle exec fastlane android screenshots
 
       - name: Upload framed phone screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: screenshots-android-phone
           path: fastlane/screenshots/
