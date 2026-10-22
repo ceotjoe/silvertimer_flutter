@@ -6,6 +6,13 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **CI workflow** (`.github/workflows/ci.yml`) running on every pull request and push to `main`: dependency resolution with `--enforce-lockfile`, a generated-code freshness check (`tool/check_generated.sh`: `build_runner` + `flutter gen-l10n` must leave no diff), a formatting check of hand-written Dart files (`tool/check_format.sh`), `flutter analyze --fatal-infos --fatal-warnings`, and `flutter test`.
+- Local composite action `.github/actions/setup-flutter` that installs a pinned Flutter release (3.47.7) with SDK and pub caches, shared with the sibling Tideline project's setup.
+
+### Changed
+- Reformatted `test/shared/widgets/app_width_constraint_test.dart`, the only hand-written file that was not `dart format` clean.
+
 ### Security
 - Bumped `fastlane` from 2.237.0 to 2.241.0, which lifts its `rubyzip` pin and lets the transitive `rubyzip` gem move from 2.4.1 to 3.7.0, fixing a path traversal vulnerability (Dependabot alert #14, high severity, patched in 3.4.0). `fastlane` only runs in CI/local release tooling, not in the shipped app. Other gems in `Gemfile.lock` (e.g. `aws-sdk-*`) were updated transitively.
 

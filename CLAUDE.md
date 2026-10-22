@@ -21,8 +21,12 @@ flutter test
 # Run a single test file
 flutter test test/core/silver_calculator_test.dart
 
-# Lint
-flutter analyze
+# Lint (CI runs these with --fatal-infos --fatal-warnings)
+flutter analyze --fatal-infos --fatal-warnings
+
+# CI checks, runnable locally (generated check needs a clean working tree)
+tool/check_format.sh
+tool/check_generated.sh
 
 # Regenerate code (freezed, riverpod_generator, drift, json_serializable)
 dart run build_runner build --delete-conflicting-outputs
