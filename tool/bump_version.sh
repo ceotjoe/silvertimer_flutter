@@ -3,10 +3,10 @@
 # bump_version.sh — Bump the version in pubspec.yaml and commit the change.
 #
 # Usage:
-#   ./scripts/bump_version.sh patch          # 1.0.0+1  →  1.0.1+2
-#   ./scripts/bump_version.sh minor          # 1.0.0+1  →  1.1.0+2
-#   ./scripts/bump_version.sh major          # 1.0.0+1  →  2.0.0+2
-#   ./scripts/bump_version.sh 1.2.3          # 1.0.0+1  →  1.2.3+2
+#   ./tool/bump_version.sh patch          # 1.0.0+1  →  1.0.1+2
+#   ./tool/bump_version.sh minor          # 1.0.0+1  →  1.1.0+2
+#   ./tool/bump_version.sh major          # 1.0.0+1  →  2.0.0+2
+#   ./tool/bump_version.sh 1.2.3          # 1.0.0+1  →  1.2.3+2
 #
 # What this script does:
 #   1. Reads the current version from pubspec.yaml
@@ -16,8 +16,8 @@
 #   5. Commits pubspec.yaml + CHANGELOG.md with a conventional commit message
 #
 # What this script does NOT do:
-#   - Push to remote (do that yourself, then open a PR from dev → main)
-#   - Create a git tag (the deploy workflow does that automatically on main)
+#   - Push to remote (do that yourself and open a PR into main)
+#   - Create the release tag (do that after the PR is merged, see docs/release.md)
 #
 # Requirements: bash ≥ 3.2, macOS or Linux, git in $PATH
 # =============================================================================
@@ -130,8 +130,9 @@ git commit -m "chore: bump version to $NEW_VERSION"
 echo ""
 echo "✓ Committed: chore: bump version to $NEW_VERSION"
 echo ""
-echo "Next steps:"
-echo "  1.  git push origin dev"
-echo "  2.  Open a PR: dev → main  (title: 'chore: release v$NEW_SEMVER')"
-echo "  3.  After merge, the deploy workflow will build, deploy, and"
-echo "      automatically create the annotated tag v$NEW_SEMVER on main."
+echo "Next steps (details: docs/release.md):"
+echo "  1.  git push -u origin HEAD  and open a PR into main"
+echo "      (title: 'chore: release v$NEW_SEMVER'), then squash-merge it"
+echo "  2.  git checkout main && git pull"
+echo "      git tag -a v$NEW_SEMVER -m 'Release v$NEW_SEMVER' && git push origin v$NEW_SEMVER"
+echo "  3.  The tag starts .github/workflows/release.yml (web, Play Store, TestFlight, GitHub release)."
