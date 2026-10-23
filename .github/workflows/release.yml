@@ -2,8 +2,10 @@
 # web (GitHub Pages), Android (Play Store internal track), iOS (TestFlight)
 # and a GitHub release with the version's CHANGELOG section as notes.
 #
-# Run workflow (workflow_dispatch) on any branch is a dry run: it builds all
-# three targets and publishes nothing.
+# Run workflow (workflow_dispatch) is a dry run by default: it builds all three
+# targets and publishes nothing. Tick "publish" and run it on a tag (Use
+# workflow from: Tags → vX.Y.Z) to repeat the release of that tag, e.g. after
+# a store upload failed.
 #
 # Store credentials are repository secrets; the store upload jobs run in the
 # `production` environment, so adding a required reviewer there makes every
@@ -14,6 +16,11 @@ on:
   push:
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      publish:
+        description: "Publish for real (only on a tag; leave off for a dry run that just builds)"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -32,14 +39,28 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version.outputs.version }}
+      publish: ${{ steps.version.outputs.publish }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Read the version and check it against the tag and CHANGELOG
         id: version
+        env:
+          PUBLISH_INPUT: ${{ inputs.publish }}
         run: |
           version="$(sed -n 's/^version:[[:space:]]*\([0-9][0-9.]*\)+.*/\1/p' pubspec.yaml)"
           [ -n "$version" ] || { echo "::error::No version in pubspec.yaml"; exit 1; }
-          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+
+          # A tag push always publishes; a manual run only when "publish" is ticked.
+          publish=false
+          if [ "$GITHUB_EVENT_NAME" = "push" ] || [ "$PUBLISH_INPUT" = "true" ]; then
+            publish=true
+          fi
+
+          if [ "$publish" = "true" ]; then
+            if [ "$GITHUB_REF_TYPE" != "tag" ]; then
+              echo "::error::Publishing needs a tag. Run the workflow from a tag (Use workflow from: Tags), or untick publish for a dry run."
+              exit 1
+            fi
             if [ "$GITHUB_REF_NAME" != "v$version" ]; then
               echo "::error::Tag $GITHUB_REF_NAME does not match pubspec.yaml version $version"
               exit 1
@@ -50,6 +71,8 @@ jobs:
             fi
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "publish=$publish" >> "$GITHUB_OUTPUT"
+          echo "### Release $version: $([ "$publish" = true ] && echo publish || echo 'dry run (build only)')" >> "$GITHUB_STEP_SUMMARY"
 
   web:
     name: Web (GitHub Pages)
@@ -70,7 +93,7 @@ jobs:
       - name: Build web
         run: flutter build web --release --base-href /silvertimer_flutter/
       - name: Deploy to GitHub Pages
-        if: github.ref_type == 'tag'
+        if: needs.meta.outputs.publish == 'true'
         uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -82,9 +105,9 @@ jobs:
     name: Android (Play Store)
     needs: meta
     runs-on: ubuntu-latest
-    # Only tag runs use the environment (and so wait for its approval);
+    # Only publishing runs use the environment (and so wait for its approval);
     # dry runs have none.
-    environment: ${{ github.ref_type == 'tag' && 'production' || '' }}
+    environment: ${{ needs.meta.outputs.publish == 'true' && 'production' || '' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: ./.github/actions/setup-flutter
@@ -92,11 +115,11 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
       - uses: ruby/setup-ruby@e1bd6146574da5e0795075b5319b300edb30c5b0 # v1.333.0
         with:
-          ruby-version: "3.2"
+          ruby-version: .ruby-version
           bundler-cache: true
       - name: Build and upload to the Play Store internal track
         env:
-          DRY_RUN: ${{ github.ref_type != 'tag' }}
+          DRY_RUN: ${{ needs.meta.outputs.publish != 'true' }}
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -108,7 +131,7 @@ jobs:
     name: iOS (TestFlight)
     needs: meta
     runs-on: macos-latest
-    environment: ${{ github.ref_type == 'tag' && 'production' || '' }}
+    environment: ${{ needs.meta.outputs.publish == 'true' && 'production' || '' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Select Xcode 26
@@ -120,11 +143,11 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
       - uses: ruby/setup-ruby@e1bd6146574da5e0795075b5319b300edb30c5b0 # v1.333.0
         with:
-          ruby-version: "3.2"
+          ruby-version: .ruby-version
           bundler-cache: true
       - name: Build and upload to TestFlight
         env:
-          DRY_RUN: ${{ github.ref_type != 'tag' }}
+          DRY_RUN: ${{ needs.meta.outputs.publish != 'true' }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           IOS_DISTRIBUTION_CERT_BASE64: ${{ secrets.IOS_DISTRIBUTION_CERT_BASE64 }}
           IOS_DISTRIBUTION_CERT_PASSWORD: ${{ secrets.IOS_DISTRIBUTION_CERT_PASSWORD }}
@@ -138,7 +161,7 @@ jobs:
     name: GitHub release
     # Last, so a failed build never leaves a release behind.
     needs: [meta, web, android, ios]
-    if: github.ref_type == 'tag'
+    if: needs.meta.outputs.publish == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -156,5 +179,9 @@ jobs:
             found { print }
           ' CHANGELOG.md > notes.md
           [ -s notes.md ] || { echo "::error::Empty CHANGELOG section for $VERSION"; exit 1; }
-          gh release create "$GITHUB_REF_NAME" --title "SilverTimer $VERSION" \
-            --notes-file notes.md --verify-tag
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release edit "$GITHUB_REF_NAME" --title "SilverTimer $VERSION" --notes-file notes.md
+          else
+            gh release create "$GITHUB_REF_NAME" --title "SilverTimer $VERSION" \
+              --notes-file notes.md --verify-tag
+          fi

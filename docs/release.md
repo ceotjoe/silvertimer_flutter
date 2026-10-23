@@ -52,11 +52,15 @@ version: MAJOR.MINOR.PATCH+BUILD
 
    Promoting the Play Store and TestFlight builds to production stays a manual step in the store consoles.
 
-## Dry run
+## Dry run and re-running a release
 
-*Actions → Release → Run workflow* on any branch builds web, the Android AAB and the iOS IPA (with real signing) and publishes
-nothing: no Pages deploy, no store upload (`DRY_RUN=true` for fastlane), no GitHub release, and no environment approval. Do this
-after changing the release tooling, before the next real tag.
+*Actions → Release → Run workflow* has a **publish** checkbox, off by default:
+
+- **Off (dry run):** builds web, the Android AAB and the iOS IPA with real signing and publishes nothing: no Pages deploy, no store
+  upload (`DRY_RUN=true` for fastlane), no GitHub release, and no environment approval. Works from any branch. Do this after
+  changing the release tooling, before the next real tag.
+- **On:** repeats the release of an existing tag, e.g. after a store upload failed. Choose the tag under *Use workflow from →
+  Tags*; the run fails fast if the ref is not a tag matching `pubspec.yaml`. An existing GitHub release is updated, not duplicated.
 
 ## Secrets and the `production` environment
 
@@ -73,9 +77,11 @@ All credentials are **repository secrets** (Settings → Secrets and variables �
 
 Encode a file with `base64 -i file | pbcopy` (macOS). Never paste a secret into chat or commit it.
 
-On tag runs the `android` and `ios` jobs declare `environment: production` (GitHub creates it on first use). To make each
+On publishing runs the `android` and `ios` jobs declare `environment: production` (GitHub creates it on first use). To make each
 release wait for your approval before anything reaches a store, add yourself as a required reviewer under
 **Settings → Environments → production**. Dry runs use no environment and never wait.
+
+Fastlane needs Ruby ≥ 3.3 (a gem in `Gemfile.lock` requires it); the version is pinned in `.ruby-version`, which the workflow reads.
 
 ## Maintenance
 
