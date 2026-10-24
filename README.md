@@ -192,6 +192,10 @@ The version is defined in one place: `version: X.Y.Z+N` in `pubspec.yaml`. Bump 
 release PR into `main`, then push a `vX.Y.Z` tag: `.github/workflows/release.yml` builds and publishes web, Android and iOS and
 creates the GitHub release. The full process, dry runs and required secrets are in [docs/release.md](docs/release.md).
 
+## Documentation
+
+See [docs/README.md](docs/README.md): release process and the architecture decision records (ADRs).
+
 ## Contributing
 
 Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow (feature branch, squash-merged PR),
