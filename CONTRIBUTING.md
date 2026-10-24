@@ -37,7 +37,7 @@ CI fails if the committed generated files differ from what these commands produc
 
 ## Workflow
 
-1. Open an issue first for anything bigger than a small fix, so we can agree on the approach.
+1. Ask in [Discussions](https://github.com/ceotjoe/silvertimer_flutter/discussions) or open an issue first for anything bigger than a small fix, so we can agree on the approach.
 2. Branch from an up-to-date `main` (`feat/…`, `fix/…`, `docs/…`). There is no long-lived `dev` branch.
 3. Use [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `ci:`,
    `chore:`). Pull requests are **squash-merged**, so the PR title becomes the commit message.
