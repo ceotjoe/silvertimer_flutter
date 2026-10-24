@@ -1,124 +1,120 @@
-# CLAUDE.md
+# CLAUDE.md — standing rules for SilverTimer
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+SilverTimer is a colloidal silver electrolysis timer calculator, a GPL-3.0-or-later Flutter app by Jörg Holzapfel. It uses Faraday's
+Law of Electrolysis to compute how long to run electrolysis for a given water volume, electrode current (mA) and target PPM
+concentration. The timer screen shows a circular countdown with electrode cleaning reminders.
+Targets: iOS, iPadOS, Android, web (PWA) and macOS.
 
-## What This App Does
+These rules apply to every session. If something here conflicts with what you find in the docs, the code or on a platform, **tell
+the maintainer instead of guessing**. Decisions and their reasons are in `docs/adr/`; this file only holds the rules.
 
-SilverTimer is a colloidal silver electrolysis timer calculator. It uses Faraday's Law of Electrolysis to compute how long to run electrolysis given water volume, electrode current (mA), and a target PPM concentration. The timer screen shows a circular countdown with electrode cleaning reminders.
+## Workflow
+- Work in small, reviewable steps. Say what was done and verified, what was not, and what comes next.
+- Branch from an up-to-date `main` (`feat/…`, `fix/…`, `docs/…`, `ci/…`, `release/vX.Y.Z`). There is no long-lived `dev` branch (ADR 0009).
+- `main` is protected: never push to it and never tell the user to `git push origin main`. Open a Pull Request; PRs are **squash-merged**
+  (the only merge method), so the PR title is the commit message. Required check: `Analyze & test`.
+- Commits follow Conventional Commits (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `ci:`, `chore:`, `build:`). Only commit, push or open
+  PRs when asked.
+- Every significant decision gets an ADR in `docs/adr/NNNN-title.md` (copy `0000-template.md`).
+- Releases: see Versioning below and `docs/release.md`.
 
-## Commands
+## Architecture rules
+- Feature-first: `lib/features/<feature>/{data,domain,presentation}`; shared infrastructure in `lib/core/` and `lib/shared/`.
+- State: Riverpod with `@riverpod` / `@Riverpod(keepAlive:)` (`riverpod_generator`). Navigation: `go_router` with a `ShellRoute` for the three
+  tabs (Calculator → Timer → History) inside `AppScaffold`; Settings and Devices are pushed routes; `/timer` redirects to `/calculator` until
+  a calculation result exists. Models: `freezed` + `json_serializable`. (ADR 0002)
+- `SilverCalculator` (`lib/core/utils/silver_calculator.dart`) stays a pure, stateless class without Flutter dependencies; the formula
+  lives only there and is unit-tested. (ADR 0005)
+- Persistence: history and devices in Drift/SQLite, settings in `SharedPreferences` (keys in `AppConstants`). Every schema change needs an
+  `onUpgrade` migration and a migration test against a real older database file. Sessions keep a snapshot of the device used. (ADR 0004)
+- iOS/macOS use Swift Package Manager only. Before adding a Flutter package check that it has a `Package.swift` (in its `ios/` or `darwin/`
+  directory); never add a CocoaPods-only package (e.g. `alarm`, `flutter_fgbg`). (ADR 0006)
+- Platform guards use `universal_platform`; `kIsWeb` / `TargetPlatform.macOS` gate the phone-width `AppWidthConstraint` on web and macOS.
 
-```bash
-# Run on a connected device/emulator
-flutter run
+### Timer
+`TimerController` (`keepAlive: true`) transitions `idle → paused → running → completed`. While running it anchors to `startedAt` (wall clock):
+elapsed time is always `DateTime.now().difference(startedAt)`, and ticker drift and backgrounding are handled in `onAppResumed()`. The
+completion notification and the electrode cleaning alarms are pre-scheduled as OS notifications on `start()`, cancelled on `pause()` /
+`reset()` and rebuilt on the next `start()`. Never make correctness depend on a running Dart timer. (ADR 0003)
 
-# List available devices
-flutter devices
+### Code generation
+Generated files (`*.g.dart`, `*.freezed.dart`, `lib/l10n/generated/`) are committed but must **never be edited by hand**. After changing an
+annotated class, a Drift table or an ARB file, regenerate with `dart run build_runner build --delete-conflicting-outputs` and
+`flutter gen-l10n`; CI fails if the committed files are stale. Tools: `@riverpod` → `riverpod_generator`, `@freezed` → `freezed`,
+`@JsonSerializable` → `json_serializable`, `@DriftDatabase` / tables → `drift_dev`.
 
-# Run all tests
-flutter test
+### Android
+`android/app/build.gradle.kts` needs `isCoreLibraryDesugaringEnabled = true` and the
+`coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:…")` dependency (already configured) for `flutter_local_notifications`.
 
-# Run a single test file
-flutter test test/core/silver_calculator_test.dart
+## i18n rules
+- No hard-coded user-facing strings. Everything goes in `lib/l10n/app_<locale>.arb`; ship English, German, Spanish and French together
+  (`app_en.arb` is the template).
+- Notification texts go through `NotificationStrings`; the in-app help page under `web/help/` is localised EN, DE, FR, ES as well.
 
-# Lint (CI runs these with --fatal-infos --fatal-warnings)
-flutter analyze --fatal-infos --fatal-warnings
-
-# CI checks, runnable locally (generated check needs a clean working tree)
-tool/check_format.sh
-tool/check_generated.sh
-
-# Regenerate code (freezed, riverpod_generator, drift, json_serializable)
-dart run build_runner build --delete-conflicting-outputs
-
-# Watch mode for code generation
-dart run build_runner watch --delete-conflicting-outputs
-```
-
-## Architecture
-
-The app follows a feature-first structure under `lib/features/`, with shared infrastructure in `lib/core/`.
-
-**State management:** Riverpod with `@riverpod` / `@Riverpod(keepAlive:)` annotations. All controllers use `riverpod_generator` — run `build_runner` after modifying any annotated class.
-
-**Navigation:** `go_router` with a `ShellRoute` wrapping the three main tabs (Calculator → Timer → History) inside `AppScaffold`. Settings is a full-screen push route at `/settings`. The `/timer` route has a redirect guard: it bounces to `/calculator` if no calculation result exists yet.
-
-**Features:**
-
-| Feature | Key files | Notes |
-|---|---|---|
-| Calculator | `calculator_controller.dart`, `silver_calculator.dart` | Reads inputs, calls `SilverCalculator.calculate()`, stores `lastResult` |
-| Timer | `timer_controller.dart`, `timer_state.dart` | `keepAlive: true`; tracks `idle/paused/running/completed` states; wall-clock anchored (survives background) |
-| History | `history_database.dart`, `history_repository.dart` | Drift/SQLite; auto-saves completed sessions |
-| Settings | `settings_repository.dart`, `app_settings.freezed.dart` | Persisted via `SharedPreferences`; keys in `AppConstants` |
-| Notifications | `notification_service.dart` | `flutter_local_notifications`; scheduled OS notifications for completion + electrode cleaning alarms |
-
-**Data models** use `freezed` + `json_serializable`. Always regenerate after editing `.dart` files that have `part '*.freezed.dart'` or `part '*.g.dart'`.
-
-**Core domain logic** lives in `lib/core/utils/silver_calculator.dart` — a pure, stateless class with no Flutter dependencies, making it easy to unit test.
-
-## Code Generation
-
-Many files are generated — never edit `*.g.dart` or `*.freezed.dart` by hand. Key annotations and which tool handles them:
-
-- `@riverpod` / `@Riverpod` → `riverpod_generator`
-- `@freezed` → `freezed`
-- `@JsonSerializable` → `json_serializable`
-- `@DriftDatabase` / table classes → `drift_dev`
-
-## Android-Specific Notes
-
-`android/app/build.gradle.kts` requires `isCoreLibraryDesugaringEnabled = true` and the `coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")` dependency (already configured) for `flutter_local_notifications`.
-
-## Timer State Machine
-
-`TimerController` (`keepAlive: true`) transitions: `idle → paused → running → completed`. The running state anchors to `startedAt` (wall clock) so elapsed time is always recalculated via `DateTime.now().difference(startedAt)` — ticker drift and backgrounding are handled in `onAppResumed()`.
-
-Electrode cleaning alarms are pre-scheduled as OS notifications on `start()` and cancelled on `pause()` / `reset()`, then rebuilt on the next `start()`.
-
-## Branching
-
-The `main` branch on origin is **protected** — direct pushes are not allowed.
-There is no long-lived `dev` branch: work on a short-lived feature branch (`feat/…`, `fix/…`, `ci/…`, `release/vX.Y.Z`) cut from an up-to-date `main`, and merge it with a Pull Request using **squash** (the only merge method enabled; branches are deleted on merge). Use Conventional Commit messages; the PR title becomes the squash commit title.
-Never instruct the user to `git push origin main` directly; always create a PR instead.
-
-## Versioning
-
-**Never edit `pubspec.yaml` version manually.** Always use the version bump script:
-
-```bash
-# Bump patch (e.g. 2.0.0 → 2.0.1)
-bash /Volumes/Crucial_X9/Development/silvertimer_flutter/tool/bump_version.sh patch
-
-# Bump minor (e.g. 2.0.0 → 2.1.0)
-bash /Volumes/Crucial_X9/Development/silvertimer_flutter/tool/bump_version.sh minor
-
-# Bump major (e.g. 2.0.0 → 3.0.0)
-bash /Volumes/Crucial_X9/Development/silvertimer_flutter/tool/bump_version.sh major
-```
-
-The script updates `pubspec.yaml` (version + build number) and must be run before every release commit. Releases are published by pushing a `vX.Y.Z` tag, which runs `.github/workflows/release.yml`; the full process is in `docs/release.md`.
-
-## Documentation
-
-**After every feature, fix, or release — without exception:**
-
-- **CHANGELOG.md** — add an entry under the appropriate version heading (`## [x.y.z]`) describing what changed. Follow the Keep a Changelog format (Added / Changed / Fixed / Removed).
-- **README.md** — update whenever the change affects setup steps, features, screenshots, or usage instructions visible to contributors or users.
-
-Both files must be updated in the same commit as the code change — never leave them stale.
-
-## Coding style
-
-Use prettier before commiting changes.
-
-## File header
-
-Every new hand-written `.dart` source file must start with this copyright header (two lines, then a blank line before the first import):
+## Code style and headers
+- `dart format` with page width 100 (`tool/check_format.sh` checks all hand-written files); `analysis_options.yaml` is the lint source of truth.
+  Use prettier for non-Dart files (Markdown, YAML, JSON) before committing.
+- Every new hand-written `.dart` file starts with this header, then a blank line before the first import:
 
 ```dart
 // Copyright (C) 2026 Jörg Holzapfel
 // SPDX-License-Identifier: GPL-3.0-or-later
 ```
 
-Generated files (`*.g.dart`, `*.freezed.dart`, `l10n/generated/`) are exempt — they are overwritten by tooling and must not be edited manually.
+Generated files are exempt.
+
+## Versioning
+**Never edit the `pubspec.yaml` version by hand.** Use the bump script on a release branch; it updates version and build number
+(the build number always increases, never resets) and pauses so the `CHANGELOG.md` section can be moved from `[Unreleased]` in the same commit:
+
+```bash
+tool/bump_version.sh patch   # or minor | major | 1.2.3
+```
+
+After the release PR is merged, push the tag `vX.Y.Z`; `.github/workflows/release.yml` builds and publishes web, Android and iOS and creates
+the GitHub release. Run its dry run (publish off) after changing release tooling. Process, secrets and the pinned Flutter/Ruby versions:
+`docs/release.md`, ADR 0008.
+
+## Documentation
+After every feature, fix or release, in the same commit as the code change:
+- `CHANGELOG.md`: entry under `## [Unreleased]` (or the version heading), Keep a Changelog style (Added / Changed / Fixed / Removed / Security).
+- `README.md`: update when setup, features, screenshots or usage change.
+
+| Topic | Document |
+|---|---|
+| Index of all docs | `docs/README.md` |
+| Release process, secrets, dry run | `docs/release.md` |
+| Why things are the way they are | `docs/adr/` |
+| Workflow for contributors | `CONTRIBUTING.md` |
+| Security policy | `SECURITY.md` |
+
+## Security and supply chain
+- No secrets, keystores or signing material in the repo (`android/key.properties`, `*.jks`, `fastlane/.env` stay untracked); CI gets them from
+  repository secrets.
+- GitHub Actions are pinned to full commit SHAs and Flutter/Ruby to exact versions (ADR 0010). When bumping Flutter, update `FLUTTER_VERSION`
+  in `ci.yml`, `release.yml`, `codeql.yml` and `screenshots.yml` together, and `.ruby-version` for Ruby.
+- Dependabot PRs cannot regenerate code: if one fails the generated-code check, regenerate and push the result.
+
+## Definition of Done (every change)
+1. `tool/check_format.sh` is clean, `flutter analyze --fatal-infos --fatal-warnings` reports nothing, `flutter test` passes.
+2. Generated code is up to date (`tool/check_generated.sh` on a clean tree).
+3. No hard-coded strings; all four ARB files updated.
+4. New `.dart` files carry the GPL header.
+5. `CHANGELOG.md` updated, and `README.md` if user- or contributor-visible.
+6. An ADR is written if a significant decision was made.
+
+## Useful commands
+```bash
+flutter pub get                                      # resolve dependencies
+flutter run                                          # run on a connected device/emulator (flutter devices lists them)
+flutter test                                         # all tests
+flutter test test/core/silver_calculator_test.dart   # a single test file
+flutter analyze --fatal-infos --fatal-warnings       # lint, as CI runs it
+tool/check_format.sh                                 # formatting of hand-written Dart
+tool/check_generated.sh                              # regenerate and fail on a diff (needs a clean working tree)
+dart run build_runner build --delete-conflicting-outputs   # regenerate code (watch: replace build with watch)
+flutter gen-l10n                                     # regenerate localizations
+tool/bump_version.sh patch|minor|major|X.Y.Z         # version bump for a release branch
+tool/take_screenshots.sh [ios|android|both]          # store screenshots (see fastlane/)
+```
