@@ -1329,7 +1329,16 @@ class $$SessionRecordsTableTableManager
                 deviceAutoPolarity: deviceAutoPolarity,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<$SessionRecordsTable, SessionRecord>(table),
+                  BaseReferences<
+                    _$HistoryDatabase,
+                    $SessionRecordsTable,
+                    SessionRecord
+                  >(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
@@ -1353,20 +1362,18 @@ typedef $$SessionRecordsTableProcessedTableManager =
       SessionRecord,
       PrefetchHooks Function()
     >;
-typedef $$DevicesTableCreateCompanionBuilder =
-    DevicesCompanion Function({
-      Value<int> id,
-      required String name,
-      required double currentMilliamps,
-      Value<bool> supportsAutoPolarity,
-    });
-typedef $$DevicesTableUpdateCompanionBuilder =
-    DevicesCompanion Function({
-      Value<int> id,
-      Value<String> name,
-      Value<double> currentMilliamps,
-      Value<bool> supportsAutoPolarity,
-    });
+typedef $$DevicesTableCreateCompanionBuilder = DevicesCompanion Function({
+  Value<int> id,
+  required String name,
+  required double currentMilliamps,
+  Value<bool> supportsAutoPolarity,
+});
+typedef $$DevicesTableUpdateCompanionBuilder = DevicesCompanion Function({
+  Value<int> id,
+  Value<String> name,
+  Value<double> currentMilliamps,
+  Value<bool> supportsAutoPolarity,
+});
 
 class $$DevicesTableFilterComposer
     extends Composer<_$HistoryDatabase, $DevicesTable> {
@@ -1505,7 +1512,16 @@ class $$DevicesTableTableManager
                 supportsAutoPolarity: supportsAutoPolarity,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<$DevicesTable, Device>(table),
+                  BaseReferences<_$HistoryDatabase, $DevicesTable, Device>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),

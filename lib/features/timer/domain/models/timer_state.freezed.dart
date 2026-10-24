@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'timer_state.dart';
@@ -9,6 +9,7 @@ part of 'timer_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -20,7 +21,7 @@ mixin _$TimerState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TimerState);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is TimerState);
 }
 
 
@@ -29,7 +30,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'TimerState()';
+    return 'TimerState()';
 }
 
 
@@ -197,7 +198,7 @@ class TimerIdle implements TimerState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TimerIdle);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is TimerIdle);
 }
 
 
@@ -206,7 +207,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'TimerState.idle()';
+    return 'TimerState.idle()';
 }
 
 
@@ -236,16 +237,18 @@ $TimerRunningCopyWith<TimerRunning> get copyWith => _$TimerRunningCopyWithImpl<T
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TimerRunning&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.elapsed, elapsed) || other.elapsed == elapsed)&&(identical(other.startedAt, startedAt) || other.startedAt == startedAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is TimerRunning&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.elapsed, elapsed) || other.elapsed == elapsed)&&(identical(other.startedAt, startedAt) || other.startedAt == startedAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,totalDuration,elapsed,startedAt);
+int get hashCode {
+    return Object.hash(runtimeType,totalDuration,elapsed,startedAt);
+}
 
 @override
 String toString() {
-  return 'TimerState.running(totalDuration: $totalDuration, elapsed: $elapsed, startedAt: $startedAt)';
+    return 'TimerState.running(totalDuration: $totalDuration, elapsed: $elapsed, startedAt: $startedAt)';
 }
 
 
@@ -305,16 +308,18 @@ $TimerPausedCopyWith<TimerPaused> get copyWith => _$TimerPausedCopyWithImpl<Time
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TimerPaused&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.elapsed, elapsed) || other.elapsed == elapsed));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is TimerPaused&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.elapsed, elapsed) || other.elapsed == elapsed));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,totalDuration,elapsed);
+int get hashCode {
+    return Object.hash(runtimeType,totalDuration,elapsed);
+}
 
 @override
 String toString() {
-  return 'TimerState.paused(totalDuration: $totalDuration, elapsed: $elapsed)';
+    return 'TimerState.paused(totalDuration: $totalDuration, elapsed: $elapsed)';
 }
 
 
@@ -372,16 +377,18 @@ $TimerCompletedCopyWith<TimerCompleted> get copyWith => _$TimerCompletedCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TimerCompleted&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is TimerCompleted&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,totalDuration);
+int get hashCode {
+    return Object.hash(runtimeType,totalDuration);
+}
 
 @override
 String toString() {
-  return 'TimerState.completed(totalDuration: $totalDuration)';
+    return 'TimerState.completed(totalDuration: $totalDuration)';
 }
 
 

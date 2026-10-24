@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'session_record.dart';
@@ -9,6 +9,7 @@ part of 'session_record.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $SessionRecordCopyWith<SessionRecord> get copyWith => _$SessionRecordCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.volumeLiters, volumeLiters) || other.volumeLiters == volumeLiters)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.targetPpm, targetPpm) || other.targetPpm == targetPpm)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt)&&(identical(other.completed, completed) || other.completed == completed)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.deviceName, deviceName) || other.deviceName == deviceName)&&(identical(other.deviceCurrentMa, deviceCurrentMa) || other.deviceCurrentMa == deviceCurrentMa)&&(identical(other.deviceAutoPolarity, deviceAutoPolarity) || other.deviceAutoPolarity == deviceAutoPolarity));
+  final _this = this as SessionRecord;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionRecord&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.volumeLiters, _this.volumeLiters) || other.volumeLiters == _this.volumeLiters)&&(identical(other.currentMilliamps, _this.currentMilliamps) || other.currentMilliamps == _this.currentMilliamps)&&(identical(other.targetPpm, _this.targetPpm) || other.targetPpm == _this.targetPpm)&&(identical(other.durationSeconds, _this.durationSeconds) || other.durationSeconds == _this.durationSeconds)&&(identical(other.completedAt, _this.completedAt) || other.completedAt == _this.completedAt)&&(identical(other.completed, _this.completed) || other.completed == _this.completed)&&(identical(other.deviceId, _this.deviceId) || other.deviceId == _this.deviceId)&&(identical(other.deviceName, _this.deviceName) || other.deviceName == _this.deviceName)&&(identical(other.deviceCurrentMa, _this.deviceCurrentMa) || other.deviceCurrentMa == _this.deviceCurrentMa)&&(identical(other.deviceAutoPolarity, _this.deviceAutoPolarity) || other.deviceAutoPolarity == _this.deviceAutoPolarity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,volumeLiters,currentMilliamps,targetPpm,durationSeconds,completedAt,completed,deviceId,deviceName,deviceCurrentMa,deviceAutoPolarity);
+int get hashCode {
+  final _this = this as SessionRecord;
+  return Object.hash(runtimeType,_this.id,_this.volumeLiters,_this.currentMilliamps,_this.targetPpm,_this.durationSeconds,_this.completedAt,_this.completed,_this.deviceId,_this.deviceName,_this.deviceCurrentMa,_this.deviceAutoPolarity);
+}
 
 @override
 String toString() {
-  return 'SessionRecord(id: $id, volumeLiters: $volumeLiters, currentMilliamps: $currentMilliamps, targetPpm: $targetPpm, durationSeconds: $durationSeconds, completedAt: $completedAt, completed: $completed, deviceId: $deviceId, deviceName: $deviceName, deviceCurrentMa: $deviceCurrentMa, deviceAutoPolarity: $deviceAutoPolarity)';
+  final _this = this as SessionRecord;
+  return 'SessionRecord(id: ${_this.id}, volumeLiters: ${_this.volumeLiters}, currentMilliamps: ${_this.currentMilliamps}, targetPpm: ${_this.targetPpm}, durationSeconds: ${_this.durationSeconds}, completedAt: ${_this.completedAt}, completed: ${_this.completed}, deviceId: ${_this.deviceId}, deviceName: ${_this.deviceName}, deviceCurrentMa: ${_this.deviceCurrentMa}, deviceAutoPolarity: ${_this.deviceAutoPolarity})';
 }
 
 
@@ -66,7 +72,7 @@ class _$SessionRecordCopyWithImpl<$Res>
 /// Create a copy of SessionRecord
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? volumeLiters = null,Object? currentMilliamps = null,Object? targetPpm = null,Object? durationSeconds = null,Object? completedAt = null,Object? completed = null,Object? deviceId = freezed,Object? deviceName = freezed,Object? deviceCurrentMa = freezed,Object? deviceAutoPolarity = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(SessionRecord(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,volumeLiters: null == volumeLiters ? _self.volumeLiters : volumeLiters // ignore: cast_nullable_to_non_nullable
 as double,currentMilliamps: null == currentMilliamps ? _self.currentMilliamps : currentMilliamps // ignore: cast_nullable_to_non_nullable
@@ -247,16 +253,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.volumeLiters, volumeLiters) || other.volumeLiters == volumeLiters)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.targetPpm, targetPpm) || other.targetPpm == targetPpm)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt)&&(identical(other.completed, completed) || other.completed == completed)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.deviceName, deviceName) || other.deviceName == deviceName)&&(identical(other.deviceCurrentMa, deviceCurrentMa) || other.deviceCurrentMa == deviceCurrentMa)&&(identical(other.deviceAutoPolarity, deviceAutoPolarity) || other.deviceAutoPolarity == deviceAutoPolarity));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.volumeLiters, volumeLiters) || other.volumeLiters == volumeLiters)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.targetPpm, targetPpm) || other.targetPpm == targetPpm)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt)&&(identical(other.completed, completed) || other.completed == completed)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.deviceName, deviceName) || other.deviceName == deviceName)&&(identical(other.deviceCurrentMa, deviceCurrentMa) || other.deviceCurrentMa == deviceCurrentMa)&&(identical(other.deviceAutoPolarity, deviceAutoPolarity) || other.deviceAutoPolarity == deviceAutoPolarity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,volumeLiters,currentMilliamps,targetPpm,durationSeconds,completedAt,completed,deviceId,deviceName,deviceCurrentMa,deviceAutoPolarity);
+int get hashCode {
+    return Object.hash(runtimeType,id,volumeLiters,currentMilliamps,targetPpm,durationSeconds,completedAt,completed,deviceId,deviceName,deviceCurrentMa,deviceAutoPolarity);
+}
 
 @override
 String toString() {
-  return 'SessionRecord(id: $id, volumeLiters: $volumeLiters, currentMilliamps: $currentMilliamps, targetPpm: $targetPpm, durationSeconds: $durationSeconds, completedAt: $completedAt, completed: $completed, deviceId: $deviceId, deviceName: $deviceName, deviceCurrentMa: $deviceCurrentMa, deviceAutoPolarity: $deviceAutoPolarity)';
+    return 'SessionRecord(id: $id, volumeLiters: $volumeLiters, currentMilliamps: $currentMilliamps, targetPpm: $targetPpm, durationSeconds: $durationSeconds, completedAt: $completedAt, completed: $completed, deviceId: $deviceId, deviceName: $deviceName, deviceCurrentMa: $deviceCurrentMa, deviceAutoPolarity: $deviceAutoPolarity)';
 }
 
 
