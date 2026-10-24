@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'device.dart';
@@ -9,6 +9,7 @@ part of 'device.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $DeviceCopyWith<Device> get copyWith => _$DeviceCopyWithImpl<Device>(this as Dev
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Device&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.supportsAutoPolarity, supportsAutoPolarity) || other.supportsAutoPolarity == supportsAutoPolarity));
+  final _this = this as Device;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Device&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.currentMilliamps, _this.currentMilliamps) || other.currentMilliamps == _this.currentMilliamps)&&(identical(other.supportsAutoPolarity, _this.supportsAutoPolarity) || other.supportsAutoPolarity == _this.supportsAutoPolarity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,currentMilliamps,supportsAutoPolarity);
+int get hashCode {
+  final _this = this as Device;
+  return Object.hash(runtimeType,_this.id,_this.name,_this.currentMilliamps,_this.supportsAutoPolarity);
+}
 
 @override
 String toString() {
-  return 'Device(id: $id, name: $name, currentMilliamps: $currentMilliamps, supportsAutoPolarity: $supportsAutoPolarity)';
+  final _this = this as Device;
+  return 'Device(id: ${_this.id}, name: ${_this.name}, currentMilliamps: ${_this.currentMilliamps}, supportsAutoPolarity: ${_this.supportsAutoPolarity})';
 }
 
 
@@ -66,7 +72,7 @@ class _$DeviceCopyWithImpl<$Res>
 /// Create a copy of Device
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? currentMilliamps = null,Object? supportsAutoPolarity = null,}) {
-  return _then(_self.copyWith(
+  return _then(Device(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,currentMilliamps: null == currentMilliamps ? _self.currentMilliamps : currentMilliamps // ignore: cast_nullable_to_non_nullable
@@ -233,16 +239,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Device&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.supportsAutoPolarity, supportsAutoPolarity) || other.supportsAutoPolarity == supportsAutoPolarity));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Device&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.supportsAutoPolarity, supportsAutoPolarity) || other.supportsAutoPolarity == supportsAutoPolarity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,currentMilliamps,supportsAutoPolarity);
+int get hashCode {
+    return Object.hash(runtimeType,id,name,currentMilliamps,supportsAutoPolarity);
+}
 
 @override
 String toString() {
-  return 'Device(id: $id, name: $name, currentMilliamps: $currentMilliamps, supportsAutoPolarity: $supportsAutoPolarity)';
+    return 'Device(id: $id, name: $name, currentMilliamps: $currentMilliamps, supportsAutoPolarity: $supportsAutoPolarity)';
 }
 
 

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'calculation_result.dart';
@@ -9,6 +9,7 @@ part of 'calculation_result.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $CalculationResultCopyWith<CalculationResult> get copyWith => _$CalculationResul
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalculationResult&&(identical(other.input, input) || other.input == input)&&(identical(other.calculatedDuration, calculatedDuration) || other.calculatedDuration == calculatedDuration)&&(identical(other.calculatedAt, calculatedAt) || other.calculatedAt == calculatedAt));
+  final _this = this as CalculationResult;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalculationResult&&(identical(other.input, _this.input) || other.input == _this.input)&&(identical(other.calculatedDuration, _this.calculatedDuration) || other.calculatedDuration == _this.calculatedDuration)&&(identical(other.calculatedAt, _this.calculatedAt) || other.calculatedAt == _this.calculatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,input,calculatedDuration,calculatedAt);
+int get hashCode {
+  final _this = this as CalculationResult;
+  return Object.hash(runtimeType,_this.input,_this.calculatedDuration,_this.calculatedAt);
+}
 
 @override
 String toString() {
-  return 'CalculationResult(input: $input, calculatedDuration: $calculatedDuration, calculatedAt: $calculatedAt)';
+  final _this = this as CalculationResult;
+  return 'CalculationResult(input: ${_this.input}, calculatedDuration: ${_this.calculatedDuration}, calculatedAt: ${_this.calculatedAt})';
 }
 
 
@@ -66,7 +72,7 @@ class _$CalculationResultCopyWithImpl<$Res>
 /// Create a copy of CalculationResult
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? input = null,Object? calculatedDuration = null,Object? calculatedAt = null,}) {
-  return _then(_self.copyWith(
+  return _then(CalculationResult(
 input: null == input ? _self.input : input // ignore: cast_nullable_to_non_nullable
 as CalculatorInput,calculatedDuration: null == calculatedDuration ? _self.calculatedDuration : calculatedDuration // ignore: cast_nullable_to_non_nullable
 as Duration,calculatedAt: null == calculatedAt ? _self.calculatedAt : calculatedAt // ignore: cast_nullable_to_non_nullable
@@ -240,16 +246,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalculationResult&&(identical(other.input, input) || other.input == input)&&(identical(other.calculatedDuration, calculatedDuration) || other.calculatedDuration == calculatedDuration)&&(identical(other.calculatedAt, calculatedAt) || other.calculatedAt == calculatedAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalculationResult&&(identical(other.input, input) || other.input == input)&&(identical(other.calculatedDuration, calculatedDuration) || other.calculatedDuration == calculatedDuration)&&(identical(other.calculatedAt, calculatedAt) || other.calculatedAt == calculatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,input,calculatedDuration,calculatedAt);
+int get hashCode {
+    return Object.hash(runtimeType,input,calculatedDuration,calculatedAt);
+}
 
 @override
 String toString() {
-  return 'CalculationResult(input: $input, calculatedDuration: $calculatedDuration, calculatedAt: $calculatedAt)';
+    return 'CalculationResult(input: $input, calculatedDuration: $calculatedDuration, calculatedAt: $calculatedAt)';
 }
 
 

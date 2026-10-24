@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'calculator_input.dart';
@@ -9,6 +9,7 @@ part of 'calculator_input.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $CalculatorInputCopyWith<CalculatorInput> get copyWith => _$CalculatorInputCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalculatorInput&&(identical(other.volumeValue, volumeValue) || other.volumeValue == volumeValue)&&(identical(other.volumeUnit, volumeUnit) || other.volumeUnit == volumeUnit)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.targetPpm, targetPpm) || other.targetPpm == targetPpm)&&(identical(other.selectedDevice, selectedDevice) || other.selectedDevice == selectedDevice));
+  final _this = this as CalculatorInput;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalculatorInput&&(identical(other.volumeValue, _this.volumeValue) || other.volumeValue == _this.volumeValue)&&(identical(other.volumeUnit, _this.volumeUnit) || other.volumeUnit == _this.volumeUnit)&&(identical(other.currentMilliamps, _this.currentMilliamps) || other.currentMilliamps == _this.currentMilliamps)&&(identical(other.targetPpm, _this.targetPpm) || other.targetPpm == _this.targetPpm)&&(identical(other.selectedDevice, _this.selectedDevice) || other.selectedDevice == _this.selectedDevice));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,volumeValue,volumeUnit,currentMilliamps,targetPpm,selectedDevice);
+int get hashCode {
+  final _this = this as CalculatorInput;
+  return Object.hash(runtimeType,_this.volumeValue,_this.volumeUnit,_this.currentMilliamps,_this.targetPpm,_this.selectedDevice);
+}
 
 @override
 String toString() {
-  return 'CalculatorInput(volumeValue: $volumeValue, volumeUnit: $volumeUnit, currentMilliamps: $currentMilliamps, targetPpm: $targetPpm, selectedDevice: $selectedDevice)';
+  final _this = this as CalculatorInput;
+  return 'CalculatorInput(volumeValue: ${_this.volumeValue}, volumeUnit: ${_this.volumeUnit}, currentMilliamps: ${_this.currentMilliamps}, targetPpm: ${_this.targetPpm}, selectedDevice: ${_this.selectedDevice})';
 }
 
 
@@ -66,7 +72,7 @@ class _$CalculatorInputCopyWithImpl<$Res>
 /// Create a copy of CalculatorInput
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? volumeValue = null,Object? volumeUnit = null,Object? currentMilliamps = null,Object? targetPpm = null,Object? selectedDevice = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(CalculatorInput(
 volumeValue: null == volumeValue ? _self.volumeValue : volumeValue // ignore: cast_nullable_to_non_nullable
 as double,volumeUnit: null == volumeUnit ? _self.volumeUnit : volumeUnit // ignore: cast_nullable_to_non_nullable
 as VolumeUnit,currentMilliamps: null == currentMilliamps ? _self.currentMilliamps : currentMilliamps // ignore: cast_nullable_to_non_nullable
@@ -247,16 +253,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalculatorInput&&(identical(other.volumeValue, volumeValue) || other.volumeValue == volumeValue)&&(identical(other.volumeUnit, volumeUnit) || other.volumeUnit == volumeUnit)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.targetPpm, targetPpm) || other.targetPpm == targetPpm)&&(identical(other.selectedDevice, selectedDevice) || other.selectedDevice == selectedDevice));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalculatorInput&&(identical(other.volumeValue, volumeValue) || other.volumeValue == volumeValue)&&(identical(other.volumeUnit, volumeUnit) || other.volumeUnit == volumeUnit)&&(identical(other.currentMilliamps, currentMilliamps) || other.currentMilliamps == currentMilliamps)&&(identical(other.targetPpm, targetPpm) || other.targetPpm == targetPpm)&&(identical(other.selectedDevice, selectedDevice) || other.selectedDevice == selectedDevice));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,volumeValue,volumeUnit,currentMilliamps,targetPpm,selectedDevice);
+int get hashCode {
+    return Object.hash(runtimeType,volumeValue,volumeUnit,currentMilliamps,targetPpm,selectedDevice);
+}
 
 @override
 String toString() {
-  return 'CalculatorInput(volumeValue: $volumeValue, volumeUnit: $volumeUnit, currentMilliamps: $currentMilliamps, targetPpm: $targetPpm, selectedDevice: $selectedDevice)';
+    return 'CalculatorInput(volumeValue: $volumeValue, volumeUnit: $volumeUnit, currentMilliamps: $currentMilliamps, targetPpm: $targetPpm, selectedDevice: $selectedDevice)';
 }
 
 

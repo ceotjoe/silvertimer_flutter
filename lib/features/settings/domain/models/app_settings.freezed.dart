@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'app_settings.dart';
@@ -9,6 +9,7 @@ part of 'app_settings.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $AppSettingsCopyWith<AppSettings> get copyWith => _$AppSettingsCopyWithImpl<AppS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppSettings&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.defaultVolumeUnit, defaultVolumeUnit) || other.defaultVolumeUnit == defaultVolumeUnit)&&(identical(other.notificationsEnabled, notificationsEnabled) || other.notificationsEnabled == notificationsEnabled)&&(identical(other.defaultPpm, defaultPpm) || other.defaultPpm == defaultPpm)&&(identical(other.defaultCurrentMa, defaultCurrentMa) || other.defaultCurrentMa == defaultCurrentMa)&&(identical(other.cleaningAlarmsEnabled, cleaningAlarmsEnabled) || other.cleaningAlarmsEnabled == cleaningAlarmsEnabled)&&(identical(other.cleaningIntervalMinutes, cleaningIntervalMinutes) || other.cleaningIntervalMinutes == cleaningIntervalMinutes));
+  final _this = this as AppSettings;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppSettings&&(identical(other.themeMode, _this.themeMode) || other.themeMode == _this.themeMode)&&(identical(other.defaultVolumeUnit, _this.defaultVolumeUnit) || other.defaultVolumeUnit == _this.defaultVolumeUnit)&&(identical(other.notificationsEnabled, _this.notificationsEnabled) || other.notificationsEnabled == _this.notificationsEnabled)&&(identical(other.defaultPpm, _this.defaultPpm) || other.defaultPpm == _this.defaultPpm)&&(identical(other.defaultCurrentMa, _this.defaultCurrentMa) || other.defaultCurrentMa == _this.defaultCurrentMa)&&(identical(other.cleaningAlarmsEnabled, _this.cleaningAlarmsEnabled) || other.cleaningAlarmsEnabled == _this.cleaningAlarmsEnabled)&&(identical(other.cleaningIntervalMinutes, _this.cleaningIntervalMinutes) || other.cleaningIntervalMinutes == _this.cleaningIntervalMinutes));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,themeMode,defaultVolumeUnit,notificationsEnabled,defaultPpm,defaultCurrentMa,cleaningAlarmsEnabled,cleaningIntervalMinutes);
+int get hashCode {
+  final _this = this as AppSettings;
+  return Object.hash(runtimeType,_this.themeMode,_this.defaultVolumeUnit,_this.notificationsEnabled,_this.defaultPpm,_this.defaultCurrentMa,_this.cleaningAlarmsEnabled,_this.cleaningIntervalMinutes);
+}
 
 @override
 String toString() {
-  return 'AppSettings(themeMode: $themeMode, defaultVolumeUnit: $defaultVolumeUnit, notificationsEnabled: $notificationsEnabled, defaultPpm: $defaultPpm, defaultCurrentMa: $defaultCurrentMa, cleaningAlarmsEnabled: $cleaningAlarmsEnabled, cleaningIntervalMinutes: $cleaningIntervalMinutes)';
+  final _this = this as AppSettings;
+  return 'AppSettings(themeMode: ${_this.themeMode}, defaultVolumeUnit: ${_this.defaultVolumeUnit}, notificationsEnabled: ${_this.notificationsEnabled}, defaultPpm: ${_this.defaultPpm}, defaultCurrentMa: ${_this.defaultCurrentMa}, cleaningAlarmsEnabled: ${_this.cleaningAlarmsEnabled}, cleaningIntervalMinutes: ${_this.cleaningIntervalMinutes})';
 }
 
 
@@ -63,7 +69,7 @@ class _$AppSettingsCopyWithImpl<$Res>
 /// Create a copy of AppSettings
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? defaultVolumeUnit = null,Object? notificationsEnabled = null,Object? defaultPpm = null,Object? defaultCurrentMa = null,Object? cleaningAlarmsEnabled = null,Object? cleaningIntervalMinutes = null,}) {
-  return _then(_self.copyWith(
+  return _then(AppSettings(
 themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as ThemeMode,defaultVolumeUnit: null == defaultVolumeUnit ? _self.defaultVolumeUnit : defaultVolumeUnit // ignore: cast_nullable_to_non_nullable
 as VolumeUnit,notificationsEnabled: null == notificationsEnabled ? _self.notificationsEnabled : notificationsEnabled // ignore: cast_nullable_to_non_nullable
@@ -233,16 +239,18 @@ _$AppSettingsCopyWith<_AppSettings> get copyWith => __$AppSettingsCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppSettings&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.defaultVolumeUnit, defaultVolumeUnit) || other.defaultVolumeUnit == defaultVolumeUnit)&&(identical(other.notificationsEnabled, notificationsEnabled) || other.notificationsEnabled == notificationsEnabled)&&(identical(other.defaultPpm, defaultPpm) || other.defaultPpm == defaultPpm)&&(identical(other.defaultCurrentMa, defaultCurrentMa) || other.defaultCurrentMa == defaultCurrentMa)&&(identical(other.cleaningAlarmsEnabled, cleaningAlarmsEnabled) || other.cleaningAlarmsEnabled == cleaningAlarmsEnabled)&&(identical(other.cleaningIntervalMinutes, cleaningIntervalMinutes) || other.cleaningIntervalMinutes == cleaningIntervalMinutes));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppSettings&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.defaultVolumeUnit, defaultVolumeUnit) || other.defaultVolumeUnit == defaultVolumeUnit)&&(identical(other.notificationsEnabled, notificationsEnabled) || other.notificationsEnabled == notificationsEnabled)&&(identical(other.defaultPpm, defaultPpm) || other.defaultPpm == defaultPpm)&&(identical(other.defaultCurrentMa, defaultCurrentMa) || other.defaultCurrentMa == defaultCurrentMa)&&(identical(other.cleaningAlarmsEnabled, cleaningAlarmsEnabled) || other.cleaningAlarmsEnabled == cleaningAlarmsEnabled)&&(identical(other.cleaningIntervalMinutes, cleaningIntervalMinutes) || other.cleaningIntervalMinutes == cleaningIntervalMinutes));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,themeMode,defaultVolumeUnit,notificationsEnabled,defaultPpm,defaultCurrentMa,cleaningAlarmsEnabled,cleaningIntervalMinutes);
+int get hashCode {
+    return Object.hash(runtimeType,themeMode,defaultVolumeUnit,notificationsEnabled,defaultPpm,defaultCurrentMa,cleaningAlarmsEnabled,cleaningIntervalMinutes);
+}
 
 @override
 String toString() {
-  return 'AppSettings(themeMode: $themeMode, defaultVolumeUnit: $defaultVolumeUnit, notificationsEnabled: $notificationsEnabled, defaultPpm: $defaultPpm, defaultCurrentMa: $defaultCurrentMa, cleaningAlarmsEnabled: $cleaningAlarmsEnabled, cleaningIntervalMinutes: $cleaningIntervalMinutes)';
+    return 'AppSettings(themeMode: $themeMode, defaultVolumeUnit: $defaultVolumeUnit, notificationsEnabled: $notificationsEnabled, defaultPpm: $defaultPpm, defaultCurrentMa: $defaultCurrentMa, cleaningAlarmsEnabled: $cleaningAlarmsEnabled, cleaningIntervalMinutes: $cleaningIntervalMinutes)';
 }
 
 
