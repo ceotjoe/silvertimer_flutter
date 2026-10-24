@@ -79,7 +79,7 @@ Electrode cleaning alarms are pre-scheduled as OS notifications on `start()` and
 ## Branching
 
 The `main` branch on origin is **protected** — direct pushes are not allowed.
-All changes must go through a Pull Request from `dev` (or a feature branch) into `main`.
+There is no long-lived `dev` branch: work on a short-lived feature branch (`feat/…`, `fix/…`, `ci/…`, `release/vX.Y.Z`) cut from an up-to-date `main`, and merge it with a Pull Request using **squash** (the only merge method enabled; branches are deleted on merge). Use Conventional Commit messages; the PR title becomes the squash commit title.
 Never instruct the user to `git push origin main` directly; always create a PR instead.
 
 ## Versioning
