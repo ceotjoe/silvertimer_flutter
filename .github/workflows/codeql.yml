@@ -2,7 +2,7 @@ name: CodeQL Analysis
 
 on:
   pull_request:
-    branches: [main, dev]
+    branches: [main]
   schedule:
     # Weekly scan every Monday at 08:00 UTC — backstop for the rare direct
     # push that doesn't go through a PR.
