@@ -23,6 +23,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - Reformatted `test/shared/widgets/app_width_constraint_test.dart`, the only hand-written file that was not `dart format` clean.
 
 ### Removed
+- Unused `cupertino_icons` dependency (nothing in the app referenced `CupertinoIcons`; the app's Cupertino widgets and colors come from Flutter's own `cupertino.dart`).
 - `bump-version.yml`, `create-release-tag.yml`, `deploy-web.yml`, `deploy-ios.yml` and `deploy-android.yml`, replaced by `release.yml`. The auto-tag workflow is gone because a tag pushed with `GITHUB_TOKEN` never started the deploy workflows (they were being run by hand); tag releases yourself as described in `docs/release.md`.
 
 ### Security
