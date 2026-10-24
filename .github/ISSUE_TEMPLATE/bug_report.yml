@@ -1,0 +1,55 @@
+name: Bug report
+description: Something doesn't work as expected.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping to improve SilverTimer!
+        **Security problems** do not belong here: please use
+        [private vulnerability reporting](https://github.com/ceotjoe/silvertimer_flutter/security/advisories/new).
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. …
+        2. …
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      multiple: true
+      options: [iPhone, iPad, Android phone, Android tablet, macOS, Web]
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS version and device
+      placeholder: e.g. iOS 26.1, iPhone 17 Pro
+  - type: input
+    id: app
+    attributes:
+      label: SilverTimer version
+      description: Shown on the Info screen.
+      placeholder: e.g. 2.4.0
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [Calculator, Timer, Notifications and alarms, History, Devices, Settings, Language / translation, Other]
+  - type: textarea
+    id: details
+    attributes:
+      label: Screenshots or other details
+      description: Remove anything personal that you don't want to share.
