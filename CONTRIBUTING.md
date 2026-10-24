@@ -46,7 +46,8 @@ CI fails if the committed generated files differ from what these commands produc
    - format, analyze and tests pass, and generated code is up to date;
    - no hard-coded user-facing strings: add them to all four ARB files in `lib/l10n/`;
    - new hand-written `.dart` files start with the copyright / SPDX header (see CLAUDE.md);
-   - `CHANGELOG.md` (under *Unreleased*) and, if users or contributors see the change, `README.md` are updated.
+   - `CHANGELOG.md` (under *Unreleased*) and, if users or contributors see the change, `README.md` are updated;
+   - a short ADR in [docs/adr/](docs/adr/) if you made a significant design decision.
 5. Never edit the version in `pubspec.yaml` by hand. Releases are described in [docs/release.md](docs/release.md).
 
 ## Translations

@@ -11,6 +11,7 @@
 - [ ] No hard-coded user-facing strings; added to all four ARB files (`lib/l10n/app_{en,de,es,fr}.arb`)
 - [ ] New hand-written `.dart` files start with the copyright / SPDX header
 - [ ] `CHANGELOG.md` (Unreleased) and, if visible to users or contributors, `README.md` updated
+- [ ] ADR written in `docs/adr/` if a significant decision was made
 - [ ] Commits follow Conventional Commits; the PR title works as the squash commit title
 
 ## How it was tested

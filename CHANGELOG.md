@@ -7,6 +7,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- `docs/` index and architecture decision records: an ADR template and ADRs 0001–0010 documenting existing decisions (state management and navigation, the wall-clock-anchored timer, persistence, pure calculation logic, SPM-only iOS/macOS, GPL-3.0-or-later, release automation, branching and merge policy, supply-chain pinning). The PR template and CONTRIBUTING ask for an ADR when a significant decision is made.
 - Community files: `CODEOWNERS`, a pull request template with a Definition of Done, bug report / feature request / translation issue forms (blank issues disabled; security reports go to private vulnerability reporting), `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1), aligned with the sibling Tideline and FoxGrid projects.
 - `.github/dependabot.yml`: weekly updates for pub (minor/patch grouped), GitHub Actions (workflows and the local `setup-flutter` action) and Gradle, monthly for the Bundler/fastlane gems. The Flutter version pinned in `FLUTTER_VERSION` is not covered and must still be bumped by hand.
 - **CI workflow** (`.github/workflows/ci.yml`) running on every pull request and push to `main`: dependency resolution with `--enforce-lockfile`, a generated-code freshness check (`tool/check_generated.sh`: `build_runner` + `flutter gen-l10n` must leave no diff), a formatting check of hand-written Dart files (`tool/check_format.sh`), `flutter analyze --fatal-infos --fatal-warnings`, and `flutter test`.
