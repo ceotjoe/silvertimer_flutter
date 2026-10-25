@@ -6,6 +6,10 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.4.1] - 2026-10-25
+
+Maintenance release: tooling, CI, documentation and dependency updates; no changes to app behaviour.
+
 ### Added
 - `docs/` index and architecture decision records: an ADR template and ADRs 0001–0010 documenting existing decisions (state management and navigation, the wall-clock-anchored timer, persistence, pure calculation logic, SPM-only iOS/macOS, GPL-3.0-or-later, release automation, branching and merge policy, supply-chain pinning). The PR template and CONTRIBUTING ask for an ADR when a significant decision is made.
 - Community files: `CODEOWNERS`, a pull request template with a Definition of Done, bug report / feature request / translation issue forms (blank issues disabled; security reports go to private vulnerability reporting), `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1), aligned with the sibling Tideline and FoxGrid projects.
@@ -236,7 +240,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - GitHub Actions workflow deploying Flutter web to GitHub Pages on every push
   to `main`
 
-[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.4.0...HEAD
+[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.4.1...HEAD
+[2.4.1]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.4.0...v2.4.1
 [2.4.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.1.5...v2.2.0
