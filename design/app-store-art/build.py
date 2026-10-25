@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Renders the App Store product page header (3840x1646) and search results (3840x2560)
-artwork, EN and DE, into design/app-store-art/. Opaque RGB PNGs, as App Store Connect
+artwork plus the Google Play feature graphic (1024x500), EN and DE, into design/app-store-art/. Opaque RGB PNGs, as App Store Connect
 requires. Same look as design/social-preview/build.py.
 
 Usage: python3 design/app-store-art/build.py   (needs Pillow, macOS Helvetica Neue)
@@ -116,10 +116,28 @@ def search(lang, icon):
     return canvas
 
 
+def feature(lang, icon):
+    """Google Play feature graphic; drawn at 2x and downsampled. Content stays central."""
+    w, h = 2048, 1000
+    t = TEXT[lang]
+    canvas = background(w, h, icon)
+    isz = 400
+    ix, iy = 260, (h - isz) // 2
+    canvas = paste_icon(canvas, icon, ix, iy, isz)
+    d = ImageDraw.Draw(canvas)
+    tx = ix + isz + 90
+    d.text((tx, 270), "SilverTimer", font=font(150, True), fill=WHITE)
+    d.text((tx + 4, 470), t["sub"][0], font=font(52), fill=SUBTLE)
+    d.text((tx + 4, 535), t["sub"][1], font=font(52), fill=SUBTLE)
+    d.text((tx + 4, 660), t["header_tag"][0], font=font(76, True), fill=WHITE)
+    d.text((tx + 4, 750), t["header_tag"][1], font=font(76, True), fill=(120, 190, 255))
+    return canvas.resize((1024, 500), Image.LANCZOS)
+
+
 def main():
     icon = Image.open(ROOT / "assets/images/icon.png").convert("RGBA")
     for lang in TEXT:
-        for name, fn in (("header", header), ("search", search)):
+        for name, fn in (("header", header), ("search", search), ("feature", feature)):
             path = OUT / f"{name}-{lang}.png"
             fn(lang, icon).convert("RGB").save(path, optimize=True)
             print(path.relative_to(ROOT), path.stat().st_size // 1024, "KiB")
