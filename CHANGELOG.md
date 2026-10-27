@@ -6,6 +6,9 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- App Store product page header (3840×1646) and search results (3840×2560) artwork and the Google Play feature graphic (1024×500) in English and German, opaque RGB PNGs, with their generator script in `design/app-store-art/`.
+
 ## [2.4.1] - 2026-10-25
 
 Maintenance release: tooling, CI, documentation and dependency updates; no changes to app behaviour.
