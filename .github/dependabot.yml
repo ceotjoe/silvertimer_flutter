@@ -15,6 +15,10 @@ updates:
       - "/.github/actions/*"
     schedule:
       interval: weekly
+    groups:
+      # init and analyze must always run the same version.
+      codeql-action:
+        patterns: ["github/codeql-action/*"]
   - package-ecosystem: gradle
     directory: "/android"
     schedule:

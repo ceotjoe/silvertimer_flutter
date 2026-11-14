@@ -6,6 +6,9 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- CodeQL `init` and `analyze` actions bumped to 4.39.3 together; Dependabot now groups `github/codeql-action/*` so they never diverge.
+
 ### Added
 - App Store product page header (3840×1646) and search results (3840×2560) artwork and the Google Play feature graphic (1024×500) in English and German, opaque RGB PNGs, with their generator script in `design/app-store-art/`.
 
