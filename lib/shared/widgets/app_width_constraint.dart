@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Letterboxes the app to a phone-width column on web and macOS, so a wide
 /// browser window or a resized macOS window doesn't stretch layouts that

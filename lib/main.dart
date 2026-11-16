@@ -1,8 +1,8 @@
 // Copyright (C) 2026 Jörg Holzapfel
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silvertimer_flutter/app.dart';
 import 'package:silvertimer_flutter/features/settings/data/settings_repository.dart';

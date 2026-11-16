@@ -1,8 +1,8 @@
 // Copyright (C) 2026 Jörg Holzapfel
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculator_input.dart';
 
 part 'app_settings.freezed.dart';

@@ -1,8 +1,8 @@
 // Copyright (C) 2026 Jörg Holzapfel
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';
 import 'package:silvertimer_flutter/features/devices/domain/models/device.dart';
 import 'package:silvertimer_flutter/features/devices/presentation/devices_controller.dart';

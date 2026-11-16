@@ -27,3 +27,4 @@ for decisions that were already in place.
 | [0008](adr/0008-release-automation.md) | Tag-triggered release workflow with fastlane |
 | [0009](adr/0009-branching-and-merge-policy.md) | Short-lived branches, squash merges, required CI |
 | [0010](adr/0010-supply-chain-pinning.md) | Pin actions and toolchains; Dependabot for updates |
+| [0011](adr/0011-flutter-3-50-and-material-ui.md) | Flutter 3.50 and the extracted Material/Cupertino packages |

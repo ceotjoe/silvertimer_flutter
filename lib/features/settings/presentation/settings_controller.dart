@@ -1,7 +1,7 @@
 // Copyright (C) 2026 Jörg Holzapfel
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:silvertimer_flutter/features/calculator/domain/models/calculator_input.dart';
 import 'package:silvertimer_flutter/features/settings/data/settings_repository.dart';

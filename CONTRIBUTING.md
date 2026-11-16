@@ -12,7 +12,7 @@ Thanks for helping. Bug reports, translations, documentation and code are all we
 
 Requirements:
 
-- Flutter **3.47** (stable), which includes Dart 3.13.
+- Flutter **3.50** (stable), which includes Dart 3.14.
 - Xcode (iOS/macOS) and/or Android Studio.
 
 Then:
