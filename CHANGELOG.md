@@ -7,6 +7,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Changed
+- Flutter 3.50.0 is now the pinned SDK in all workflows; Material and Cupertino come from the new `material_ui` and `cupertino_ui` packages (ADR 0011).
 - CodeQL `init` and `analyze` actions bumped to 4.39.3 together; Dependabot now groups `github/codeql-action/*` so they never diverge.
 
 ### Added

@@ -48,7 +48,7 @@ Supports **Android**, **iOS**, and **Web**.
 
 ### Prerequisites
 
-- [Flutter SDK](https://docs.flutter.dev/get-started/install) ≥ 3.47 (Dart ≥ 3.13)
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) ≥ 3.50 (Dart ≥ 3.14)
 - For Android: Android SDK 36, JDK 17, `minSdk` 24 (Android 7.0); toolchain is AGP 9.1 / Gradle 9.3 / Kotlin 2.4
 - For iOS: Xcode ≥ 26 (iOS 26 SDK), deployment target iOS 15.0 — Swift Package Manager only, no CocoaPods
 

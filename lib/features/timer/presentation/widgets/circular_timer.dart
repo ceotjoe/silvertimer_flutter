@@ -3,8 +3,8 @@
 
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:silvertimer_flutter/core/extensions/duration_extensions.dart';
 import 'package:silvertimer_flutter/core/extensions/l10n_extension.dart';

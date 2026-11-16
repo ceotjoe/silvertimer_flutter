@@ -1,8 +1,8 @@
 // Copyright (C) 2026 Jörg Holzapfel
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:silvertimer_flutter/core/utils/platform_utils.dart';
 
 /// Returns a [CupertinoNavigationBar] on iOS/macOS and a Material [AppBar]

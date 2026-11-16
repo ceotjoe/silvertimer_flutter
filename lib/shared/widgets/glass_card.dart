@@ -3,7 +3,7 @@
 
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:silvertimer_flutter/core/theme/app_cupertino_colors.dart';
 import 'package:silvertimer_flutter/core/utils/platform_utils.dart';
 
