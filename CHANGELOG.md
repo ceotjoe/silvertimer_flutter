@@ -15,6 +15,9 @@ Maintenance release: Flutter SDK and dependency updates, CI and artwork; no chan
 - Flutter 3.50.0 is now the pinned SDK in all workflows; Material and Cupertino come from the new `material_ui` and `cupertino_ui` packages (ADR 0011).
 - CodeQL `init` and `analyze` actions bumped to 4.39.3 together; Dependabot now groups `github/codeql-action/*` so they never diverge.
 
+### Fixed
+- Release workflow: Ruby pinned to 3.3.13 (was 3.3.6); `ubuntu-latest` is now Ubuntu 26.04, where only the latest patch of each Ruby series is built, so the Android job failed at `setup-ruby`.
+
 ### Added
 - App Store product page header (3840×1646) and search results (3840×2560) artwork and the Google Play feature graphic (1024×500) in English and German, opaque RGB PNGs, with their generator script in `design/app-store-art/`.
 
