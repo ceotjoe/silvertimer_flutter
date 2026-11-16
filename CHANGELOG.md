@@ -6,7 +6,12 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.4.2] - 2026-11-16
+
+Maintenance release: Flutter SDK and dependency updates, CI and artwork; no changes to app behaviour.
+
 ### Changed
+- Dependency updates: `go_router` 17.3 → 18.1.4, `flutter_riverpod` 3.4.3 → 3.5.0, `riverpod_annotation` 4.0.7 → 4.0.8, `riverpod_generator` 4.0.9 → 4.0.10, `drift` 2.35.2 → 2.35.4, `drift_dev` 2.35.1 → 2.35.3, `sqlite3` 3.7.1 → 3.9.1, `flutter_local_notifications` 22.3.2 → 22.3.3; fastlane 2.241.1 → 2.241.2; `ruby/setup-ruby` 1.333.0 → 1.338.0; Gradle wrapper 9.8.1 → 9.9.1 and the Android Gradle plugin.
 - Flutter 3.50.0 is now the pinned SDK in all workflows; Material and Cupertino come from the new `material_ui` and `cupertino_ui` packages (ADR 0011).
 - CodeQL `init` and `analyze` actions bumped to 4.39.3 together; Dependabot now groups `github/codeql-action/*` so they never diverge.
 
@@ -247,7 +252,8 @@ Maintenance release: tooling, CI, documentation and dependency updates; no chang
 - GitHub Actions workflow deploying Flutter web to GitHub Pages on every push
   to `main`
 
-[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.4.1...HEAD
+[Unreleased]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.4.2...HEAD
+[2.4.2]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.4.1...v2.4.2
 [2.4.1]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.4.0...v2.4.1
 [2.4.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/ceotjoe/silvertimer_flutter/compare/v2.2.0...v2.3.0
